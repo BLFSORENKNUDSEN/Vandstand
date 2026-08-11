@@ -23,6 +23,7 @@ PARAMETER_CODE = "DSLM"
 USER_AGENT = "strandvejr.dk-waterlevel-map/1.0"
 REQUEST_TIMEOUT = 60
 DOWNLOAD_TIMEOUT = 180
+MERCATOR_LAT_LIMIT = 85.05112878
 
 COLOR_STOPS = [
     (-200, (36, 124, 201, 220)),
@@ -69,11 +70,7 @@ def get_json(session: requests.Session, url: str, params: Optional[Dict[str, Any
 
 
 def fetch_stac_items(session: requests.Session, collection: str) -> List[Dict[str, Any]]:
-    payload = get_json(
-        session,
-        STAC_ITEMS_URL.format(collection=collection),
-        params={"limit": 1000},
-    )
+    payload = get_json(session, STAC_ITEMS_URL.format(collection=collection), params={"limit": 1000})
     features = payload.get("features") or []
     if not features:
         raise RuntimeError(f"DMI STAC returnerede ingen items for {collection}")
@@ -103,9 +100,7 @@ def choose_run(features: List[Dict[str, Any]], now: datetime, horizon_hours: int
         if not valid_times:
             continue
         candidates.append((
-            parse_dt(run),
-            run,
-            items,
+            parse_dt(run), run, items,
             valid_times[0] <= now <= valid_times[-1],
             valid_times[-1] >= horizon,
             valid_times[-1],
@@ -125,22 +120,14 @@ def choose_run(features: List[Dict[str, Any]], now: datetime, horizon_hours: int
     return chosen[1], chosen[2]
 
 
-def select_steps(
-    items: List[Dict[str, Any]],
-    now: datetime,
-    horizon_hours: int,
-    step_hours: int,
-) -> List[Dict[str, Any]]:
+def select_steps(items: List[Dict[str, Any]], now: datetime, horizon_hours: int, step_hours: int) -> List[Dict[str, Any]]:
     sorted_items = sorted(items, key=lambda item: parse_dt(item["properties"]["datetime"]))
     end = now + timedelta(hours=horizon_hours)
     selected: List[Dict[str, Any]] = []
     target = now
 
     while target <= end:
-        closest = min(
-            sorted_items,
-            key=lambda item: abs((parse_dt(item["properties"]["datetime"]) - target).total_seconds()),
-        )
+        closest = min(sorted_items, key=lambda item: abs((parse_dt(item["properties"]["datetime"]) - target).total_seconds()))
         valid_time = parse_dt(closest["properties"]["datetime"])
         if abs((valid_time - target).total_seconds()) > 90 * 60:
             raise RuntimeError(f"Mangler forecasttrin tæt på {iso_z(target)}")
@@ -232,60 +219,54 @@ def read_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
                     valid &= ~np.isclose(values, missing_value, rtol=0.0, atol=1e-9)
                 values = np.where(valid, values, np.nan)
 
-                try:
-                    ni = int(codes_get(gid, "Ni"))
-                    nj = int(codes_get(gid, "Nj"))
-                except Exception as exc:
-                    raise RuntimeError(f"GRIB mangler Ni/Nj: {exc}") from exc
-
+                ni = int(codes_get(gid, "Ni"))
+                nj = int(codes_get(gid, "Nj"))
                 if ni * nj != len(values):
-                    raise RuntimeError(
-                        f"Ni*Nj ({ni}*{nj}) matcher ikke antal gridpunkter ({len(values)})"
-                    )
+                    raise RuntimeError(f"Ni*Nj ({ni}*{nj}) matcher ikke antal gridpunkter ({len(values)})")
 
-                return (
-                    lats.reshape((nj, ni)),
-                    lons.reshape((nj, ni)),
-                    values.reshape((nj, ni)),
-                )
+                return lats.reshape((nj, ni)), lons.reshape((nj, ni)), values.reshape((nj, ni))
             finally:
                 codes_release(gid)
 
     raise RuntimeError(f"Fandt ikke DSLM/parameter 82 i {grib_path.name}")
 
 
-def geographic_xy(lats: np.ndarray, lons: np.ndarray, reference_lat: float) -> np.ndarray:
-    lon_scale = math.cos(math.radians(reference_lat))
-    return np.column_stack((lats.ravel(), lons.ravel() * lon_scale))
+def mercator_y_from_lat(lat_deg: np.ndarray) -> np.ndarray:
+    lat = np.clip(lat_deg, -MERCATOR_LAT_LIMIT, MERCATOR_LAT_LIMIT)
+    lat_rad = np.radians(lat)
+    return np.log(np.tan(np.pi / 4.0 + lat_rad / 2.0))
+
+
+def lat_from_mercator_y(y: np.ndarray) -> np.ndarray:
+    return np.degrees(2.0 * np.arctan(np.exp(y)) - np.pi / 2.0)
+
+
+def projected_xy(lats: np.ndarray, lons: np.ndarray) -> np.ndarray:
+    return np.column_stack((np.radians(lons).ravel(), mercator_y_from_lat(lats).ravel()))
 
 
 def estimate_source_spacing(source_xy: np.ndarray) -> float:
     if len(source_xy) < 2:
-        return 0.1
+        return 0.001
     tree = cKDTree(source_xy)
     distances, _ = tree.query(source_xy, k=2)
     spacing = float(np.nanmedian(distances[:, 1]))
     if not math.isfinite(spacing) or spacing <= 0:
-        return 0.1
+        return 0.001
     return spacing
 
 
-def resample_to_wgs84(
+def resample_to_web_mercator(
     lat_grid: np.ndarray,
     lon_grid: np.ndarray,
     value_grid: np.ndarray,
 ) -> Tuple[np.ndarray, List[List[float]]]:
-    """Resample a curvilinear DKSS grid onto a regular WGS84 image grid.
+    """Rasterize DKSS directly in Leaflet's EPSG:3857 image geometry.
 
-    Leaflet ImageOverlay assumes the image itself is rectangular in latitude
-    and longitude. DKSS grids may be curvilinear, so writing the raw Ni/Nj
-    matrix directly creates visible geographic displacement. This function
-    maps each output pixel to the nearest actual DKSS grid point instead.
-
-    Missing source points are deliberately retained in the nearest-neighbour
-    search. If the nearest DKSS cell is land/missing, the output pixel remains
-    transparent. A distance threshold also prevents the rectangular image
-    from being filled beyond the true model domain.
+    L.imageOverlay stretches the image linearly in projected Web Mercator
+    coordinates, not linearly in latitude. Therefore output rows must be
+    equally spaced in Mercator Y. Source land/missing cells stay in the KD tree
+    so that the nearest source cell determines transparency as well as value.
     """
     finite_coords = np.isfinite(lat_grid) & np.isfinite(lon_grid)
     if not np.any(finite_coords):
@@ -294,32 +275,40 @@ def resample_to_wgs84(
     source_lats = lat_grid[finite_coords]
     source_lons = lon_grid[finite_coords]
     source_values = value_grid[finite_coords]
-
-    south = float(np.nanmin(source_lats))
-    north = float(np.nanmax(source_lats))
-    west = float(np.nanmin(source_lons))
-    east = float(np.nanmax(source_lons))
-    reference_lat = (south + north) / 2.0
-
-    source_xy = geographic_xy(source_lats, source_lons, reference_lat)
+    source_xy = projected_xy(source_lats, source_lons)
     tree = cKDTree(source_xy)
     spacing = estimate_source_spacing(source_xy)
 
+    source_x = source_xy[:, 0]
+    source_y = source_xy[:, 1]
+    west_x = float(np.nanmin(source_x))
+    east_x = float(np.nanmax(source_x))
+    south_y = float(np.nanmin(source_y))
+    north_y = float(np.nanmax(source_y))
+
     height, width = value_grid.shape
-    target_lats = np.linspace(north, south, height, dtype=np.float64)
-    target_lons = np.linspace(west, east, width, dtype=np.float64)
-    target_lon_grid, target_lat_grid = np.meshgrid(target_lons, target_lats)
-    target_xy = geographic_xy(target_lat_grid, target_lon_grid, reference_lat)
+    dx = (east_x - west_x) / max(width - 1, 1)
+    dy = (north_y - south_y) / max(height - 1, 1)
+
+    west_edge = west_x - dx / 2.0
+    east_edge = east_x + dx / 2.0
+    south_edge_y = south_y - dy / 2.0
+    north_edge_y = north_y + dy / 2.0
+
+    target_x = west_edge + (np.arange(width, dtype=np.float64) + 0.5) * ((east_edge - west_edge) / width)
+    target_y = north_edge_y - (np.arange(height, dtype=np.float64) + 0.5) * ((north_edge_y - south_edge_y) / height)
+    target_x_grid, target_y_grid = np.meshgrid(target_x, target_y)
+    target_xy = np.column_stack((target_x_grid.ravel(), target_y_grid.ravel()))
 
     distances, indices = tree.query(target_xy, k=1)
     sampled = source_values[indices].reshape((height, width)).astype(np.float64)
     distance_grid = distances.reshape((height, width))
-
-    # Anything farther away than roughly two native grid spacings is outside
-    # the actual curved model footprint and must not be painted into the
-    # rectangular Leaflet image bounds.
     sampled[distance_grid > spacing * 1.8] = np.nan
 
+    south = float(lat_from_mercator_y(np.array([south_edge_y]))[0])
+    north = float(lat_from_mercator_y(np.array([north_edge_y]))[0])
+    west = math.degrees(west_edge)
+    east = math.degrees(east_edge)
     bounds = [[south, west], [north, east]]
     return sampled, bounds
 
@@ -336,11 +325,7 @@ def colorize(values_m: np.ndarray) -> Image.Image:
     clipped = np.clip(values_cm, stop_values[0], stop_values[-1])
 
     for channel in range(4):
-        rgba[..., channel] = np.interp(
-            clipped,
-            stop_values,
-            stop_colors[:, channel],
-        ).astype(np.uint8)
+        rgba[..., channel] = np.interp(clipped, stop_values, stop_colors[:, channel]).astype(np.uint8)
 
     rgba[..., 3] = np.where(valid, rgba[..., 3], 0)
     return Image.fromarray(rgba, mode="RGBA")
@@ -372,12 +357,12 @@ def process_collection(
             print(f"[{collection} {index + 1}/{len(steps)}] {iso_z(valid_time)}")
             download_file(session, asset_href(item), grib_path)
             lat_grid, lon_grid, values = read_grid(grib_path)
-            wgs84_values, current_bounds = resample_to_wgs84(lat_grid, lon_grid, values)
+            projected_values, current_bounds = resample_to_web_mercator(lat_grid, lon_grid, values)
 
             if bounds is None:
                 bounds = current_bounds
 
-            image = colorize(wgs84_values)
+            image = colorize(projected_values)
             image_path = output_dir / frame_name(index, collection)
             image.save(image_path, format="WEBP", lossless=True, method=6)
             frames.append({
@@ -387,12 +372,7 @@ def process_collection(
                 "height": image.height,
             })
 
-    return {
-        "collection": collection,
-        "modelRun": model_run,
-        "bounds": bounds,
-        "frames": frames,
-    }
+    return {"collection": collection, "modelRun": model_run, "bounds": bounds, "frames": frames}
 
 
 def build_metadata(
@@ -416,15 +396,12 @@ def build_metadata(
                 "bounds": result["bounds"],
                 "modelRun": result["modelRun"],
             })
-        frames.append({
-            "index": index,
-            "time": iso_z(frame_time),
-            "layers": layers,
-        })
+        frames.append({"index": index, "time": iso_z(frame_time), "layers": layers})
 
     return {
         "generated": iso_z(generated),
         "source": "DMI DKSS via Forecast Data STAC API",
+        "projection": "EPSG:3857 raster in Leaflet imageOverlay bounds",
         "parameter": {
             "id": PARAMETER_ID,
             "code": PARAMETER_CODE,
@@ -441,9 +418,7 @@ def build_metadata(
             }
             for collection in COLLECTIONS
         ],
-        "colorStops": [
-            {"cm": value, "rgba": list(color)} for value, color in COLOR_STOPS
-        ],
+        "colorStops": [{"cm": value, "rgba": list(color)} for value, color in COLOR_STOPS],
         "frames": frames,
     }
 
@@ -467,28 +442,19 @@ def main() -> int:
     staging_dir.mkdir(parents=True, exist_ok=True)
 
     session = requests.Session()
-    session.headers.update({
-        "User-Agent": USER_AGENT,
-        "Accept": "application/geo+json, application/json",
-    })
+    session.headers.update({"User-Agent": USER_AGENT, "Accept": "application/geo+json, application/json"})
 
     now = datetime.now(timezone.utc)
     results = {}
     try:
         for collection in COLLECTIONS:
             results[collection] = process_collection(
-                session,
-                collection,
-                now,
-                args.hours,
-                args.step,
-                staging_dir,
+                session, collection, now, args.hours, args.step, staging_dir
             )
 
         metadata = build_metadata(results, datetime.now(timezone.utc), args.hours, args.step)
         (staging_dir / "metadata.json").write_text(
-            json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
+            json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
 
         if output_dir.exists():
