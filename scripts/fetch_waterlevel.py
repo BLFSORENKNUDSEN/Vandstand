@@ -26,7 +26,7 @@ PARAMETER_CODE = "DSLM"
 USER_AGENT = "strandvejr.dk-waterlevel/1.0"
 REQUEST_TIMEOUT = 60
 DOWNLOAD_TIMEOUT = 180
-NEAREST_CANDIDATES = 8
+NEAREST_CANDIDATES = 4
 
 LOCATIONS = [
     {"id": "vordingborg", "name": "Vordingborg", "lat": 55.00376, "lon": 11.91587},
@@ -65,8 +65,7 @@ def get_json(session: requests.Session, url: str, params: Optional[Dict[str, Any
 
 
 def fetch_stac_items(session: requests.Session) -> List[Dict[str, Any]]:
-    params = {"limit": 1000}
-    payload = get_json(session, STAC_ITEMS_URL, params=params)
+    payload = get_json(session, STAC_ITEMS_URL, params={"limit": 1000})
     features = payload.get("features") or []
     if not features:
         raise RuntimeError("DMI STAC returnerede ingen dkss_idw items")
@@ -95,9 +94,12 @@ def choose_run(features: List[Dict[str, Any]], now: datetime, horizon_hours: int
         valid_times = sorted(parse_dt(item["properties"]["datetime"]) for item in items)
         if not valid_times:
             continue
-        covers_now = valid_times[0] <= now <= valid_times[-1]
-        covers_horizon = valid_times[-1] >= horizon
-        candidates.append((parse_dt(run), run, items, covers_now, covers_horizon, valid_times[-1]))
+        candidates.append((
+            parse_dt(run), run, items,
+            valid_times[0] <= now <= valid_times[-1],
+            valid_times[-1] >= horizon,
+            valid_times[-1],
+        ))
 
     fully_usable = [c for c in candidates if c[3] and c[4]]
     if fully_usable:
@@ -143,7 +145,6 @@ def select_steps(items: List[Dict[str, Any]], now: datetime, horizon_hours: int,
         if not selected or closest.get("id") != selected[-1].get("id"):
             selected.append(closest)
         target += timedelta(hours=step_hours)
-
     return selected
 
 
@@ -174,71 +175,37 @@ def download_file(session: requests.Session, url: str, destination: Path) -> Non
 
 
 def is_waterlevel_message(gid: int) -> bool:
+    for key, expected in (("indicatorOfParameter", PARAMETER_ID), ("paramId", PARAMETER_ID)):
+        try:
+            if int(codes_get(gid, key)) == expected:
+                return True
+        except Exception:
+            pass
     try:
-        indicator = int(codes_get(gid, "indicatorOfParameter"))
-        if indicator == PARAMETER_ID:
-            return True
+        return str(codes_get(gid, "shortName")).lower() == PARAMETER_CODE.lower()
     except Exception:
-        pass
-
-    try:
-        param_id = int(codes_get(gid, "paramId"))
-        if param_id == PARAMETER_ID:
-            return True
-    except Exception:
-        pass
-
-    try:
-        short_name = str(codes_get(gid, "shortName")).lower()
-        if short_name == PARAMETER_CODE.lower():
-            return True
-    except Exception:
-        pass
-
-    return False
+        return False
 
 
 def normalize_nearest_result(nearest: Any) -> Tuple[float, float, float, float, int]:
-    """Normalize ecCodes nearest-point return values across Python binding versions."""
     if all(hasattr(nearest, key) for key in ("lat", "lon", "value", "distance", "index")):
-        return (
-            float(nearest.lat),
-            float(nearest.lon),
-            float(nearest.value),
-            float(nearest.distance),
-            int(nearest.index),
-        )
-
+        return float(nearest.lat), float(nearest.lon), float(nearest.value), float(nearest.distance), int(nearest.index)
     if isinstance(nearest, dict):
         return (
-            float(nearest["lat"]),
-            float(nearest["lon"]),
-            float(nearest["value"]),
-            float(nearest.get("distance", 0.0)),
-            int(nearest.get("index", -1)),
+            float(nearest["lat"]), float(nearest["lon"]), float(nearest["value"]),
+            float(nearest.get("distance", 0.0)), int(nearest.get("index", -1)),
         )
-
     if isinstance(nearest, (list, tuple)):
         if len(nearest) == 1:
             return normalize_nearest_result(nearest[0])
         if len(nearest) >= 5 and not isinstance(nearest[0], (list, tuple, dict)):
             try:
-                return (
-                    float(nearest[0]),
-                    float(nearest[1]),
-                    float(nearest[2]),
-                    float(nearest[3]),
-                    int(nearest[4]),
-                )
+                return float(nearest[0]), float(nearest[1]), float(nearest[2]), float(nearest[3]), int(nearest[4])
             except (TypeError, ValueError):
                 pass
         if nearest:
             return normalize_nearest_result(nearest[0])
-
-    raise RuntimeError(
-        "Ukendt returformat fra codes_grib_find_nearest: "
-        f"type={type(nearest).__name__}, repr={nearest!r}"
-    )
+    raise RuntimeError(f"Ukendt returformat fra codes_grib_find_nearest: {type(nearest).__name__}: {nearest!r}")
 
 
 def get_missing_value(gid: int) -> Optional[float]:
@@ -254,11 +221,7 @@ def is_valid_waterlevel_value(value: float, missing_value: Optional[float] = Non
         return False
     if missing_value is not None and math.isclose(value, missing_value, rel_tol=0.0, abs_tol=1e-9):
         return False
-    # DKSS coastal land cells currently expose 9999 as missing. This guard also
-    # prevents any sentinel-like value from leaking into centimeter output.
-    if abs(value) >= 100.0:
-        return False
-    return True
+    return abs(value) < 100.0
 
 
 def nearest_valid_point(gid: int, lat: float, lon: float) -> Tuple[float, float, float, float, int]:
@@ -274,10 +237,9 @@ def nearest_valid_point(gid: int, lat: float, lon: float) -> Tuple[float, float,
 
     if not valid:
         raise RuntimeError(
-            f"Ingen gyldige DKSS havgridpunkter blandt de {NEAREST_CANDIDATES} nærmeste "
-            f"punkter til {lat:.5f},{lon:.5f}"
+            f"Ingen gyldige DKSS havgridpunkter blandt de {NEAREST_CANDIDATES} nærmeste punkter "
+            f"til {lat:.5f},{lon:.5f}"
         )
-
     return min(valid, key=lambda point: point[3])
 
 
@@ -290,13 +252,11 @@ def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
             try:
                 if not is_waterlevel_message(gid):
                     continue
-
                 result: Dict[str, Dict[str, float]] = {}
                 for location in LOCATIONS:
                     model_lat, model_lon, value, distance_km, _index = nearest_valid_point(
                         gid, location["lat"], location["lon"]
                     )
-
                     result[location["id"]] = {
                         "modelLat": model_lat,
                         "modelLon": model_lon,
@@ -306,7 +266,6 @@ def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
                 return result
             finally:
                 codes_release(gid)
-
     raise RuntimeError(f"Fandt ikke DSLM/parameter 82 i {grib_path.name}")
 
 
@@ -332,24 +291,15 @@ def build_output(session: requests.Session, horizon_hours: int, step_hours: int)
             for location in LOCATIONS:
                 loc_id = location["id"]
                 point = extracted[loc_id]
-                forecasts[loc_id].append({
-                    "time": iso_z(valid_time),
-                    "levelCm": point["levelCm"],
-                })
+                forecasts[loc_id].append({"time": iso_z(valid_time), "levelCm": point["levelCm"]})
                 model_points[loc_id] = {
-                    "lat": point["modelLat"],
-                    "lon": point["modelLon"],
-                    "distanceKm": point["distanceKm"],
+                    "lat": point["modelLat"], "lon": point["modelLon"], "distanceKm": point["distanceKm"]
                 }
 
     output_locations = []
     for location in LOCATIONS:
         loc_id = location["id"]
-        output_locations.append({
-            **location,
-            "modelPoint": model_points.get(loc_id),
-            "forecast": forecasts[loc_id],
-        })
+        output_locations.append({**location, "modelPoint": model_points.get(loc_id), "forecast": forecasts[loc_id]})
 
     return {
         "generated": iso_z(datetime.now(timezone.utc)),
@@ -383,7 +333,6 @@ def main() -> int:
 
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT, "Accept": "application/geo+json, application/json"})
-
     output = build_output(session, args.hours, args.step)
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
