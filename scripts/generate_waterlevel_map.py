@@ -13,6 +13,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import numpy as np
 import requests
 from PIL import Image
+from scipy.spatial import cKDTree
 from eccodes import codes_get, codes_get_array, codes_grib_new_from_file, codes_release
 
 STAC_ITEMS_URL = "https://opendataapi.dmi.dk/v1/forecastdata/collections/{collection}/items"
@@ -242,25 +243,85 @@ def read_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
                         f"Ni*Nj ({ni}*{nj}) matcher ikke antal gridpunkter ({len(values)})"
                     )
 
-                lat_grid = lats.reshape((nj, ni))
-                lon_grid = lons.reshape((nj, ni))
-                value_grid = values.reshape((nj, ni))
-
-                if np.nanmean(lat_grid[0, :]) < np.nanmean(lat_grid[-1, :]):
-                    lat_grid = np.flipud(lat_grid)
-                    lon_grid = np.flipud(lon_grid)
-                    value_grid = np.flipud(value_grid)
-
-                if np.nanmean(lon_grid[:, 0]) > np.nanmean(lon_grid[:, -1]):
-                    lat_grid = np.fliplr(lat_grid)
-                    lon_grid = np.fliplr(lon_grid)
-                    value_grid = np.fliplr(value_grid)
-
-                return lat_grid, lon_grid, value_grid
+                return (
+                    lats.reshape((nj, ni)),
+                    lons.reshape((nj, ni)),
+                    values.reshape((nj, ni)),
+                )
             finally:
                 codes_release(gid)
 
     raise RuntimeError(f"Fandt ikke DSLM/parameter 82 i {grib_path.name}")
+
+
+def geographic_xy(lats: np.ndarray, lons: np.ndarray, reference_lat: float) -> np.ndarray:
+    lon_scale = math.cos(math.radians(reference_lat))
+    return np.column_stack((lats.ravel(), lons.ravel() * lon_scale))
+
+
+def estimate_source_spacing(source_xy: np.ndarray) -> float:
+    if len(source_xy) < 2:
+        return 0.1
+    tree = cKDTree(source_xy)
+    distances, _ = tree.query(source_xy, k=2)
+    spacing = float(np.nanmedian(distances[:, 1]))
+    if not math.isfinite(spacing) or spacing <= 0:
+        return 0.1
+    return spacing
+
+
+def resample_to_wgs84(
+    lat_grid: np.ndarray,
+    lon_grid: np.ndarray,
+    value_grid: np.ndarray,
+) -> Tuple[np.ndarray, List[List[float]]]:
+    """Resample a curvilinear DKSS grid onto a regular WGS84 image grid.
+
+    Leaflet ImageOverlay assumes the image itself is rectangular in latitude
+    and longitude. DKSS grids may be curvilinear, so writing the raw Ni/Nj
+    matrix directly creates visible geographic displacement. This function
+    maps each output pixel to the nearest actual DKSS grid point instead.
+
+    Missing source points are deliberately retained in the nearest-neighbour
+    search. If the nearest DKSS cell is land/missing, the output pixel remains
+    transparent. A distance threshold also prevents the rectangular image
+    from being filled beyond the true model domain.
+    """
+    finite_coords = np.isfinite(lat_grid) & np.isfinite(lon_grid)
+    if not np.any(finite_coords):
+        raise RuntimeError("DKSS gridet indeholder ingen gyldige koordinater")
+
+    source_lats = lat_grid[finite_coords]
+    source_lons = lon_grid[finite_coords]
+    source_values = value_grid[finite_coords]
+
+    south = float(np.nanmin(source_lats))
+    north = float(np.nanmax(source_lats))
+    west = float(np.nanmin(source_lons))
+    east = float(np.nanmax(source_lons))
+    reference_lat = (south + north) / 2.0
+
+    source_xy = geographic_xy(source_lats, source_lons, reference_lat)
+    tree = cKDTree(source_xy)
+    spacing = estimate_source_spacing(source_xy)
+
+    height, width = value_grid.shape
+    target_lats = np.linspace(north, south, height, dtype=np.float64)
+    target_lons = np.linspace(west, east, width, dtype=np.float64)
+    target_lon_grid, target_lat_grid = np.meshgrid(target_lons, target_lats)
+    target_xy = geographic_xy(target_lat_grid, target_lon_grid, reference_lat)
+
+    distances, indices = tree.query(target_xy, k=1)
+    sampled = source_values[indices].reshape((height, width)).astype(np.float64)
+    distance_grid = distances.reshape((height, width))
+
+    # Anything farther away than roughly two native grid spacings is outside
+    # the actual curved model footprint and must not be painted into the
+    # rectangular Leaflet image bounds.
+    sampled[distance_grid > spacing * 1.8] = np.nan
+
+    bounds = [[south, west], [north, east]]
+    return sampled, bounds
 
 
 def colorize(values_m: np.ndarray) -> Image.Image:
@@ -311,15 +372,12 @@ def process_collection(
             print(f"[{collection} {index + 1}/{len(steps)}] {iso_z(valid_time)}")
             download_file(session, asset_href(item), grib_path)
             lat_grid, lon_grid, values = read_grid(grib_path)
+            wgs84_values, current_bounds = resample_to_wgs84(lat_grid, lon_grid, values)
 
-            current_bounds = [
-                [float(np.nanmin(lat_grid)), float(np.nanmin(lon_grid))],
-                [float(np.nanmax(lat_grid)), float(np.nanmax(lon_grid))],
-            ]
             if bounds is None:
                 bounds = current_bounds
 
-            image = colorize(values)
+            image = colorize(wgs84_values)
             image_path = output_dir / frame_name(index, collection)
             image.save(image_path, format="WEBP", lossless=True, method=6)
             frames.append({
