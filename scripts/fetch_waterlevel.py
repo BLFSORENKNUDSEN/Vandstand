@@ -14,6 +14,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import requests
 from eccodes import (
     codes_get,
+    codes_get_array,
     codes_grib_find_nearest,
     codes_grib_new_from_file,
     codes_release,
@@ -224,6 +225,46 @@ def is_valid_waterlevel_value(value: float, missing_value: Optional[float] = Non
     return abs(value) < 100.0
 
 
+def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    radius_km = 6371.0088
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    return radius_km * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+
+def nearest_valid_from_full_grid(gid: int, lat: float, lon: float) -> Tuple[float, float, float, float, int]:
+    lat_lon_values = codes_get_array(gid, "latLonValues")
+    missing_value = get_missing_value(gid)
+
+    best = None
+    best_distance = float("inf")
+    point_index = 0
+
+    for offset in range(0, len(lat_lon_values), 3):
+        point_lat = float(lat_lon_values[offset])
+        point_lon = float(lat_lon_values[offset + 1])
+        value = float(lat_lon_values[offset + 2])
+
+        if not is_valid_waterlevel_value(value, missing_value):
+            point_index += 1
+            continue
+
+        distance_km = haversine_km(lat, lon, point_lat, point_lon)
+        if distance_km < best_distance:
+            best_distance = distance_km
+            best = (point_lat, point_lon, value, distance_km, point_index)
+
+        point_index += 1
+
+    if best is None:
+        raise RuntimeError(f"DKSS gridet indeholder ingen gyldige vandstandspunkter nær {lat:.5f},{lon:.5f}")
+
+    return best
+
+
 def nearest_valid_point(gid: int, lat: float, lon: float) -> Tuple[float, float, float, float, int]:
     nearest = codes_grib_find_nearest(gid, lat, lon, npoints=NEAREST_CANDIDATES)
     candidates = nearest if isinstance(nearest, (list, tuple)) else [nearest]
@@ -235,12 +276,15 @@ def nearest_valid_point(gid: int, lat: float, lon: float) -> Tuple[float, float,
         if is_valid_waterlevel_value(point[2], missing_value):
             valid.append(point)
 
-    if not valid:
-        raise RuntimeError(
-            f"Ingen gyldige DKSS havgridpunkter blandt de {NEAREST_CANDIDATES} nærmeste punkter "
-            f"til {lat:.5f},{lon:.5f}"
-        )
-    return min(valid, key=lambda point: point[3])
+    if valid:
+        return min(valid, key=lambda point: point[3])
+
+    print(
+        f"Ingen gyldige punkter blandt de {NEAREST_CANDIDATES} nærmeste til {lat:.5f},{lon:.5f}; "
+        "søger i hele DKSS gridet.",
+        file=sys.stderr,
+    )
+    return nearest_valid_from_full_grid(gid, lat, lon)
 
 
 def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
