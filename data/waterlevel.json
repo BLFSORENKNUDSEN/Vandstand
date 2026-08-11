@@ -1,0 +1,16 @@
+{
+  "generated": null,
+  "source": "DMI DKSS via Forecast Data STAC API",
+  "collection": "dkss_idw",
+  "parameter": {
+    "id": 82,
+    "code": "DSLM",
+    "description": "Deviation of sea level from mean",
+    "sourceUnit": "m",
+    "outputUnit": "cm"
+  },
+  "modelRun": null,
+  "stepHours": 3,
+  "horizonHours": 24,
+  "locations": []
+}
