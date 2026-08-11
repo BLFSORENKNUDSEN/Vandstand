@@ -16,7 +16,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
 
     steps:
       - name: Hent repository
@@ -36,23 +36,28 @@ jobs:
       - name: Installer Python pakker
         run: pip install -r requirements.txt
 
-      - name: Hent DMI vandstandsprognose
+      - name: Hent DMI punktprognoser
         run: python scripts/fetch_waterlevel.py --output data/waterlevel.json --hours 24 --step 3
 
-      - name: Vis resultat
+      - name: Generer animeret vandstandskort
+        run: python scripts/generate_waterlevel_map.py --output-dir data/waterlevel-map --hours 48 --step 1
+
+      - name: Kontroller resultat
         run: |
           python -m json.tool data/waterlevel.json >/dev/null
-          head -80 data/waterlevel.json
+          python -m json.tool data/waterlevel-map/metadata.json >/dev/null
+          test -n "$(find data/waterlevel-map -name '*.webp' -print -quit)"
+          echo "Antal kortframes: $(find data/waterlevel-map -name '*.webp' | wc -l)"
+          head -80 data/waterlevel-map/metadata.json
 
       - name: Commit nye data
         run: |
-          if git diff --quiet -- data/waterlevel.json; then
-            echo "Ingen ændring i waterlevel.json"
+          if git diff --quiet -- data/waterlevel.json data/waterlevel-map; then
+            echo "Ingen ændring i vandstandsdata"
             exit 0
           fi
           git config user.name "strandvejr-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/waterlevel.json
-          git commit -m "Opdater DMI vandstandsprognose"
+          git add data/waterlevel.json data/waterlevel-map
+          git commit -m "Opdater DMI vandstandsprognose og kort"
           git push
-
