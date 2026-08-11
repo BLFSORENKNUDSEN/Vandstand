@@ -1,0 +1,57 @@
+name: Opdater vandstand
+
+on:
+  workflow_dispatch:
+  schedule:
+    # DKSS kører fire gange i døgnet. Tiderne her giver modellen tid til at blive færdig.
+    - cron: "30 3,9,15,21 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: waterlevel-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Hent repository
+        uses: actions/checkout@v4
+
+      - name: Installer ecCodes
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libeccodes0 libeccodes-dev libeccodes-tools
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installer Python pakker
+        run: pip install -r requirements.txt
+
+      - name: Hent DMI vandstandsprognose
+        run: python scripts/fetch_waterlevel.py --output data/waterlevel.json --hours 24 --step 3
+
+      - name: Vis resultat
+        run: |
+          python -m json.tool data/waterlevel.json >/dev/null
+          head -80 data/waterlevel.json
+
+      - name: Commit nye data
+        run: |
+          if git diff --quiet -- data/waterlevel.json; then
+            echo "Ingen ændring i waterlevel.json"
+            exit 0
+          fi
+          git config user.name "strandvejr-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/waterlevel.json
+          git commit -m "Opdater DMI vandstandsprognose"
+          git push
