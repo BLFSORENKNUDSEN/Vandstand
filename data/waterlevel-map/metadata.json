@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T16:44:50Z",
+  "generated": "2026-08-11T20:35:25Z",
   "source": "DMI DKSS via Forecast Data STAC API",
   "projection": "EPSG:3857 raster in Leaflet imageOverlay bounds",
   "parameter": {
@@ -25,7 +25,7 @@
         ]
       ],
       "bitmapPresent": true,
-      "bitmapMaskedCells": 110039
+      "bitmapMaskedCells": 110035
     },
     {
       "id": "dkss_idw",
@@ -45,7 +45,8 @@
       "osmWaterMask": {
         "provider": "OpenFreeMap / OpenMapTiles / OpenStreetMap",
         "zoom": 9,
-        "maskedFrames": 49
+        "maskedFrames": 49,
+        "vectorTileYOrientation": "decoder y-up converted explicitly to XYZ y-down"
       }
     }
   ],
@@ -153,7 +154,7 @@
   "frames": [
     {
       "index": 0,
-      "time": "2026-08-11T17:00:00Z",
+      "time": "2026-08-11T21:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -189,7 +190,7 @@
     },
     {
       "index": 1,
-      "time": "2026-08-11T18:00:00Z",
+      "time": "2026-08-11T22:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -225,7 +226,7 @@
     },
     {
       "index": 2,
-      "time": "2026-08-11T19:00:00Z",
+      "time": "2026-08-11T23:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -261,7 +262,7 @@
     },
     {
       "index": 3,
-      "time": "2026-08-11T20:00:00Z",
+      "time": "2026-08-12T00:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -297,7 +298,7 @@
     },
     {
       "index": 4,
-      "time": "2026-08-11T21:00:00Z",
+      "time": "2026-08-12T01:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -333,7 +334,7 @@
     },
     {
       "index": 5,
-      "time": "2026-08-11T22:00:00Z",
+      "time": "2026-08-12T02:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -369,7 +370,7 @@
     },
     {
       "index": 6,
-      "time": "2026-08-11T23:00:00Z",
+      "time": "2026-08-12T03:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -405,7 +406,7 @@
     },
     {
       "index": 7,
-      "time": "2026-08-12T00:00:00Z",
+      "time": "2026-08-12T04:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -441,7 +442,7 @@
     },
     {
       "index": 8,
-      "time": "2026-08-12T01:00:00Z",
+      "time": "2026-08-12T05:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -477,7 +478,7 @@
     },
     {
       "index": 9,
-      "time": "2026-08-12T02:00:00Z",
+      "time": "2026-08-12T06:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -513,7 +514,7 @@
     },
     {
       "index": 10,
-      "time": "2026-08-12T03:00:00Z",
+      "time": "2026-08-12T07:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -549,7 +550,7 @@
     },
     {
       "index": 11,
-      "time": "2026-08-12T04:00:00Z",
+      "time": "2026-08-12T08:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -585,7 +586,7 @@
     },
     {
       "index": 12,
-      "time": "2026-08-12T05:00:00Z",
+      "time": "2026-08-12T09:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -621,7 +622,7 @@
     },
     {
       "index": 13,
-      "time": "2026-08-12T06:00:00Z",
+      "time": "2026-08-12T10:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -657,7 +658,7 @@
     },
     {
       "index": 14,
-      "time": "2026-08-12T07:00:00Z",
+      "time": "2026-08-12T11:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -693,7 +694,7 @@
     },
     {
       "index": 15,
-      "time": "2026-08-12T08:00:00Z",
+      "time": "2026-08-12T12:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -729,7 +730,7 @@
     },
     {
       "index": 16,
-      "time": "2026-08-12T09:00:00Z",
+      "time": "2026-08-12T13:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -765,7 +766,7 @@
     },
     {
       "index": 17,
-      "time": "2026-08-12T10:00:00Z",
+      "time": "2026-08-12T14:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -801,7 +802,7 @@
     },
     {
       "index": 18,
-      "time": "2026-08-12T11:00:00Z",
+      "time": "2026-08-12T15:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -837,7 +838,7 @@
     },
     {
       "index": 19,
-      "time": "2026-08-12T12:00:00Z",
+      "time": "2026-08-12T16:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -873,7 +874,7 @@
     },
     {
       "index": 20,
-      "time": "2026-08-12T13:00:00Z",
+      "time": "2026-08-12T17:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -909,7 +910,7 @@
     },
     {
       "index": 21,
-      "time": "2026-08-12T14:00:00Z",
+      "time": "2026-08-12T18:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -945,7 +946,7 @@
     },
     {
       "index": 22,
-      "time": "2026-08-12T15:00:00Z",
+      "time": "2026-08-12T19:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -981,7 +982,7 @@
     },
     {
       "index": 23,
-      "time": "2026-08-12T16:00:00Z",
+      "time": "2026-08-12T20:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1017,7 +1018,7 @@
     },
     {
       "index": 24,
-      "time": "2026-08-12T17:00:00Z",
+      "time": "2026-08-12T21:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1053,7 +1054,7 @@
     },
     {
       "index": 25,
-      "time": "2026-08-12T18:00:00Z",
+      "time": "2026-08-12T22:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1089,7 +1090,7 @@
     },
     {
       "index": 26,
-      "time": "2026-08-12T19:00:00Z",
+      "time": "2026-08-12T23:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1125,7 +1126,7 @@
     },
     {
       "index": 27,
-      "time": "2026-08-12T20:00:00Z",
+      "time": "2026-08-13T00:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1161,7 +1162,7 @@
     },
     {
       "index": 28,
-      "time": "2026-08-12T21:00:00Z",
+      "time": "2026-08-13T01:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1197,7 +1198,7 @@
     },
     {
       "index": 29,
-      "time": "2026-08-12T22:00:00Z",
+      "time": "2026-08-13T02:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1233,7 +1234,7 @@
     },
     {
       "index": 30,
-      "time": "2026-08-12T23:00:00Z",
+      "time": "2026-08-13T03:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1269,7 +1270,7 @@
     },
     {
       "index": 31,
-      "time": "2026-08-13T00:00:00Z",
+      "time": "2026-08-13T04:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1305,7 +1306,7 @@
     },
     {
       "index": 32,
-      "time": "2026-08-13T01:00:00Z",
+      "time": "2026-08-13T05:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1341,7 +1342,7 @@
     },
     {
       "index": 33,
-      "time": "2026-08-13T02:00:00Z",
+      "time": "2026-08-13T06:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1377,7 +1378,7 @@
     },
     {
       "index": 34,
-      "time": "2026-08-13T03:00:00Z",
+      "time": "2026-08-13T07:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1413,7 +1414,7 @@
     },
     {
       "index": 35,
-      "time": "2026-08-13T04:00:00Z",
+      "time": "2026-08-13T08:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1449,7 +1450,7 @@
     },
     {
       "index": 36,
-      "time": "2026-08-13T05:00:00Z",
+      "time": "2026-08-13T09:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1485,7 +1486,7 @@
     },
     {
       "index": 37,
-      "time": "2026-08-13T06:00:00Z",
+      "time": "2026-08-13T10:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1521,7 +1522,7 @@
     },
     {
       "index": 38,
-      "time": "2026-08-13T07:00:00Z",
+      "time": "2026-08-13T11:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1557,7 +1558,7 @@
     },
     {
       "index": 39,
-      "time": "2026-08-13T08:00:00Z",
+      "time": "2026-08-13T12:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1593,7 +1594,7 @@
     },
     {
       "index": 40,
-      "time": "2026-08-13T09:00:00Z",
+      "time": "2026-08-13T13:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1629,7 +1630,7 @@
     },
     {
       "index": 41,
-      "time": "2026-08-13T10:00:00Z",
+      "time": "2026-08-13T14:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1665,7 +1666,7 @@
     },
     {
       "index": 42,
-      "time": "2026-08-13T11:00:00Z",
+      "time": "2026-08-13T15:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1701,7 +1702,7 @@
     },
     {
       "index": 43,
-      "time": "2026-08-13T12:00:00Z",
+      "time": "2026-08-13T16:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1737,7 +1738,7 @@
     },
     {
       "index": 44,
-      "time": "2026-08-13T13:00:00Z",
+      "time": "2026-08-13T17:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1773,7 +1774,7 @@
     },
     {
       "index": 45,
-      "time": "2026-08-13T14:00:00Z",
+      "time": "2026-08-13T18:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1809,7 +1810,7 @@
     },
     {
       "index": 46,
-      "time": "2026-08-13T15:00:00Z",
+      "time": "2026-08-13T19:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1845,7 +1846,7 @@
     },
     {
       "index": 47,
-      "time": "2026-08-13T16:00:00Z",
+      "time": "2026-08-13T20:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
@@ -1881,7 +1882,7 @@
     },
     {
       "index": 48,
-      "time": "2026-08-13T17:00:00Z",
+      "time": "2026-08-13T21:00:00Z",
       "layers": [
         {
           "collection": "dkss_nsbs",
