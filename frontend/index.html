@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vandstand</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="waterlevel.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div>
+        <h1>Vandstand</h1>
+        <p id="status">Henter prognose…</p>
+      </div>
+      <div id="timeButtons" class="time-buttons" aria-label="Tidspunkt"></div>
+    </header>
+    <div id="map" aria-label="Kort med vandstandsprognose"></div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="waterlevel.js"></script>
+</body>
+</html>
