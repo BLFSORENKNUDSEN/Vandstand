@@ -3,3 +3,5 @@ eccodes>=2.37,<3
 numpy>=2.0,<3
 Pillow>=10.4,<12
 scipy>=1.14,<2
+mercantile>=1.2,<2
+mapbox-vector-tile>=2.2,<3
