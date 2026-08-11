@@ -16,6 +16,14 @@ USER_AGENT = "strandvejr.dk-water-mask/1.0"
 DEFAULT_ZOOM = 9
 REQUEST_TIMEOUT = 60
 
+# Simple diagnostics around Vordingborg. The first point is on land, while the
+# second is the DKSS model point south-west of Vordingborg that we already use
+# as a valid sea point.
+DIAGNOSTIC_POINTS = [
+    ("Vordingborg land", 54.9986, 11.8822),
+    ("Vordingborg hav", 54.9750, 11.87515),
+]
+
 
 def mercator_normalized(lon: float, lat: float) -> Tuple[float, float]:
     lat = max(min(lat, 85.05112878), -85.05112878)
@@ -39,6 +47,22 @@ def target_mapper(bounds: List[List[float]], width: int, height: int):
     return to_pixel
 
 
+def latlon_to_pixel(
+    lat: float,
+    lon: float,
+    bounds: List[List[float]],
+    width: int,
+    height: int,
+) -> Tuple[int, int]:
+    mapper = target_mapper(bounds, width, height)
+    world_x, world_y = mercator_normalized(lon, lat)
+    px, py = mapper(world_x, world_y)
+    return (
+        max(0, min(width - 1, int(round(px)))),
+        max(0, min(height - 1, int(round(py)))),
+    )
+
+
 def draw_ring(
     draw: ImageDraw.ImageDraw,
     ring: Iterable[Iterable[float]],
@@ -47,12 +71,20 @@ def draw_ring(
     to_pixel,
     fill: int,
 ) -> None:
+    """Draw decoded MVT geometry into global XYZ/Web Mercator coordinates.
+
+    mapbox-vector-tile decodes geometry into the conventional Cartesian
+    orientation by default, where local Y increases upward. XYZ tile/world Y
+    increases downward, so the decoded local Y must be flipped explicitly.
+    """
     scale = 2 ** tile.z
     points = []
     for coord in ring:
-        local_x, local_y = float(coord[0]), float(coord[1])
+        local_x = float(coord[0])
+        local_y_up = float(coord[1])
+        local_y_down = extent - local_y_up
         world_x = (tile.x + local_x / extent) / scale
-        world_y = (tile.y + local_y / extent) / scale
+        world_y = (tile.y + local_y_down / extent) / scale
         points.append(to_pixel(world_x, world_y))
     if len(points) >= 3:
         draw.polygon(points, fill=fill)
@@ -93,10 +125,9 @@ def fetch_tile(session: requests.Session, tile: mercantile.Tile) -> Dict[str, An
     url = TILE_URL.format(z=tile.z, x=tile.x, y=tile.y)
     response = session.get(url, timeout=REQUEST_TIMEOUT)
     response.raise_for_status()
-    return mapbox_vector_tile.decode(
-        response.content,
-        default_options={"y_coord_down": True},
-    )
+    # Use the decoder's default Cartesian orientation. draw_ring performs the
+    # single, explicit conversion to XYZ Y-down coordinates.
+    return mapbox_vector_tile.decode(response.content)
 
 
 def build_water_mask(
@@ -137,6 +168,17 @@ def build_water_mask(
         raise RuntimeError("OpenFreeMap returnerede ingen water polygoner")
 
     print(f"OSM vandmaske: tegnede {water_features} water features")
+
+    # Diagnostic output makes an orientation regression obvious in Actions.
+    for label, lat, lon in DIAGNOSTIC_POINTS:
+        if south <= lat <= north and west <= lon <= east:
+            px, py = latlon_to_pixel(lat, lon, bounds, width, height)
+            value = int(mask.getpixel((px, py)))
+            print(
+                f"OSM masketest: {label} ({lat:.5f},{lon:.5f}) "
+                f"pixel={px},{py} water={value}"
+            )
+
     return mask
 
 
@@ -207,6 +249,7 @@ def main() -> int:
         "provider": "OpenFreeMap / OpenMapTiles / OpenStreetMap",
         "zoom": args.zoom,
         "maskedFrames": masked,
+        "vectorTileYOrientation": "decoder y-up converted explicitly to XYZ y-down",
     }
     metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
