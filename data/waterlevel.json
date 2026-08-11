@@ -1,5 +1,5 @@
 {
-  "generated": null,
+  "generated": "2026-08-11T09:55:56Z",
   "source": "DMI DKSS via Forecast Data STAC API",
   "collection": "dkss_idw",
   "parameter": {
@@ -9,8 +9,156 @@
     "sourceUnit": "m",
     "outputUnit": "cm"
   },
-  "modelRun": null,
+  "modelRun": "2026-08-11T06:00:00Z",
   "stepHours": 3,
   "horizonHours": 24,
-  "locations": []
+  "locations": [
+    {
+      "id": "vordingborg",
+      "name": "Vordingborg",
+      "lat": 55.00376,
+      "lon": 11.91587,
+      "modelPoint": {
+        "lat": 55.003000000000476,
+        "lon": 11.909392405063455,
+        "distanceKm": 0.421
+      },
+      "forecast": [
+        {
+          "time": "2026-08-11T10:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-11T13:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-11T16:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-11T19:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-11T22:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-12T01:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-12T04:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-12T07:00:00Z",
+          "levelCm": 999900
+        },
+        {
+          "time": "2026-08-12T10:00:00Z",
+          "levelCm": 999900
+        }
+      ]
+    },
+    {
+      "id": "stubbekoebing",
+      "name": "Stubbekøbing",
+      "lat": 54.89167,
+      "lon": 12.04667,
+      "modelPoint": {
+        "lat": 54.89100000000044,
+        "lon": 12.048278481012831,
+        "distanceKm": 0.127
+      },
+      "forecast": [
+        {
+          "time": "2026-08-11T10:00:00Z",
+          "levelCm": 31
+        },
+        {
+          "time": "2026-08-11T13:00:00Z",
+          "levelCm": 37
+        },
+        {
+          "time": "2026-08-11T16:00:00Z",
+          "levelCm": 25
+        },
+        {
+          "time": "2026-08-11T19:00:00Z",
+          "levelCm": 20
+        },
+        {
+          "time": "2026-08-11T22:00:00Z",
+          "levelCm": 40
+        },
+        {
+          "time": "2026-08-12T01:00:00Z",
+          "levelCm": 47
+        },
+        {
+          "time": "2026-08-12T04:00:00Z",
+          "levelCm": 23
+        },
+        {
+          "time": "2026-08-12T07:00:00Z",
+          "levelCm": 13
+        },
+        {
+          "time": "2026-08-12T10:00:00Z",
+          "levelCm": 28
+        }
+      ]
+    },
+    {
+      "id": "hesnaes",
+      "name": "Hesnæs",
+      "lat": 54.82313,
+      "lon": 12.13815,
+      "modelPoint": {
+        "lat": 54.82700000000042,
+        "lon": 12.131610126582457,
+        "distanceKm": 0.6
+      },
+      "forecast": [
+        {
+          "time": "2026-08-11T10:00:00Z",
+          "levelCm": 27
+        },
+        {
+          "time": "2026-08-11T13:00:00Z",
+          "levelCm": 34
+        },
+        {
+          "time": "2026-08-11T16:00:00Z",
+          "levelCm": 29
+        },
+        {
+          "time": "2026-08-11T19:00:00Z",
+          "levelCm": 23
+        },
+        {
+          "time": "2026-08-11T22:00:00Z",
+          "levelCm": 37
+        },
+        {
+          "time": "2026-08-12T01:00:00Z",
+          "levelCm": 43
+        },
+        {
+          "time": "2026-08-12T04:00:00Z",
+          "levelCm": 29
+        },
+        {
+          "time": "2026-08-12T07:00:00Z",
+          "levelCm": 19
+        },
+        {
+          "time": "2026-08-12T10:00:00Z",
+          "levelCm": 29
+        }
+      ]
+    }
+  ]
 }
