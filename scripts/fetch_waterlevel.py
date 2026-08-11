@@ -197,6 +197,54 @@ def is_waterlevel_message(gid: int) -> bool:
     return False
 
 
+def normalize_nearest_result(nearest: Any) -> Tuple[float, float, float, float, int]:
+    """Normalize ecCodes nearest-point return values across Python binding versions."""
+    # Current ecCodes Python bindings return a list whose first item is a
+    # CodesNearest object with lat/lon/value/distance/index attributes.
+    if all(hasattr(nearest, key) for key in ("lat", "lon", "value", "distance", "index")):
+        return (
+            float(nearest.lat),
+            float(nearest.lon),
+            float(nearest.value),
+            float(nearest.distance),
+            int(nearest.index),
+        )
+
+    # Some wrappers expose a dictionary instead.
+    if isinstance(nearest, dict):
+        return (
+            float(nearest["lat"]),
+            float(nearest["lon"]),
+            float(nearest["value"]),
+            float(nearest.get("distance", 0.0)),
+            int(nearest.get("index", -1)),
+        )
+
+    # Older bindings/documentation may expose a flat five-value sequence, while
+    # current bindings commonly wrap a CodesNearest object in a one-item list.
+    if isinstance(nearest, (list, tuple)):
+        if len(nearest) == 1:
+            return normalize_nearest_result(nearest[0])
+        if len(nearest) >= 5 and not isinstance(nearest[0], (list, tuple, dict)):
+            try:
+                return (
+                    float(nearest[0]),
+                    float(nearest[1]),
+                    float(nearest[2]),
+                    float(nearest[3]),
+                    int(nearest[4]),
+                )
+            except (TypeError, ValueError):
+                pass
+        if nearest:
+            return normalize_nearest_result(nearest[0])
+
+    raise RuntimeError(
+        "Ukendt returformat fra codes_grib_find_nearest: "
+        f"type={type(nearest).__name__}, repr={nearest!r}"
+    )
+
+
 def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
     with grib_path.open("rb") as handle:
         while True:
@@ -209,23 +257,10 @@ def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
 
                 result: Dict[str, Dict[str, float]] = {}
                 for location in LOCATIONS:
-                    nearest = codes_grib_find_nearest(gid, location["lat"], location["lon"], npoints=1)
-                    if isinstance(nearest, list):
-                        point = nearest[0]
-                    else:
-                        point = nearest
-
-                    if isinstance(point, dict):
-                        model_lat = float(point["lat"])
-                        model_lon = float(point["lon"])
-                        value = float(point["value"])
-                        distance_km = float(point.get("distance", 0.0))
-                    else:
-                        model_lat, model_lon, value, distance_km, _index = point
-                        model_lat = float(model_lat)
-                        model_lon = float(model_lon)
-                        value = float(value)
-                        distance_km = float(distance_km)
+                    nearest = codes_grib_find_nearest(
+                        gid, location["lat"], location["lon"], npoints=1
+                    )
+                    model_lat, model_lon, value, distance_km, _index = normalize_nearest_result(nearest)
 
                     if not math.isfinite(value):
                         raise RuntimeError(f"Ikke numerisk vandstand for {location['name']}")
