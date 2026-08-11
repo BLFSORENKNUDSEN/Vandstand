@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vandstandsprognose 48 timer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="animated-map.css">
+</head>
+<body>
+  <main class="waterlevel-app">
+    <header class="waterlevel-header">
+      <div>
+        <h1>Vandstandsprognose for de næste 48 timer</h1>
+        <div id="forecastTime" class="forecast-time">Henter prognose…</div>
+      </div>
+    </header>
+
+    <section class="map-wrap">
+      <div id="waterlevelMap" aria-label="Animeret kort over vandstanden i danske farvande"></div>
+      <div id="legend" class="legend" aria-label="Vandstand i centimeter"></div>
+    </section>
+
+    <section class="timeline" aria-label="Tidslinje">
+      <button id="playButton" class="play-button" type="button" aria-label="Afspil prognose">▶</button>
+      <input id="frameSlider" class="frame-slider" type="range" min="0" max="0" value="0" step="1">
+      <div class="timeline-labels">
+        <span>Nu</span>
+        <span>+24 timer</span>
+        <span>+48 timer</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="animated-map.js"></script>
+</body>
+</html>
