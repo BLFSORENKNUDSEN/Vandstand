@@ -24,6 +24,7 @@ USER_AGENT = "strandvejr.dk-waterlevel-map/1.0"
 REQUEST_TIMEOUT = 60
 DOWNLOAD_TIMEOUT = 180
 MERCATOR_LAT_LIMIT = 85.05112878
+STATIC_ZERO_EPS_M = 1e-6
 
 COLOR_STOPS = [
     (-200, (36, 124, 201, 220)),
@@ -261,13 +262,6 @@ def resample_to_web_mercator(
     lon_grid: np.ndarray,
     value_grid: np.ndarray,
 ) -> Tuple[np.ndarray, List[List[float]]]:
-    """Rasterize DKSS directly in Leaflet's EPSG:3857 image geometry.
-
-    L.imageOverlay stretches the image linearly in projected Web Mercator
-    coordinates, not linearly in latitude. Therefore output rows must be
-    equally spaced in Mercator Y. Source land/missing cells stay in the KD tree
-    so that the nearest source cell determines transparency as well as value.
-    """
     finite_coords = np.isfinite(lat_grid) & np.isfinite(lon_grid)
     if not np.any(finite_coords):
         raise RuntimeError("DKSS gridet indeholder ingen gyldige koordinater")
@@ -309,8 +303,32 @@ def resample_to_web_mercator(
     north = float(lat_from_mercator_y(np.array([north_edge_y]))[0])
     west = math.degrees(west_edge)
     east = math.degrees(east_edge)
-    bounds = [[south, west], [north, east]]
-    return sampled, bounds
+    return sampled, [[south, west], [north, east]]
+
+
+def build_temporal_wet_mask(frames: List[np.ndarray]) -> Tuple[np.ndarray, int]:
+    """Mask cells that are finite but static zero through the entire forecast.
+
+    Some coastal IDW cells are encoded as zero rather than missing. When such
+    cells are painted they look like a shifted coastline. Real sea cells vary
+    over a 48 hour water level forecast, or at least carry a nonzero value in
+    one of the frames. Only exact near-zero cells across all frames are removed.
+    """
+    stack = np.stack(frames, axis=0)
+    finite = np.isfinite(stack)
+    any_finite = np.any(finite, axis=0)
+
+    abs_values = np.where(finite, np.abs(stack), 0.0)
+    max_abs = np.max(abs_values, axis=0)
+
+    max_values = np.max(np.where(finite, stack, -np.inf), axis=0)
+    min_values = np.min(np.where(finite, stack, np.inf), axis=0)
+    spread = np.where(any_finite, max_values - min_values, 0.0)
+
+    active = (max_abs > STATIC_ZERO_EPS_M) | (spread > STATIC_ZERO_EPS_M)
+    wet_mask = any_finite & active
+    removed = int(np.count_nonzero(any_finite & ~wet_mask))
+    return wet_mask, removed
 
 
 def colorize(values_m: np.ndarray) -> Image.Image:
@@ -347,8 +365,10 @@ def process_collection(
     model_run, run_items = choose_run(features, now, horizon_hours)
     steps = select_steps(run_items, now, horizon_hours, step_hours)
 
-    frames = []
     bounds = None
+    raw_frames: List[np.ndarray] = []
+    frame_times: List[datetime] = []
+
     with tempfile.TemporaryDirectory(prefix=f"strandvejr-map-{collection}-") as tmpdir:
         tmp_path = Path(tmpdir)
         for index, item in enumerate(steps):
@@ -361,18 +381,34 @@ def process_collection(
 
             if bounds is None:
                 bounds = current_bounds
+            raw_frames.append(projected_values.astype(np.float32))
+            frame_times.append(valid_time)
 
-            image = colorize(projected_values)
-            image_path = output_dir / frame_name(index, collection)
-            image.save(image_path, format="WEBP", lossless=True, method=6)
-            frames.append({
-                "time": iso_z(valid_time),
-                "image": image_path.name,
-                "width": image.width,
-                "height": image.height,
-            })
+    static_zero_masked = 0
+    if collection == "dkss_idw":
+        wet_mask, static_zero_masked = build_temporal_wet_mask(raw_frames)
+        print(f"[{collection}] maskerede {static_zero_masked} statiske nulceller som tørre")
+        raw_frames = [np.where(wet_mask, frame, np.nan) for frame in raw_frames]
 
-    return {"collection": collection, "modelRun": model_run, "bounds": bounds, "frames": frames}
+    frames = []
+    for index, (valid_time, values) in enumerate(zip(frame_times, raw_frames)):
+        image = colorize(values)
+        image_path = output_dir / frame_name(index, collection)
+        image.save(image_path, format="WEBP", lossless=True, method=6)
+        frames.append({
+            "time": iso_z(valid_time),
+            "image": image_path.name,
+            "width": image.width,
+            "height": image.height,
+        })
+
+    return {
+        "collection": collection,
+        "modelRun": model_run,
+        "bounds": bounds,
+        "staticZeroMaskedCells": static_zero_masked,
+        "frames": frames,
+    }
 
 
 def build_metadata(
@@ -415,6 +451,7 @@ def build_metadata(
                 "id": collection,
                 "modelRun": collection_results[collection]["modelRun"],
                 "bounds": collection_results[collection]["bounds"],
+                "staticZeroMaskedCells": collection_results[collection].get("staticZeroMaskedCells", 0),
             }
             for collection in COLLECTIONS
         ],
@@ -448,9 +485,7 @@ def main() -> int:
     results = {}
     try:
         for collection in COLLECTIONS:
-            results[collection] = process_collection(
-                session, collection, now, args.hours, args.step, staging_dir
-            )
+            results[collection] = process_collection(session, collection, now, args.hours, args.step, staging_dir)
 
         metadata = build_metadata(results, datetime.now(timezone.utc), args.hours, args.step)
         (staging_dir / "metadata.json").write_text(
