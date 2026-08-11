@@ -1,0 +1,16 @@
+html, body { margin: 0; min-height: 100%; font-family: Arial, sans-serif; background: #f5f5f5; color: #111; }
+.waterlevel-app { max-width: 1280px; margin: 0 auto; padding: 18px; }
+.waterlevel-header h1 { margin: 0 0 6px; font-size: 22px; }
+.forecast-time { font-size: 14px; color: #555; }
+.map-wrap { position: relative; margin-top: 16px; background: #ddd; }
+#waterlevelMap { height: 640px; width: 100%; }
+.legend { position: absolute; z-index: 1000; left: 18px; top: 140px; background: rgba(255,255,255,.9); padding: 8px; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,.25); font-size: 11px; }
+.legend-scale { display: flex; align-items: stretch; height: 360px; }
+.legend-bar { width: 24px; border: 1px solid rgba(0,0,0,.25); }
+.legend-labels { display: flex; flex-direction: column; justify-content: space-between; margin-left: 6px; }
+.legend-unit { margin-top: 4px; font-size: 12px; }
+.timeline { margin-top: 12px; display: grid; grid-template-columns: 54px 1fr; grid-template-rows: auto auto; column-gap: 12px; align-items: center; }
+.play-button { width: 54px; height: 54px; border: 0; border-radius: 50%; background: #009ee3; color: #fff; font-size: 22px; cursor: pointer; grid-row: 1 / span 2; }
+.frame-slider { width: 100%; accent-color: #009ee3; }
+.timeline-labels { display: flex; justify-content: space-between; font-size: 13px; color: #444; }
+@media (max-width: 700px) { #waterlevelMap { height: 500px; } .legend { top: 90px; left: 10px; transform: scale(.85); transform-origin: top left; } }
