@@ -2,7 +2,6 @@
 import argparse
 import json
 import math
-import os
 import sys
 import tempfile
 import time
@@ -20,19 +19,37 @@ from eccodes import (
     codes_release,
 )
 
-STAC_ITEMS_URL = "https://opendataapi.dmi.dk/v1/forecastdata/collections/dkss_idw/items"
-COLLECTION = "dkss_idw"
+STAC_ITEMS_URL = "https://opendataapi.dmi.dk/v1/forecastdata/collections/{collection}/items"
 PARAMETER_ID = 82
 PARAMETER_CODE = "DSLM"
 USER_AGENT = "strandvejr.dk-waterlevel/1.0"
 REQUEST_TIMEOUT = 60
 DOWNLOAD_TIMEOUT = 180
 NEAREST_CANDIDATES = 4
+MAX_MODEL_DISTANCE_KM = 3.0
 
 LOCATIONS = [
-    {"id": "vordingborg", "name": "Vordingborg", "lat": 55.00376, "lon": 11.91587},
-    {"id": "stubbekoebing", "name": "Stubbekøbing", "lat": 54.89167, "lon": 12.04667},
-    {"id": "hesnaes", "name": "Hesnæs", "lat": 54.82313, "lon": 12.13815},
+    {
+        "id": "vordingborg",
+        "name": "Vordingborg",
+        "lat": 55.00376,
+        "lon": 11.91587,
+        "collections": ["dkss_idw", "dkss_nsbs"],
+    },
+    {
+        "id": "stubbekoebing",
+        "name": "Stubbekøbing",
+        "lat": 54.89167,
+        "lon": 12.04667,
+        "collections": ["dkss_idw"],
+    },
+    {
+        "id": "hesnaes",
+        "name": "Hesnæs",
+        "lat": 54.82313,
+        "lon": 12.13815,
+        "collections": ["dkss_idw"],
+    },
 ]
 
 
@@ -65,11 +82,15 @@ def get_json(session: requests.Session, url: str, params: Optional[Dict[str, Any
     raise RuntimeError(f"Kunne ikke hente JSON fra DMI: {last_error}")
 
 
-def fetch_stac_items(session: requests.Session) -> List[Dict[str, Any]]:
-    payload = get_json(session, STAC_ITEMS_URL, params={"limit": 1000})
+def fetch_stac_items(session: requests.Session, collection: str) -> List[Dict[str, Any]]:
+    payload = get_json(
+        session,
+        STAC_ITEMS_URL.format(collection=collection),
+        params={"limit": 1000},
+    )
     features = payload.get("features") or []
     if not features:
-        raise RuntimeError("DMI STAC returnerede ingen dkss_idw items")
+        raise RuntimeError(f"DMI STAC returnerede ingen items for {collection}")
     return features
 
 
@@ -96,7 +117,9 @@ def choose_run(features: List[Dict[str, Any]], now: datetime, horizon_hours: int
         if not valid_times:
             continue
         candidates.append((
-            parse_dt(run), run, items,
+            parse_dt(run),
+            run,
+            items,
             valid_times[0] <= now <= valid_times[-1],
             valid_times[-1] >= horizon,
             valid_times[-1],
@@ -134,7 +157,9 @@ def select_steps(items: List[Dict[str, Any]], now: datetime, horizon_hours: int,
     sorted_items = sorted(items, key=lambda item: parse_dt(item["properties"]["datetime"]))
     eligible = [
         item for item in sorted_items
-        if now - timedelta(minutes=90) <= parse_dt(item["properties"]["datetime"]) <= now + timedelta(hours=horizon_hours, minutes=90)
+        if now - timedelta(minutes=90)
+        <= parse_dt(item["properties"]["datetime"])
+        <= now + timedelta(hours=horizon_hours, minutes=90)
     ]
     if not eligible:
         raise RuntimeError("Det valgte modelrun har ingen forecasttrin i det ønskede tidsrum")
@@ -142,7 +167,10 @@ def select_steps(items: List[Dict[str, Any]], now: datetime, horizon_hours: int,
     selected: List[Dict[str, Any]] = []
     target = now
     while target <= now + timedelta(hours=horizon_hours):
-        closest = min(eligible, key=lambda item: abs((parse_dt(item["properties"]["datetime"]) - target).total_seconds()))
+        closest = min(
+            eligible,
+            key=lambda item: abs((parse_dt(item["properties"]["datetime"]) - target).total_seconds()),
+        )
         if not selected or closest.get("id") != selected[-1].get("id"):
             selected.append(closest)
         target += timedelta(hours=step_hours)
@@ -190,23 +218,40 @@ def is_waterlevel_message(gid: int) -> bool:
 
 def normalize_nearest_result(nearest: Any) -> Tuple[float, float, float, float, int]:
     if all(hasattr(nearest, key) for key in ("lat", "lon", "value", "distance", "index")):
-        return float(nearest.lat), float(nearest.lon), float(nearest.value), float(nearest.distance), int(nearest.index)
+        return (
+            float(nearest.lat),
+            float(nearest.lon),
+            float(nearest.value),
+            float(nearest.distance),
+            int(nearest.index),
+        )
     if isinstance(nearest, dict):
         return (
-            float(nearest["lat"]), float(nearest["lon"]), float(nearest["value"]),
-            float(nearest.get("distance", 0.0)), int(nearest.get("index", -1)),
+            float(nearest["lat"]),
+            float(nearest["lon"]),
+            float(nearest["value"]),
+            float(nearest.get("distance", 0.0)),
+            int(nearest.get("index", -1)),
         )
     if isinstance(nearest, (list, tuple)):
         if len(nearest) == 1:
             return normalize_nearest_result(nearest[0])
         if len(nearest) >= 5 and not isinstance(nearest[0], (list, tuple, dict)):
             try:
-                return float(nearest[0]), float(nearest[1]), float(nearest[2]), float(nearest[3]), int(nearest[4])
+                return (
+                    float(nearest[0]),
+                    float(nearest[1]),
+                    float(nearest[2]),
+                    float(nearest[3]),
+                    int(nearest[4]),
+                )
             except (TypeError, ValueError):
                 pass
         if nearest:
             return normalize_nearest_result(nearest[0])
-    raise RuntimeError(f"Ukendt returformat fra codes_grib_find_nearest: {type(nearest).__name__}: {nearest!r}")
+    raise RuntimeError(
+        f"Ukendt returformat fra codes_grib_find_nearest: {type(nearest).__name__}: {nearest!r}"
+    )
 
 
 def get_missing_value(gid: int) -> Optional[float]:
@@ -238,7 +283,6 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 def nearest_valid_from_full_grid(gid: int, lat: float, lon: float) -> Tuple[float, float, float, float, int]:
     lat_lon_values = codes_get_array(gid, "latLonValues")
     missing_value = get_missing_value(gid)
-
     best = None
     best_distance = float("inf")
     point_index = 0
@@ -247,21 +291,17 @@ def nearest_valid_from_full_grid(gid: int, lat: float, lon: float) -> Tuple[floa
         point_lat = float(lat_lon_values[offset])
         point_lon = float(lat_lon_values[offset + 1])
         value = float(lat_lon_values[offset + 2])
-
         if not is_valid_waterlevel_value(value, missing_value):
             point_index += 1
             continue
-
         distance_km = haversine_km(lat, lon, point_lat, point_lon)
         if distance_km < best_distance:
             best_distance = distance_km
             best = (point_lat, point_lon, value, distance_km, point_index)
-
         point_index += 1
 
     if best is None:
         raise RuntimeError(f"DKSS gridet indeholder ingen gyldige vandstandspunkter nær {lat:.5f},{lon:.5f}")
-
     return best
 
 
@@ -269,8 +309,8 @@ def nearest_valid_point(gid: int, lat: float, lon: float) -> Tuple[float, float,
     nearest = codes_grib_find_nearest(gid, lat, lon, npoints=NEAREST_CANDIDATES)
     candidates = nearest if isinstance(nearest, (list, tuple)) else [nearest]
     missing_value = get_missing_value(gid)
-
     valid = []
+
     for candidate in candidates:
         point = normalize_nearest_result(candidate)
         if is_valid_waterlevel_value(point[2], missing_value):
@@ -279,15 +319,10 @@ def nearest_valid_point(gid: int, lat: float, lon: float) -> Tuple[float, float,
     if valid:
         return min(valid, key=lambda point: point[3])
 
-    print(
-        f"Ingen gyldige punkter blandt de {NEAREST_CANDIDATES} nærmeste til {lat:.5f},{lon:.5f}; "
-        "søger i hele DKSS gridet.",
-        file=sys.stderr,
-    )
     return nearest_valid_from_full_grid(gid, lat, lon)
 
 
-def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
+def extract_locations(grib_path: Path, locations: List[Dict[str, Any]]) -> Dict[str, Dict[str, float]]:
     with grib_path.open("rb") as handle:
         while True:
             gid = codes_grib_new_from_file(handle)
@@ -297,7 +332,7 @@ def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
                 if not is_waterlevel_message(gid):
                     continue
                 result: Dict[str, Dict[str, float]] = {}
-                for location in LOCATIONS:
+                for location in locations:
                     model_lat, model_lon, value, distance_km, _index = nearest_valid_point(
                         gid, location["lat"], location["lon"]
                     )
@@ -313,42 +348,129 @@ def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
     raise RuntimeError(f"Fandt ikke DSLM/parameter 82 i {grib_path.name}")
 
 
-def build_output(session: requests.Session, horizon_hours: int, step_hours: int) -> Dict[str, Any]:
-    now = datetime.now(timezone.utc)
-    features = fetch_stac_items(session)
+def process_collection(
+    session: requests.Session,
+    collection: str,
+    locations: List[Dict[str, Any]],
+    now: datetime,
+    horizon_hours: int,
+    step_hours: int,
+) -> Dict[str, Any]:
+    features = fetch_stac_items(session, collection)
     model_run, run_items = choose_run(features, now, horizon_hours)
     steps = select_steps(run_items, now, horizon_hours, step_hours)
 
-    forecasts: Dict[str, List[Dict[str, Any]]] = {loc["id"]: [] for loc in LOCATIONS}
+    forecasts: Dict[str, List[Dict[str, Any]]] = {loc["id"]: [] for loc in locations}
     model_points: Dict[str, Dict[str, Any]] = {}
 
-    with tempfile.TemporaryDirectory(prefix="strandvejr-grib-") as tmpdir:
+    with tempfile.TemporaryDirectory(prefix=f"strandvejr-{collection}-") as tmpdir:
         tmp_path = Path(tmpdir)
         for index, item in enumerate(steps, start=1):
             valid_time = parse_dt(item["properties"]["datetime"])
             href = asset_href(item)
             destination = tmp_path / f"step-{index:02d}.grib"
-            print(f"[{index}/{len(steps)}] {iso_z(valid_time)}: downloader {href}")
+            print(f"[{collection} {index}/{len(steps)}] {iso_z(valid_time)}: downloader {href}")
             download_file(session, href, destination)
-            extracted = extract_locations(destination)
+            extracted = extract_locations(destination, locations)
 
-            for location in LOCATIONS:
+            for location in locations:
                 loc_id = location["id"]
                 point = extracted[loc_id]
-                forecasts[loc_id].append({"time": iso_z(valid_time), "levelCm": point["levelCm"]})
+                forecasts[loc_id].append({
+                    "time": iso_z(valid_time),
+                    "levelCm": point["levelCm"],
+                })
                 model_points[loc_id] = {
-                    "lat": point["modelLat"], "lon": point["modelLon"], "distanceKm": point["distanceKm"]
+                    "lat": point["modelLat"],
+                    "lon": point["modelLon"],
+                    "distanceKm": point["distanceKm"],
                 }
+
+    return {
+        "collection": collection,
+        "modelRun": model_run,
+        "forecasts": forecasts,
+        "modelPoints": model_points,
+    }
+
+
+def build_output(session: requests.Session, horizon_hours: int, step_hours: int) -> Dict[str, Any]:
+    now = datetime.now(timezone.utc)
+    needed_collections = sorted({collection for loc in LOCATIONS for collection in loc["collections"]})
+    collection_results: Dict[str, Dict[str, Any]] = {}
+
+    for collection in needed_collections:
+        locations = [loc for loc in LOCATIONS if collection in loc["collections"]]
+        collection_results[collection] = process_collection(
+            session,
+            collection,
+            locations,
+            now,
+            horizon_hours,
+            step_hours,
+        )
 
     output_locations = []
     for location in LOCATIONS:
-        loc_id = location["id"]
-        output_locations.append({**location, "modelPoint": model_points.get(loc_id), "forecast": forecasts[loc_id]})
+        candidates = []
+        for collection in location["collections"]:
+            result = collection_results[collection]
+            model_point = result["modelPoints"].get(location["id"])
+            forecast = result["forecasts"].get(location["id"], [])
+            if model_point and forecast:
+                candidates.append({
+                    "collection": collection,
+                    "modelRun": result["modelRun"],
+                    "modelPoint": model_point,
+                    "forecast": forecast,
+                })
+
+        if not candidates:
+            output_locations.append({
+                "id": location["id"],
+                "name": location["name"],
+                "lat": location["lat"],
+                "lon": location["lon"],
+                "available": False,
+                "quality": "unavailable",
+                "reason": "Ingen gyldig DKSS modelprognose fundet",
+                "forecast": [],
+            })
+            continue
+
+        best = min(candidates, key=lambda item: item["modelPoint"]["distanceKm"])
+        distance_km = best["modelPoint"]["distanceKm"]
+        available = distance_km <= MAX_MODEL_DISTANCE_KM
+
+        output_locations.append({
+            "id": location["id"],
+            "name": location["name"],
+            "lat": location["lat"],
+            "lon": location["lon"],
+            "available": available,
+            "quality": "good" if available else "insufficient",
+            "collection": best["collection"],
+            "modelRun": best["modelRun"],
+            "modelPoint": best["modelPoint"],
+            "candidateModels": [
+                {
+                    "collection": candidate["collection"],
+                    "modelRun": candidate["modelRun"],
+                    "distanceKm": candidate["modelPoint"]["distanceKm"],
+                    "modelPoint": {
+                        "lat": candidate["modelPoint"]["lat"],
+                        "lon": candidate["modelPoint"]["lon"],
+                    },
+                }
+                for candidate in sorted(candidates, key=lambda item: item["modelPoint"]["distanceKm"])
+            ],
+            "forecast": best["forecast"] if available else [],
+            "reason": None if available else f"Nærmeste gyldige modelpunkt er {distance_km:.3f} km væk",
+        })
 
     return {
         "generated": iso_z(datetime.now(timezone.utc)),
         "source": "DMI DKSS via Forecast Data STAC API",
-        "collection": COLLECTION,
         "parameter": {
             "id": PARAMETER_ID,
             "code": PARAMETER_CODE,
@@ -356,9 +478,9 @@ def build_output(session: requests.Session, horizon_hours: int, step_hours: int)
             "sourceUnit": "m",
             "outputUnit": "cm",
         },
-        "modelRun": model_run,
         "stepHours": step_hours,
         "horizonHours": horizon_hours,
+        "maxModelDistanceKm": MAX_MODEL_DISTANCE_KM,
         "locations": output_locations,
     }
 
@@ -376,7 +498,11 @@ def main() -> int:
         parser.error("--step skal være mellem 1 og 24")
 
     session = requests.Session()
-    session.headers.update({"User-Agent": USER_AGENT, "Accept": "application/geo+json, application/json"})
+    session.headers.update({
+        "User-Agent": USER_AGENT,
+        "Accept": "application/geo+json, application/json",
+    })
+
     output = build_output(session, args.hours, args.step)
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
