@@ -2,3 +2,4 @@ requests>=2.32,<3
 eccodes>=2.37,<3
 numpy>=2.0,<3
 Pillow>=10.4,<12
+scipy>=1.14,<2
