@@ -32,8 +32,8 @@ LOCATIONS = [
     {
         "id": "vordingborg",
         "name": "Vordingborg",
-        "lat": 55.00376,
-        "lon": 11.91587,
+        "lat": 54.9986,
+        "lon": 11.8822,
         "collections": ["dkss_idw", "dkss_nsbs"],
     },
     {
