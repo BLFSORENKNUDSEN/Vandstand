@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T09:55:56Z",
+  "generated": "2026-08-11T10:13:27Z",
   "source": "DMI DKSS via Forecast Data STAC API",
   "collection": "dkss_idw",
   "parameter": {
@@ -19,46 +19,46 @@
       "lat": 55.00376,
       "lon": 11.91587,
       "modelPoint": {
-        "lat": 55.003000000000476,
-        "lon": 11.909392405063455,
-        "distanceKm": 0.421
+        "lat": 54.98700000000047,
+        "lon": 11.82606075949383,
+        "distanceKm": 6.024
       },
       "forecast": [
         {
           "time": "2026-08-11T10:00:00Z",
-          "levelCm": 999900
+          "levelCm": 38
         },
         {
           "time": "2026-08-11T13:00:00Z",
-          "levelCm": 999900
+          "levelCm": 40
         },
         {
           "time": "2026-08-11T16:00:00Z",
-          "levelCm": 999900
+          "levelCm": 20
         },
         {
           "time": "2026-08-11T19:00:00Z",
-          "levelCm": 999900
+          "levelCm": 15
         },
         {
           "time": "2026-08-11T22:00:00Z",
-          "levelCm": 999900
+          "levelCm": 44
         },
         {
           "time": "2026-08-12T01:00:00Z",
-          "levelCm": 999900
+          "levelCm": 46
         },
         {
           "time": "2026-08-12T04:00:00Z",
-          "levelCm": 999900
+          "levelCm": 14
         },
         {
           "time": "2026-08-12T07:00:00Z",
-          "levelCm": 999900
+          "levelCm": 5
         },
         {
           "time": "2026-08-12T10:00:00Z",
-          "levelCm": 999900
+          "levelCm": 27
         }
       ]
     },
