@@ -42,13 +42,16 @@ jobs:
       - name: Generer animeret vandstandskort
         run: python scripts/generate_waterlevel_map.py --output-dir data/waterlevel-map --hours 48 --step 1
 
+      - name: Klip IDW til OpenStreetMap vand
+        run: python scripts/mask_waterlevel_with_osm.py --data-dir data/waterlevel-map --collection dkss_idw --zoom 9
+
       - name: Kontroller resultat
         run: |
           python -m json.tool data/waterlevel.json >/dev/null
           python -m json.tool data/waterlevel-map/metadata.json >/dev/null
           test -n "$(find data/waterlevel-map -name '*.webp' -print -quit)"
           echo "Antal kortframes: $(find data/waterlevel-map -name '*.webp' | wc -l)"
-          head -80 data/waterlevel-map/metadata.json
+          head -100 data/waterlevel-map/metadata.json
 
       - name: Commit nye data
         run: |
