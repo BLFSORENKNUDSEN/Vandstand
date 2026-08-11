@@ -24,7 +24,6 @@ USER_AGENT = "strandvejr.dk-waterlevel-map/1.0"
 REQUEST_TIMEOUT = 60
 DOWNLOAD_TIMEOUT = 180
 MERCATOR_LAT_LIMIT = 85.05112878
-STATIC_ZERO_EPS_M = 1e-6
 
 COLOR_STOPS = [
     (-200, (36, 124, 201, 220)),
@@ -195,7 +194,7 @@ def get_missing_value(gid: int) -> Optional[float]:
         return None
 
 
-def read_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+def read_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray, int, bool]:
     with grib_path.open("rb") as handle:
         while True:
             gid = codes_grib_new_from_file(handle)
@@ -218,6 +217,24 @@ def read_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
                 valid = np.isfinite(values) & (np.abs(values) < 100.0)
                 if missing_value is not None:
                     valid &= ~np.isclose(values, missing_value, rtol=0.0, atol=1e-9)
+
+                bitmap_present = False
+                bitmap_masked = 0
+                try:
+                    bitmap_present = bool(int(codes_get(gid, "bitmapPresent")))
+                except Exception:
+                    bitmap_present = False
+
+                if bitmap_present:
+                    bitmap = np.asarray(codes_get_array(gid, "bitmap"), dtype=np.int8)
+                    if bitmap.size != values.size:
+                        raise RuntimeError(
+                            f"Bitmap har {bitmap.size} celler, men data har {values.size}"
+                        )
+                    bitmap_valid = bitmap.astype(bool)
+                    bitmap_masked = int(np.count_nonzero(~bitmap_valid))
+                    valid &= bitmap_valid
+
                 values = np.where(valid, values, np.nan)
 
                 ni = int(codes_get(gid, "Ni"))
@@ -225,7 +242,13 @@ def read_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
                 if ni * nj != len(values):
                     raise RuntimeError(f"Ni*Nj ({ni}*{nj}) matcher ikke antal gridpunkter ({len(values)})")
 
-                return lats.reshape((nj, ni)), lons.reshape((nj, ni)), values.reshape((nj, ni))
+                return (
+                    lats.reshape((nj, ni)),
+                    lons.reshape((nj, ni)),
+                    values.reshape((nj, ni)),
+                    bitmap_masked,
+                    bitmap_present,
+                )
             finally:
                 codes_release(gid)
 
@@ -306,31 +329,6 @@ def resample_to_web_mercator(
     return sampled, [[south, west], [north, east]]
 
 
-def build_temporal_wet_mask(frames: List[np.ndarray]) -> Tuple[np.ndarray, int]:
-    """Mask cells that are finite but static zero through the entire forecast.
-
-    Some coastal IDW cells are encoded as zero rather than missing. When such
-    cells are painted they look like a shifted coastline. Real sea cells vary
-    over a 48 hour water level forecast, or at least carry a nonzero value in
-    one of the frames. Only exact near-zero cells across all frames are removed.
-    """
-    stack = np.stack(frames, axis=0)
-    finite = np.isfinite(stack)
-    any_finite = np.any(finite, axis=0)
-
-    abs_values = np.where(finite, np.abs(stack), 0.0)
-    max_abs = np.max(abs_values, axis=0)
-
-    max_values = np.max(np.where(finite, stack, -np.inf), axis=0)
-    min_values = np.min(np.where(finite, stack, np.inf), axis=0)
-    spread = np.where(any_finite, max_values - min_values, 0.0)
-
-    active = (max_abs > STATIC_ZERO_EPS_M) | (spread > STATIC_ZERO_EPS_M)
-    wet_mask = any_finite & active
-    removed = int(np.count_nonzero(any_finite & ~wet_mask))
-    return wet_mask, removed
-
-
 def colorize(values_m: np.ndarray) -> Image.Image:
     values_cm = values_m * 100.0
     rgba = np.zeros(values_cm.shape + (4,), dtype=np.uint8)
@@ -365,9 +363,10 @@ def process_collection(
     model_run, run_items = choose_run(features, now, horizon_hours)
     steps = select_steps(run_items, now, horizon_hours, step_hours)
 
+    frames = []
     bounds = None
-    raw_frames: List[np.ndarray] = []
-    frame_times: List[datetime] = []
+    first_bitmap_masked = 0
+    bitmap_present = False
 
     with tempfile.TemporaryDirectory(prefix=f"strandvejr-map-{collection}-") as tmpdir:
         tmp_path = Path(tmpdir)
@@ -376,37 +375,36 @@ def process_collection(
             grib_path = tmp_path / f"{index:03d}.grib"
             print(f"[{collection} {index + 1}/{len(steps)}] {iso_z(valid_time)}")
             download_file(session, asset_href(item), grib_path)
-            lat_grid, lon_grid, values = read_grid(grib_path)
-            projected_values, current_bounds = resample_to_web_mercator(lat_grid, lon_grid, values)
+            lat_grid, lon_grid, values, bitmap_masked, frame_bitmap_present = read_grid(grib_path)
 
+            if index == 0:
+                first_bitmap_masked = bitmap_masked
+                bitmap_present = frame_bitmap_present
+                if frame_bitmap_present:
+                    print(f"[{collection}] GRIB bitmap maskerede {bitmap_masked} celler")
+                else:
+                    print(f"[{collection}] GRIB indeholder ingen bitmap")
+
+            projected_values, current_bounds = resample_to_web_mercator(lat_grid, lon_grid, values)
             if bounds is None:
                 bounds = current_bounds
-            raw_frames.append(projected_values.astype(np.float32))
-            frame_times.append(valid_time)
 
-    static_zero_masked = 0
-    if collection == "dkss_idw":
-        wet_mask, static_zero_masked = build_temporal_wet_mask(raw_frames)
-        print(f"[{collection}] maskerede {static_zero_masked} statiske nulceller som tørre")
-        raw_frames = [np.where(wet_mask, frame, np.nan) for frame in raw_frames]
-
-    frames = []
-    for index, (valid_time, values) in enumerate(zip(frame_times, raw_frames)):
-        image = colorize(values)
-        image_path = output_dir / frame_name(index, collection)
-        image.save(image_path, format="WEBP", lossless=True, method=6)
-        frames.append({
-            "time": iso_z(valid_time),
-            "image": image_path.name,
-            "width": image.width,
-            "height": image.height,
-        })
+            image = colorize(projected_values)
+            image_path = output_dir / frame_name(index, collection)
+            image.save(image_path, format="WEBP", lossless=True, method=6)
+            frames.append({
+                "time": iso_z(valid_time),
+                "image": image_path.name,
+                "width": image.width,
+                "height": image.height,
+            })
 
     return {
         "collection": collection,
         "modelRun": model_run,
         "bounds": bounds,
-        "staticZeroMaskedCells": static_zero_masked,
+        "bitmapPresent": bitmap_present,
+        "bitmapMaskedCells": first_bitmap_masked,
         "frames": frames,
     }
 
@@ -451,7 +449,8 @@ def build_metadata(
                 "id": collection,
                 "modelRun": collection_results[collection]["modelRun"],
                 "bounds": collection_results[collection]["bounds"],
-                "staticZeroMaskedCells": collection_results[collection].get("staticZeroMaskedCells", 0),
+                "bitmapPresent": collection_results[collection].get("bitmapPresent", False),
+                "bitmapMaskedCells": collection_results[collection].get("bitmapMaskedCells", 0),
             }
             for collection in COLLECTIONS
         ],
