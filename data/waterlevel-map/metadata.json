@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T16:20:01Z",
+  "generated": "2026-08-11T16:31:19Z",
   "source": "DMI DKSS via Forecast Data STAC API",
   "projection": "EPSG:3857 raster in Leaflet imageOverlay bounds",
   "parameter": {
@@ -24,7 +24,8 @@
           30.333667070217917
         ]
       ],
-      "staticZeroMaskedCells": 0
+      "bitmapPresent": true,
+      "bitmapMaskedCells": 110037
     },
     {
       "id": "dkss_idw",
@@ -39,7 +40,8 @@
           14.83294430379747
         ]
       ],
-      "staticZeroMaskedCells": 0
+      "bitmapPresent": true,
+      "bitmapMaskedCells": 109888
     }
   ],
   "colorStops": [
