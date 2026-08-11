@@ -26,6 +26,7 @@ PARAMETER_CODE = "DSLM"
 USER_AGENT = "strandvejr.dk-waterlevel/1.0"
 REQUEST_TIMEOUT = 60
 DOWNLOAD_TIMEOUT = 180
+NEAREST_CANDIDATES = 8
 
 LOCATIONS = [
     {"id": "vordingborg", "name": "Vordingborg", "lat": 55.00376, "lon": 11.91587},
@@ -199,8 +200,6 @@ def is_waterlevel_message(gid: int) -> bool:
 
 def normalize_nearest_result(nearest: Any) -> Tuple[float, float, float, float, int]:
     """Normalize ecCodes nearest-point return values across Python binding versions."""
-    # Current ecCodes Python bindings return a list whose first item is a
-    # CodesNearest object with lat/lon/value/distance/index attributes.
     if all(hasattr(nearest, key) for key in ("lat", "lon", "value", "distance", "index")):
         return (
             float(nearest.lat),
@@ -210,7 +209,6 @@ def normalize_nearest_result(nearest: Any) -> Tuple[float, float, float, float, 
             int(nearest.index),
         )
 
-    # Some wrappers expose a dictionary instead.
     if isinstance(nearest, dict):
         return (
             float(nearest["lat"]),
@@ -220,8 +218,6 @@ def normalize_nearest_result(nearest: Any) -> Tuple[float, float, float, float, 
             int(nearest.get("index", -1)),
         )
 
-    # Older bindings/documentation may expose a flat five-value sequence, while
-    # current bindings commonly wrap a CodesNearest object in a one-item list.
     if isinstance(nearest, (list, tuple)):
         if len(nearest) == 1:
             return normalize_nearest_result(nearest[0])
@@ -245,6 +241,46 @@ def normalize_nearest_result(nearest: Any) -> Tuple[float, float, float, float, 
     )
 
 
+def get_missing_value(gid: int) -> Optional[float]:
+    try:
+        value = float(codes_get(gid, "missingValue"))
+        return value if math.isfinite(value) else None
+    except Exception:
+        return None
+
+
+def is_valid_waterlevel_value(value: float, missing_value: Optional[float] = None) -> bool:
+    if not math.isfinite(value):
+        return False
+    if missing_value is not None and math.isclose(value, missing_value, rel_tol=0.0, abs_tol=1e-9):
+        return False
+    # DKSS coastal land cells currently expose 9999 as missing. This guard also
+    # prevents any sentinel-like value from leaking into centimeter output.
+    if abs(value) >= 100.0:
+        return False
+    return True
+
+
+def nearest_valid_point(gid: int, lat: float, lon: float) -> Tuple[float, float, float, float, int]:
+    nearest = codes_grib_find_nearest(gid, lat, lon, npoints=NEAREST_CANDIDATES)
+    candidates = nearest if isinstance(nearest, (list, tuple)) else [nearest]
+    missing_value = get_missing_value(gid)
+
+    valid = []
+    for candidate in candidates:
+        point = normalize_nearest_result(candidate)
+        if is_valid_waterlevel_value(point[2], missing_value):
+            valid.append(point)
+
+    if not valid:
+        raise RuntimeError(
+            f"Ingen gyldige DKSS havgridpunkter blandt de {NEAREST_CANDIDATES} nærmeste "
+            f"punkter til {lat:.5f},{lon:.5f}"
+        )
+
+    return min(valid, key=lambda point: point[3])
+
+
 def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
     with grib_path.open("rb") as handle:
         while True:
@@ -257,13 +293,9 @@ def extract_locations(grib_path: Path) -> Dict[str, Dict[str, float]]:
 
                 result: Dict[str, Dict[str, float]] = {}
                 for location in LOCATIONS:
-                    nearest = codes_grib_find_nearest(
-                        gid, location["lat"], location["lon"], npoints=1
+                    model_lat, model_lon, value, distance_km, _index = nearest_valid_point(
+                        gid, location["lat"], location["lon"]
                     )
-                    model_lat, model_lon, value, distance_km, _index = normalize_nearest_result(nearest)
-
-                    if not math.isfinite(value):
-                        raise RuntimeError(f"Ikke numerisk vandstand for {location['name']}")
 
                     result[location["id"]] = {
                         "modelLat": model_lat,
