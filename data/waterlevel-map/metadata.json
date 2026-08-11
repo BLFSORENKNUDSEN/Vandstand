@@ -1,0 +1,1909 @@
+{
+  "generated": "2026-08-11T13:39:10Z",
+  "source": "DMI DKSS via Forecast Data STAC API",
+  "parameter": {
+    "id": 82,
+    "code": "DSLM",
+    "description": "Deviation of sea level from mean",
+    "unit": "cm"
+  },
+  "horizonHours": 48,
+  "stepHours": 1,
+  "collections": [
+    {
+      "id": "dkss_nsbs",
+      "modelRun": "2026-08-11T06:00:00Z",
+      "bounds": [
+        [
+          48.525,
+          -4.125
+        ],
+        [
+          65.875,
+          30.292
+        ]
+      ]
+    },
+    {
+      "id": "dkss_idw",
+      "modelRun": "2026-08-11T06:00:00Z",
+      "bounds": [
+        [
+          53.587,
+          9.34
+        ],
+        [
+          57.596,
+          14.826
+        ]
+      ]
+    }
+  ],
+  "colorStops": [
+    {
+      "cm": -200,
+      "rgba": [
+        36,
+        124,
+        201,
+        220
+      ]
+    },
+    {
+      "cm": -120,
+      "rgba": [
+        65,
+        182,
+        196,
+        220
+      ]
+    },
+    {
+      "cm": -60,
+      "rgba": [
+        88,
+        210,
+        192,
+        220
+      ]
+    },
+    {
+      "cm": -30,
+      "rgba": [
+        144,
+        226,
+        218,
+        220
+      ]
+    },
+    {
+      "cm": 0,
+      "rgba": [
+        255,
+        245,
+        184,
+        210
+      ]
+    },
+    {
+      "cm": 30,
+      "rgba": [
+        255,
+        224,
+        72,
+        220
+      ]
+    },
+    {
+      "cm": 60,
+      "rgba": [
+        255,
+        194,
+        38,
+        225
+      ]
+    },
+    {
+      "cm": 120,
+      "rgba": [
+        255,
+        128,
+        54,
+        230
+      ]
+    },
+    {
+      "cm": 180,
+      "rgba": [
+        244,
+        75,
+        75,
+        235
+      ]
+    },
+    {
+      "cm": 300,
+      "rgba": [
+        196,
+        44,
+        87,
+        240
+      ]
+    },
+    {
+      "cm": 480,
+      "rgba": [
+        83,
+        24,
+        91,
+        245
+      ]
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "time": "2026-08-11T14:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "000-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "000-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "time": "2026-08-11T15:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "001-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "001-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "time": "2026-08-11T16:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "002-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "002-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "time": "2026-08-11T17:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "003-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "003-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "time": "2026-08-11T18:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "004-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "004-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "time": "2026-08-11T19:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "005-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "005-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "time": "2026-08-11T20:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "006-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "006-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "time": "2026-08-11T21:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "007-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "007-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "time": "2026-08-11T22:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "008-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "008-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "time": "2026-08-11T23:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "009-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "009-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "time": "2026-08-12T00:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "010-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "010-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "time": "2026-08-12T01:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "011-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "011-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "time": "2026-08-12T02:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "012-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "012-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "time": "2026-08-12T03:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "013-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "013-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "time": "2026-08-12T04:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "014-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "014-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "time": "2026-08-12T05:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "015-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "015-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "time": "2026-08-12T06:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "016-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "016-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "time": "2026-08-12T07:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "017-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "017-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "time": "2026-08-12T08:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "018-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "018-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "time": "2026-08-12T09:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "019-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "019-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "time": "2026-08-12T10:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "020-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "020-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "time": "2026-08-12T11:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "021-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "021-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "time": "2026-08-12T12:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "022-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "022-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "time": "2026-08-12T13:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "023-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "023-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "time": "2026-08-12T14:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "024-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "024-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "time": "2026-08-12T15:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "025-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "025-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "time": "2026-08-12T16:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "026-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "026-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "time": "2026-08-12T17:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "027-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "027-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "time": "2026-08-12T18:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "028-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "028-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "time": "2026-08-12T19:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "029-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "029-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "time": "2026-08-12T20:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "030-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "030-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "time": "2026-08-12T21:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "031-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "031-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "time": "2026-08-12T22:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "032-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "032-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "time": "2026-08-12T23:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "033-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "033-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "time": "2026-08-13T00:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "034-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "034-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "time": "2026-08-13T01:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "035-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "035-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "time": "2026-08-13T02:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "036-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "036-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "time": "2026-08-13T03:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "037-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "037-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "time": "2026-08-13T04:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "038-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "038-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "time": "2026-08-13T05:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "039-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "039-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "time": "2026-08-13T06:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "040-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "040-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "time": "2026-08-13T07:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "041-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "041-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "time": "2026-08-13T08:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "042-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "042-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "time": "2026-08-13T09:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "043-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "043-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "time": "2026-08-13T10:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "044-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "044-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "time": "2026-08-13T11:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "045-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "045-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "time": "2026-08-13T12:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "046-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "046-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 47,
+      "time": "2026-08-13T13:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "047-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "047-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    },
+    {
+      "index": 48,
+      "time": "2026-08-13T14:00:00Z",
+      "layers": [
+        {
+          "collection": "dkss_nsbs",
+          "image": "048-dkss_nsbs.webp",
+          "bounds": [
+            [
+              48.525,
+              -4.125
+            ],
+            [
+              65.875,
+              30.292
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        },
+        {
+          "collection": "dkss_idw",
+          "image": "048-dkss_idw.webp",
+          "bounds": [
+            [
+              53.587,
+              9.34
+            ],
+            [
+              57.596,
+              14.826
+            ]
+          ],
+          "modelRun": "2026-08-11T06:00:00Z"
+        }
+      ]
+    }
+  ]
+}
