@@ -48,22 +48,28 @@ jobs:
       - name: Klip IDW til OpenStreetMap vand
         run: python scripts/mask_waterlevel_with_osm.py --data-dir data/waterlevel-map --collection dkss_idw --zoom 9
 
+      - name: Generer IDW XYZ tiles
+        run: python scripts/generate_idw_tiles.py --output-dir data/waterlevel-tiles --hours 48 --step 1 --zoom 9
+
       - name: Kontroller resultat
         run: |
           python -m json.tool data/waterlevel.json >/dev/null
           python -m json.tool data/waterlevel-map/metadata.json >/dev/null
+          python -m json.tool data/waterlevel-tiles/metadata.json >/dev/null
           test -n "$(find data/waterlevel-map -name '*.webp' -print -quit)"
-          echo "Antal kortframes: $(find data/waterlevel-map -name '*.webp' | wc -l)"
-          head -140 data/waterlevel-map/metadata.json
+          test -n "$(find data/waterlevel-tiles -name '*.webp' -print -quit)"
+          echo "Antal overlay frames: $(find data/waterlevel-map -name '*.webp' | wc -l)"
+          echo "Antal IDW tiles: $(find data/waterlevel-tiles -name '*.webp' | wc -l)"
+          head -140 data/waterlevel-tiles/metadata.json
 
       - name: Commit nye data
         run: |
-          if git diff --quiet -- data/waterlevel.json data/waterlevel-map; then
+          if git diff --quiet -- data/waterlevel.json data/waterlevel-map data/waterlevel-tiles; then
             echo "Ingen ændring i vandstandsdata"
             exit 0
           fi
           git config user.name "strandvejr-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/waterlevel.json data/waterlevel-map
+          git add data/waterlevel.json data/waterlevel-map data/waterlevel-tiles
           git commit -m "Opdater DMI vandstandsprognose og kort"
           git push
