@@ -35,8 +35,10 @@ COLLECTION = "dkss_idw"
 TILE_SIZE = 256
 DEFAULT_ZOOM = 9
 OSM_TILE_URL = "https://tiles.openfreemap.org/planet/latest/{z}/{x}/{y}.pbf"
-USER_AGENT = "strandvejr.dk-waterlevel-idw-tiles/1.0"
+USER_AGENT = "strandvejr.dk-waterlevel-idw-tiles/1.1"
 REQUEST_TIMEOUT = 60
+MIN_GAP_NEIGHBORS = 5
+MIN_BILINEAR_WEIGHT = 0.45
 
 
 def read_idw_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray, Dict[str, Any]]:
@@ -142,18 +144,57 @@ def fetch_water_mask(session: requests.Session, tile: mercantile.Tile) -> np.nda
     return np.asarray(mask, dtype=np.uint8)
 
 
-def nearest_indices(axis: np.ndarray, targets: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    insertion = np.searchsorted(axis, targets, side="left")
-    hi = np.clip(insertion, 0, len(axis) - 1)
-    lo = np.clip(insertion - 1, 0, len(axis) - 1)
-    choose_hi = np.abs(axis[hi] - targets) < np.abs(axis[lo] - targets)
-    indices = np.where(choose_hi, hi, lo)
+def fill_isolated_gaps(values: np.ndarray) -> Tuple[np.ndarray, int]:
+    """Fill one-cell holes only when surrounded by enough valid model cells.
+
+    This is deliberately a single pass. Large missing regions and coastlines stay
+    missing; only isolated holes with at least MIN_GAP_NEIGHBORS of the eight
+    surrounding cells are replaced by their mean.
+    """
+    source = values.astype(np.float64, copy=True)
+    missing = ~np.isfinite(source)
+    if not np.any(missing):
+        return source, 0
+
+    padded = np.pad(source, 1, mode="constant", constant_values=np.nan)
+    neighbor_values = []
+    for dy in range(3):
+        for dx in range(3):
+            if dy == 1 and dx == 1:
+                continue
+            neighbor_values.append(padded[dy:dy + source.shape[0], dx:dx + source.shape[1]])
+
+    stack = np.stack(neighbor_values, axis=0)
+    valid_count = np.sum(np.isfinite(stack), axis=0)
+    sums = np.nansum(stack, axis=0)
+    fill_mask = missing & (valid_count >= MIN_GAP_NEIGHBORS)
+
+    source[fill_mask] = sums[fill_mask] / valid_count[fill_mask]
+    return source, int(np.count_nonzero(fill_mask))
+
+
+def axis_fractional_indices(axis: np.ndarray, targets: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Return lower index, upper index and interpolation fraction for an axis."""
+    insertion = np.searchsorted(axis, targets, side="right")
+    hi = np.clip(insertion, 1, len(axis) - 1)
+    lo = hi - 1
+
+    low_values = axis[lo]
+    high_values = axis[hi]
+    denominator = high_values - low_values
+    fraction = np.divide(
+        targets - low_values,
+        denominator,
+        out=np.zeros_like(targets, dtype=np.float64),
+        where=np.abs(denominator) > 1e-15,
+    )
+    fraction = np.clip(fraction, 0.0, 1.0)
 
     spacing = float(np.median(np.diff(axis)))
     minimum = float(axis[0] - spacing / 2.0)
     maximum = float(axis[-1] + spacing / 2.0)
     inside = (targets >= minimum) & (targets <= maximum)
-    return indices.astype(np.int32), inside
+    return lo.astype(np.int32), hi.astype(np.int32), fraction, inside
 
 
 def build_tile_samplers(
@@ -163,18 +204,22 @@ def build_tile_samplers(
     lon_axis: np.ndarray,
 ) -> Dict[Tuple[int, int, int], Dict[str, np.ndarray]]:
     samplers: Dict[Tuple[int, int, int], Dict[str, np.ndarray]] = {}
-    print(f"IDW XYZ: bygger geometri og OSM vandmasker for {len(tiles)} tiles")
+    print(f"IDW XYZ: bygger bilineær geometri og OSM vandmasker for {len(tiles)} tiles")
 
     for index, tile in enumerate(tiles, start=1):
         target_lats, target_lons = tile_pixel_lonlat(tile)
-        j_idx, inside_lat = nearest_indices(lat_axis, target_lats)
-        i_idx, inside_lon = nearest_indices(lon_axis, target_lons)
+        j0, j1, fy, inside_lat = axis_fractional_indices(lat_axis, target_lats)
+        i0, i1, fx, inside_lon = axis_fractional_indices(lon_axis, target_lons)
         domain = inside_lat & inside_lon
         water = fetch_water_mask(session, tile) > 0
 
         samplers[(tile.z, tile.x, tile.y)] = {
-            "j": j_idx,
-            "i": i_idx,
+            "j0": j0,
+            "j1": j1,
+            "i0": i0,
+            "i1": i1,
+            "fx": fx,
+            "fy": fy,
             "visible": domain & water,
         }
 
@@ -182,6 +227,45 @@ def build_tile_samplers(
             print(f"IDW XYZ: geometri {index}/{len(tiles)} tiles")
 
     return samplers
+
+
+def bilinear_sample(values: np.ndarray, sampler: Dict[str, np.ndarray]) -> np.ndarray:
+    j0 = sampler["j0"]
+    j1 = sampler["j1"]
+    i0 = sampler["i0"]
+    i1 = sampler["i1"]
+    fx = sampler["fx"]
+    fy = sampler["fy"]
+
+    v00 = values[j0, i0]
+    v10 = values[j0, i1]
+    v01 = values[j1, i0]
+    v11 = values[j1, i1]
+
+    w00 = (1.0 - fx) * (1.0 - fy)
+    w10 = fx * (1.0 - fy)
+    w01 = (1.0 - fx) * fy
+    w11 = fx * fy
+
+    samples = (v00, v10, v01, v11)
+    weights = (w00, w10, w01, w11)
+
+    numerator = np.zeros_like(fx, dtype=np.float64)
+    weight_sum = np.zeros_like(fx, dtype=np.float64)
+    valid_neighbors = np.zeros_like(fx, dtype=np.uint8)
+
+    for sample, weight in zip(samples, weights):
+        valid = np.isfinite(sample)
+        numerator += np.where(valid, sample * weight, 0.0)
+        weight_sum += np.where(valid, weight, 0.0)
+        valid_neighbors += valid.astype(np.uint8)
+
+    # Require at least two model neighbours and enough interpolation weight.
+    # This smooths isolated holes but does not bridge large missing regions.
+    usable = (valid_neighbors >= 2) & (weight_sum >= MIN_BILINEAR_WEIGHT)
+    result = np.full_like(fx, np.nan, dtype=np.float64)
+    result[usable] = numerator[usable] / weight_sum[usable]
+    return result
 
 
 def colorize_tile(values_m: np.ndarray, visible: np.ndarray) -> Image.Image:
@@ -206,20 +290,21 @@ def save_frame_tiles(
     tiles: List[mercantile.Tile],
     samplers: Dict[Tuple[int, int, int], Dict[str, np.ndarray]],
     values: np.ndarray,
-) -> str:
+) -> Tuple[str, int]:
     frame_dir_name = f"{frame_index:03d}"
     frame_root = output_dir / frame_dir_name / str(zoom)
+    filled_values, filled_count = fill_isolated_gaps(values)
 
     for tile in tiles:
         sampler = samplers[(tile.z, tile.x, tile.y)]
-        sampled = values[sampler["j"], sampler["i"]]
+        sampled = bilinear_sample(filled_values, sampler)
         image = colorize_tile(sampled, sampler["visible"])
 
         target_dir = frame_root / str(tile.x)
         target_dir.mkdir(parents=True, exist_ok=True)
         image.save(target_dir / f"{tile.y}.webp", format="WEBP", lossless=True, method=6)
 
-    return frame_dir_name
+    return frame_dir_name, filled_count
 
 
 def main() -> int:
@@ -249,8 +334,6 @@ def main() -> int:
     grid_info = None
     samplers = None
     tiles: List[mercantile.Tile] = []
-    lat_axis = None
-    lon_axis = None
 
     try:
         with tempfile.TemporaryDirectory(prefix="strandvejr-idw-tiles-") as tmpdir:
@@ -281,7 +364,7 @@ def main() -> int:
                         f"zoom={args.zoom}; tiles={len(tiles)}"
                     )
 
-                frame_dir = save_frame_tiles(
+                frame_dir, filled_count = save_frame_tiles(
                     staging_dir,
                     frame_index,
                     args.zoom,
@@ -289,11 +372,13 @@ def main() -> int:
                     samplers,
                     values,
                 )
+                print(f"[IDW XYZ {frame_index + 1}/{len(steps)}] udfyldte {filled_count} isolerede gridhuller")
                 frames.append({
                     "index": frame_index,
                     "time": base.iso_z(valid_time),
                     "directory": frame_dir,
                     "tileTemplate": f"{frame_dir}/{args.zoom}/{{x}}/{{y}}.webp",
+                    "isolatedGapCellsFilled": filled_count,
                 })
 
         metadata = {
@@ -304,6 +389,13 @@ def main() -> int:
             "projection": "EPSG:3857 XYZ",
             "tileSize": TILE_SIZE,
             "nativeZoom": args.zoom,
+            "sampling": {
+                "method": "bilinear with valid-neighbour renormalization",
+                "minimumValidNeighbours": 2,
+                "minimumValidWeight": MIN_BILINEAR_WEIGHT,
+                "isolatedGapFillMinimumNeighbours": MIN_GAP_NEIGHBORS,
+                "osmWaterMask": True,
+            },
             "bounds": bounds,
             "grid": grid_info,
             "parameter": {
