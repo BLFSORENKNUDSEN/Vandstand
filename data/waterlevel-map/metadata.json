@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12T11:42:54Z",
+  "generated": "2026-08-12T12:18:31Z",
   "source": "DMI DKSS via Forecast Data STAC API",
   "projection": "EPSG:3857 raster in Leaflet imageOverlay bounds",
   "parameter": {
