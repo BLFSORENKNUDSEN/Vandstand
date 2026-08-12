@@ -261,10 +261,6 @@ def mercator_y_from_lat(lat_deg: np.ndarray) -> np.ndarray:
     return np.log(np.tan(np.pi / 4.0 + lat_rad / 2.0))
 
 
-def lat_from_mercator_y(y: np.ndarray) -> np.ndarray:
-    return np.degrees(2.0 * np.arctan(np.exp(y)) - np.pi / 2.0)
-
-
 def projected_xy(lats: np.ndarray, lons: np.ndarray) -> np.ndarray:
     return np.column_stack((np.radians(lons).ravel(), mercator_y_from_lat(lats).ravel()))
 
@@ -280,10 +276,40 @@ def estimate_source_spacing(source_xy: np.ndarray) -> float:
     return spacing
 
 
+def native_grid_edges(lat_grid: np.ndarray, lon_grid: np.ndarray) -> Tuple[float, float, float, float]:
+    """Return south, west, north, east from actual grid point centres."""
+    finite_lats = lat_grid[np.isfinite(lat_grid)]
+    finite_lons = lon_grid[np.isfinite(lon_grid)]
+    if finite_lats.size < 2 or finite_lons.size < 2:
+        raise RuntimeError("Kan ikke bestemme native gridkanter")
+
+    lat_values = np.unique(np.round(finite_lats, 10))
+    lon_values = np.unique(np.round(finite_lons, 10))
+    lat_values.sort()
+    lon_values.sort()
+
+    lat_diffs = np.diff(lat_values)
+    lon_diffs = np.diff(lon_values)
+    lat_diffs = lat_diffs[lat_diffs > 1e-10]
+    lon_diffs = lon_diffs[lon_diffs > 1e-10]
+    if lat_diffs.size == 0 or lon_diffs.size == 0:
+        raise RuntimeError("Kan ikke bestemme native gridafstand")
+
+    dlat = float(np.median(lat_diffs))
+    dlon = float(np.median(lon_diffs))
+
+    south = float(lat_values[0] - dlat / 2.0)
+    north = float(lat_values[-1] + dlat / 2.0)
+    west = float(lon_values[0] - dlon / 2.0)
+    east = float(lon_values[-1] + dlon / 2.0)
+    return south, west, north, east
+
+
 def resample_to_web_mercator(
     lat_grid: np.ndarray,
     lon_grid: np.ndarray,
     value_grid: np.ndarray,
+    collection: str,
 ) -> Tuple[np.ndarray, List[List[float]]]:
     finite_coords = np.isfinite(lat_grid) & np.isfinite(lon_grid)
     if not np.any(finite_coords):
@@ -296,21 +322,35 @@ def resample_to_web_mercator(
     tree = cKDTree(source_xy)
     spacing = estimate_source_spacing(source_xy)
 
-    source_x = source_xy[:, 0]
-    source_y = source_xy[:, 1]
-    west_x = float(np.nanmin(source_x))
-    east_x = float(np.nanmax(source_x))
-    south_y = float(np.nanmin(source_y))
-    north_y = float(np.nanmax(source_y))
-
     height, width = value_grid.shape
-    dx = (east_x - west_x) / max(width - 1, 1)
-    dy = (north_y - south_y) / max(height - 1, 1)
 
-    west_edge = west_x - dx / 2.0
-    east_edge = east_x + dx / 2.0
-    south_edge_y = south_y - dy / 2.0
-    north_edge_y = north_y + dy / 2.0
+    if collection == "dkss_idw":
+        south, west, north, east = native_grid_edges(lat_grid, lon_grid)
+        print(
+            f"[{collection}] native bounds: "
+            f"south={south:.6f} west={west:.6f} north={north:.6f} east={east:.6f}"
+        )
+        west_edge = math.radians(west)
+        east_edge = math.radians(east)
+        north_edge_y = float(mercator_y_from_lat(np.array([north]))[0])
+        south_edge_y = float(mercator_y_from_lat(np.array([south]))[0])
+    else:
+        source_x = source_xy[:, 0]
+        source_y = source_xy[:, 1]
+        west_x = float(np.nanmin(source_x))
+        east_x = float(np.nanmax(source_x))
+        south_y = float(np.nanmin(source_y))
+        north_y = float(np.nanmax(source_y))
+        dx = (east_x - west_x) / max(width - 1, 1)
+        dy = (north_y - south_y) / max(height - 1, 1)
+        west_edge = west_x - dx / 2.0
+        east_edge = east_x + dx / 2.0
+        south_edge_y = south_y - dy / 2.0
+        north_edge_y = north_y + dy / 2.0
+        south = float(np.degrees(2.0 * np.arctan(np.exp(south_edge_y)) - np.pi / 2.0))
+        north = float(np.degrees(2.0 * np.arctan(np.exp(north_edge_y)) - np.pi / 2.0))
+        west = math.degrees(west_edge)
+        east = math.degrees(east_edge)
 
     target_x = west_edge + (np.arange(width, dtype=np.float64) + 0.5) * ((east_edge - west_edge) / width)
     target_y = north_edge_y - (np.arange(height, dtype=np.float64) + 0.5) * ((north_edge_y - south_edge_y) / height)
@@ -322,10 +362,6 @@ def resample_to_web_mercator(
     distance_grid = distances.reshape((height, width))
     sampled[distance_grid > spacing * 1.8] = np.nan
 
-    south = float(lat_from_mercator_y(np.array([south_edge_y]))[0])
-    north = float(lat_from_mercator_y(np.array([north_edge_y]))[0])
-    west = math.degrees(west_edge)
-    east = math.degrees(east_edge)
     return sampled, [[south, west], [north, east]]
 
 
@@ -338,13 +374,13 @@ def colorize(values_m: np.ndarray) -> Image.Image:
 
     stop_values = np.array([stop[0] for stop in COLOR_STOPS], dtype=np.float64)
     stop_colors = np.array([stop[1] for stop in COLOR_STOPS], dtype=np.float64)
-    clipped = np.clip(values_cm, stop_values[0], stop_values[-1])
+    clipped = np.where(valid, np.clip(values_cm, stop_values[0], stop_values[-1]), stop_values[0])
 
     for channel in range(4):
         rgba[..., channel] = np.interp(clipped, stop_values, stop_colors[:, channel]).astype(np.uint8)
 
     rgba[..., 3] = np.where(valid, rgba[..., 3], 0)
-    return Image.fromarray(rgba, mode="RGBA")
+    return Image.fromarray(rgba)
 
 
 def frame_name(index: int, collection: str) -> str:
@@ -385,7 +421,9 @@ def process_collection(
                 else:
                     print(f"[{collection}] GRIB indeholder ingen bitmap")
 
-            projected_values, current_bounds = resample_to_web_mercator(lat_grid, lon_grid, values)
+            projected_values, current_bounds = resample_to_web_mercator(
+                lat_grid, lon_grid, values, collection
+            )
             if bounds is None:
                 bounds = current_bounds
 
