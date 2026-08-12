@@ -40,7 +40,7 @@ jobs:
         run: python scripts/fetch_waterlevel.py --output data/waterlevel.json --hours 24 --step 3
 
       - name: Generer animeret vandstandskort
-        run: python scripts/generate_waterlevel_map.py --output-dir data/waterlevel-map --hours 48 --step 1
+        run: python scripts/generate_waterlevel_map_v2.py --output-dir data/waterlevel-map --hours 48 --step 1
 
       - name: Ret IDW georeferering fra GRIB metadata
         run: python scripts/correct_idw_georef.py --data-dir data/waterlevel-map --collection dkss_idw
