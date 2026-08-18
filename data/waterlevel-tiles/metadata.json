@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-18T04:11:45Z",
+  "generated": "2026-08-18T10:02:29Z",
   "source": "DMI DKSS dkss_idw via Forecast Data STAC API",
   "collection": "dkss_idw",
-  "modelRun": "2026-08-18T00:00:00Z",
+  "modelRun": "2026-08-18T06:00:00Z",
   "projection": "EPSG:3857 XYZ",
   "tileSize": 256,
   "nativeZoom": 9,
@@ -146,343 +146,343 @@
   "frames": [
     {
       "index": 0,
-      "time": "2026-08-18T04:00:00Z",
+      "time": "2026-08-18T10:00:00Z",
       "directory": "000",
       "tileTemplate": "000/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 1,
-      "time": "2026-08-18T05:00:00Z",
+      "time": "2026-08-18T11:00:00Z",
       "directory": "001",
       "tileTemplate": "001/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 2,
-      "time": "2026-08-18T06:00:00Z",
+      "time": "2026-08-18T12:00:00Z",
       "directory": "002",
       "tileTemplate": "002/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 3,
-      "time": "2026-08-18T07:00:00Z",
+      "time": "2026-08-18T13:00:00Z",
       "directory": "003",
       "tileTemplate": "003/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 4,
-      "time": "2026-08-18T08:00:00Z",
+      "time": "2026-08-18T14:00:00Z",
       "directory": "004",
       "tileTemplate": "004/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 5,
-      "time": "2026-08-18T09:00:00Z",
+      "time": "2026-08-18T15:00:00Z",
       "directory": "005",
       "tileTemplate": "005/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 6,
-      "time": "2026-08-18T10:00:00Z",
+      "time": "2026-08-18T16:00:00Z",
       "directory": "006",
       "tileTemplate": "006/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 7,
-      "time": "2026-08-18T11:00:00Z",
+      "time": "2026-08-18T17:00:00Z",
       "directory": "007",
       "tileTemplate": "007/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 8,
-      "time": "2026-08-18T12:00:00Z",
+      "time": "2026-08-18T18:00:00Z",
       "directory": "008",
       "tileTemplate": "008/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 9,
-      "time": "2026-08-18T13:00:00Z",
+      "time": "2026-08-18T19:00:00Z",
       "directory": "009",
       "tileTemplate": "009/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 10,
-      "time": "2026-08-18T14:00:00Z",
+      "time": "2026-08-18T20:00:00Z",
       "directory": "010",
       "tileTemplate": "010/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 11,
-      "time": "2026-08-18T15:00:00Z",
+      "time": "2026-08-18T21:00:00Z",
       "directory": "011",
       "tileTemplate": "011/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 12,
-      "time": "2026-08-18T16:00:00Z",
+      "time": "2026-08-18T22:00:00Z",
       "directory": "012",
       "tileTemplate": "012/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 13,
-      "time": "2026-08-18T17:00:00Z",
+      "time": "2026-08-18T23:00:00Z",
       "directory": "013",
       "tileTemplate": "013/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 14,
-      "time": "2026-08-18T18:00:00Z",
+      "time": "2026-08-19T00:00:00Z",
       "directory": "014",
       "tileTemplate": "014/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 15,
-      "time": "2026-08-18T19:00:00Z",
+      "time": "2026-08-19T01:00:00Z",
       "directory": "015",
       "tileTemplate": "015/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 16,
-      "time": "2026-08-18T20:00:00Z",
+      "time": "2026-08-19T02:00:00Z",
       "directory": "016",
       "tileTemplate": "016/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 17,
-      "time": "2026-08-18T21:00:00Z",
+      "time": "2026-08-19T03:00:00Z",
       "directory": "017",
       "tileTemplate": "017/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 18,
-      "time": "2026-08-18T22:00:00Z",
+      "time": "2026-08-19T04:00:00Z",
       "directory": "018",
       "tileTemplate": "018/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 19,
-      "time": "2026-08-18T23:00:00Z",
+      "time": "2026-08-19T05:00:00Z",
       "directory": "019",
       "tileTemplate": "019/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 20,
-      "time": "2026-08-19T00:00:00Z",
+      "time": "2026-08-19T06:00:00Z",
       "directory": "020",
       "tileTemplate": "020/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 21,
-      "time": "2026-08-19T01:00:00Z",
+      "time": "2026-08-19T07:00:00Z",
       "directory": "021",
       "tileTemplate": "021/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 22,
-      "time": "2026-08-19T02:00:00Z",
+      "time": "2026-08-19T08:00:00Z",
       "directory": "022",
       "tileTemplate": "022/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 23,
-      "time": "2026-08-19T03:00:00Z",
+      "time": "2026-08-19T09:00:00Z",
       "directory": "023",
       "tileTemplate": "023/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 24,
-      "time": "2026-08-19T04:00:00Z",
+      "time": "2026-08-19T10:00:00Z",
       "directory": "024",
       "tileTemplate": "024/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 25,
-      "time": "2026-08-19T05:00:00Z",
+      "time": "2026-08-19T11:00:00Z",
       "directory": "025",
       "tileTemplate": "025/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 26,
-      "time": "2026-08-19T06:00:00Z",
+      "time": "2026-08-19T12:00:00Z",
       "directory": "026",
       "tileTemplate": "026/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 27,
-      "time": "2026-08-19T07:00:00Z",
+      "time": "2026-08-19T13:00:00Z",
       "directory": "027",
       "tileTemplate": "027/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 28,
-      "time": "2026-08-19T08:00:00Z",
+      "time": "2026-08-19T14:00:00Z",
       "directory": "028",
       "tileTemplate": "028/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 29,
-      "time": "2026-08-19T09:00:00Z",
+      "time": "2026-08-19T15:00:00Z",
       "directory": "029",
       "tileTemplate": "029/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 30,
-      "time": "2026-08-19T10:00:00Z",
+      "time": "2026-08-19T16:00:00Z",
       "directory": "030",
       "tileTemplate": "030/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 31,
-      "time": "2026-08-19T11:00:00Z",
+      "time": "2026-08-19T17:00:00Z",
       "directory": "031",
       "tileTemplate": "031/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 32,
-      "time": "2026-08-19T12:00:00Z",
+      "time": "2026-08-19T18:00:00Z",
       "directory": "032",
       "tileTemplate": "032/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 33,
-      "time": "2026-08-19T13:00:00Z",
+      "time": "2026-08-19T19:00:00Z",
       "directory": "033",
       "tileTemplate": "033/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 34,
-      "time": "2026-08-19T14:00:00Z",
+      "time": "2026-08-19T20:00:00Z",
       "directory": "034",
       "tileTemplate": "034/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 35,
-      "time": "2026-08-19T15:00:00Z",
+      "time": "2026-08-19T21:00:00Z",
       "directory": "035",
       "tileTemplate": "035/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 36,
-      "time": "2026-08-19T16:00:00Z",
+      "time": "2026-08-19T22:00:00Z",
       "directory": "036",
       "tileTemplate": "036/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 37,
-      "time": "2026-08-19T17:00:00Z",
+      "time": "2026-08-19T23:00:00Z",
       "directory": "037",
       "tileTemplate": "037/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 38,
-      "time": "2026-08-19T18:00:00Z",
+      "time": "2026-08-20T00:00:00Z",
       "directory": "038",
       "tileTemplate": "038/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 39,
-      "time": "2026-08-19T19:00:00Z",
+      "time": "2026-08-20T01:00:00Z",
       "directory": "039",
       "tileTemplate": "039/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 40,
-      "time": "2026-08-19T20:00:00Z",
+      "time": "2026-08-20T02:00:00Z",
       "directory": "040",
       "tileTemplate": "040/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 41,
-      "time": "2026-08-19T21:00:00Z",
+      "time": "2026-08-20T03:00:00Z",
       "directory": "041",
       "tileTemplate": "041/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 42,
-      "time": "2026-08-19T22:00:00Z",
+      "time": "2026-08-20T04:00:00Z",
       "directory": "042",
       "tileTemplate": "042/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 43,
-      "time": "2026-08-19T23:00:00Z",
+      "time": "2026-08-20T05:00:00Z",
       "directory": "043",
       "tileTemplate": "043/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 44,
-      "time": "2026-08-20T00:00:00Z",
+      "time": "2026-08-20T06:00:00Z",
       "directory": "044",
       "tileTemplate": "044/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 45,
-      "time": "2026-08-20T01:00:00Z",
+      "time": "2026-08-20T07:00:00Z",
       "directory": "045",
       "tileTemplate": "045/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 46,
-      "time": "2026-08-20T02:00:00Z",
+      "time": "2026-08-20T08:00:00Z",
       "directory": "046",
       "tileTemplate": "046/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 47,
-      "time": "2026-08-20T03:00:00Z",
+      "time": "2026-08-20T09:00:00Z",
       "directory": "047",
       "tileTemplate": "047/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
     },
     {
       "index": 48,
-      "time": "2026-08-20T04:00:00Z",
+      "time": "2026-08-20T10:00:00Z",
       "directory": "048",
       "tileTemplate": "048/9/{x}/{y}.webp",
       "isolatedGapCellsFilled": 746
