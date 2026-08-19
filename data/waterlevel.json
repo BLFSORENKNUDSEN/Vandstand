@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-19T16:00:05Z",
+  "generated": "2026-08-19T21:53:54Z",
   "source": "DMI DKSS via Forecast Data STAC API",
   "parameter": {
     "id": 82,
@@ -20,7 +20,7 @@
       "available": true,
       "quality": "good",
       "collection": "dkss_nsbs",
-      "modelRun": "2026-08-19T12:00:00Z",
+      "modelRun": "2026-08-19T18:00:00Z",
       "modelPoint": {
         "lat": 54.97499999999963,
         "lon": 11.875154963680409,
@@ -29,7 +29,7 @@
       "candidateModels": [
         {
           "collection": "dkss_nsbs",
-          "modelRun": "2026-08-19T12:00:00Z",
+          "modelRun": "2026-08-19T18:00:00Z",
           "distanceKm": 2.661,
           "modelPoint": {
             "lat": 54.97499999999963,
@@ -38,7 +38,7 @@
         },
         {
           "collection": "dkss_idw",
-          "modelRun": "2026-08-19T12:00:00Z",
+          "modelRun": "2026-08-19T18:00:00Z",
           "distanceKm": 3.806,
           "modelPoint": {
             "lat": 54.98700000000047,
@@ -48,40 +48,40 @@
       ],
       "forecast": [
         {
-          "time": "2026-08-19T16:00:00Z",
-          "levelCm": 27
-        },
-        {
-          "time": "2026-08-19T19:00:00Z",
-          "levelCm": 44
-        },
-        {
           "time": "2026-08-19T22:00:00Z",
-          "levelCm": 17
+          "levelCm": 16
         },
         {
           "time": "2026-08-20T01:00:00Z",
-          "levelCm": 5
+          "levelCm": 3
         },
         {
           "time": "2026-08-20T04:00:00Z",
-          "levelCm": 33
+          "levelCm": 34
         },
         {
           "time": "2026-08-20T07:00:00Z",
-          "levelCm": 47
+          "levelCm": 48
         },
         {
           "time": "2026-08-20T10:00:00Z",
-          "levelCm": 28
+          "levelCm": 29
         },
         {
           "time": "2026-08-20T13:00:00Z",
-          "levelCm": 11
+          "levelCm": 10
         },
         {
           "time": "2026-08-20T16:00:00Z",
           "levelCm": 22
+        },
+        {
+          "time": "2026-08-20T19:00:00Z",
+          "levelCm": 44
+        },
+        {
+          "time": "2026-08-20T22:00:00Z",
+          "levelCm": 31
         }
       ],
       "reason": null
@@ -94,7 +94,7 @@
       "available": true,
       "quality": "good",
       "collection": "dkss_idw",
-      "modelRun": "2026-08-19T12:00:00Z",
+      "modelRun": "2026-08-19T18:00:00Z",
       "modelPoint": {
         "lat": 54.89100000000044,
         "lon": 12.048278481012831,
@@ -103,7 +103,7 @@
       "candidateModels": [
         {
           "collection": "dkss_idw",
-          "modelRun": "2026-08-19T12:00:00Z",
+          "modelRun": "2026-08-19T18:00:00Z",
           "distanceKm": 0.127,
           "modelPoint": {
             "lat": 54.89100000000044,
@@ -113,20 +113,12 @@
       ],
       "forecast": [
         {
-          "time": "2026-08-19T16:00:00Z",
-          "levelCm": 25
-        },
-        {
-          "time": "2026-08-19T19:00:00Z",
-          "levelCm": 39
-        },
-        {
           "time": "2026-08-19T22:00:00Z",
-          "levelCm": 22
+          "levelCm": 20
         },
         {
           "time": "2026-08-20T01:00:00Z",
-          "levelCm": 9
+          "levelCm": 7
         },
         {
           "time": "2026-08-20T04:00:00Z",
@@ -134,19 +126,27 @@
         },
         {
           "time": "2026-08-20T07:00:00Z",
-          "levelCm": 44
+          "levelCm": 46
         },
         {
           "time": "2026-08-20T10:00:00Z",
-          "levelCm": 32
+          "levelCm": 33
         },
         {
           "time": "2026-08-20T13:00:00Z",
-          "levelCm": 18
+          "levelCm": 17
         },
         {
           "time": "2026-08-20T16:00:00Z",
-          "levelCm": 21
+          "levelCm": 20
+        },
+        {
+          "time": "2026-08-20T19:00:00Z",
+          "levelCm": 38
+        },
+        {
+          "time": "2026-08-20T22:00:00Z",
+          "levelCm": 34
         }
       ],
       "reason": null
@@ -159,7 +159,7 @@
       "available": true,
       "quality": "good",
       "collection": "dkss_idw",
-      "modelRun": "2026-08-19T12:00:00Z",
+      "modelRun": "2026-08-19T18:00:00Z",
       "modelPoint": {
         "lat": 54.82700000000042,
         "lon": 12.131610126582457,
@@ -168,7 +168,7 @@
       "candidateModels": [
         {
           "collection": "dkss_idw",
-          "modelRun": "2026-08-19T12:00:00Z",
+          "modelRun": "2026-08-19T18:00:00Z",
           "distanceKm": 0.6,
           "modelPoint": {
             "lat": 54.82700000000042,
@@ -178,20 +178,12 @@
       ],
       "forecast": [
         {
-          "time": "2026-08-19T16:00:00Z",
+          "time": "2026-08-19T22:00:00Z",
           "levelCm": 22
         },
         {
-          "time": "2026-08-19T19:00:00Z",
-          "levelCm": 32
-        },
-        {
-          "time": "2026-08-19T22:00:00Z",
-          "levelCm": 23
-        },
-        {
           "time": "2026-08-20T01:00:00Z",
-          "levelCm": 11
+          "levelCm": 10
         },
         {
           "time": "2026-08-20T04:00:00Z",
@@ -203,7 +195,7 @@
         },
         {
           "time": "2026-08-20T10:00:00Z",
-          "levelCm": 35
+          "levelCm": 36
         },
         {
           "time": "2026-08-20T13:00:00Z",
@@ -211,7 +203,15 @@
         },
         {
           "time": "2026-08-20T16:00:00Z",
-          "levelCm": 22
+          "levelCm": 20
+        },
+        {
+          "time": "2026-08-20T19:00:00Z",
+          "levelCm": 34
+        },
+        {
+          "time": "2026-08-20T22:00:00Z",
+          "levelCm": 35
         }
       ],
       "reason": null
