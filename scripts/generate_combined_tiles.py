@@ -44,25 +44,27 @@ MIN_BILINEAR_WEIGHT = 0.45
 
 # DMI vandstandsskala aflæst fra DMI kortet. Værdier i cm, farver som RGBA.
 DMI_COLOR_STOPS = [
-    (-200, (71, 96, 160, 255)),
-    (-180, (0, 143, 233, 255)),
-    (-120, (22, 225, 204, 255)),
-    (-90, (125, 238, 226, 255)),
-    (-60, (158, 242, 233, 255)),
-    (-30, (255, 236, 127, 255)),
-    (0, (255, 217, 0, 255)),
-    (30, (255, 178, 0, 255)),
-    (60, (255, 142, 82, 255)),
-    (90, (255, 181, 181, 255)),
-    (120, (255, 157, 157, 255)),
-    (150, (255, 124, 124, 255)),
-    (180, (255, 82, 82, 255)),
-    (240, (230, 57, 57, 255)),
-    (300, (204, 31, 31, 255)),
-    (360, (128, 0, 0, 255)),
-    (420, (110, 0, 25, 255)),
+    (-200, (0, 143, 233, 255)),
+    (-180, (61, 171, 238, 255)),
+    (-120, (109, 191, 242, 255)),
+    (-90, (22, 225, 204, 255)),
+    (-60, (125, 238, 226, 255)),
+    (-30, (158, 242, 233, 255)),
+    (0, (255, 236, 127, 255)),
+    (30, (255, 217, 0, 255)),
+    (60, (255, 178, 0, 255)),
+    (90, (255, 142, 82, 255)),
+    (120, (255, 181, 181, 255)),
+    (150, (255, 157, 157, 255)),
+    (180, (255, 124, 124, 255)),
+    (240, (255, 82, 82, 255)),
+    (300, (230, 57, 57, 255)),
+    (360, (204, 31, 31, 255)),
+    (420, (128, 0, 0, 255)),
     (480, (92, 0, 51, 255)),
 ]
+
+DMI_UNDER_COLOR = (71, 96, 160, 255)
 
 
 def read_model_grid(grib_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray, Dict[str, Any]]:
@@ -310,6 +312,11 @@ def colorize(values_m: np.ndarray, water_mask: np.ndarray) -> Image.Image:
 
     for channel in range(4):
         rgba[..., channel] = np.interp(safe, stop_values, stop_colors[:, channel]).astype(np.uint8)
+
+    under = valid & (values_cm < -200.0)
+    if np.any(under):
+        rgba[under] = np.array(DMI_UNDER_COLOR, dtype=np.uint8)
+
     rgba[..., 3] = np.where(valid, 235, 0).astype(np.uint8)
     return Image.fromarray(rgba)
 
@@ -460,6 +467,10 @@ def main() -> int:
             "colorStops": [
                 {"cm": value, "rgba": list(color)} for value, color in DMI_COLOR_STOPS
             ],
+            "underColor": {
+                "belowCm": -200,
+                "rgba": list(DMI_UNDER_COLOR),
+            },
             "sampling": {
                 "idwPriority": True,
                 "nsbsFallback": True,
