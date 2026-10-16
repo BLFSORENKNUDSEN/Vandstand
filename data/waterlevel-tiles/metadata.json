@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T16:00:10Z",
+  "generated": "2026-10-16T16:58:27Z",
   "source": "DMI DKSS combined dkss_idw + dkss_nsbs via Forecast Data STAC API",
   "collection": "dkss_combined",
   "modelRuns": {
@@ -51,15 +51,6 @@
     {
       "cm": -200,
       "rgba": [
-        71,
-        96,
-        160,
-        255
-      ]
-    },
-    {
-      "cm": -180,
-      "rgba": [
         0,
         143,
         233,
@@ -67,7 +58,25 @@
       ]
     },
     {
+      "cm": -180,
+      "rgba": [
+        61,
+        171,
+        238,
+        255
+      ]
+    },
+    {
       "cm": -120,
+      "rgba": [
+        109,
+        191,
+        242,
+        255
+      ]
+    },
+    {
+      "cm": -90,
       "rgba": [
         22,
         225,
@@ -76,7 +85,7 @@
       ]
     },
     {
-      "cm": -90,
+      "cm": -60,
       "rgba": [
         125,
         238,
@@ -85,7 +94,7 @@
       ]
     },
     {
-      "cm": -60,
+      "cm": -30,
       "rgba": [
         158,
         242,
@@ -94,7 +103,7 @@
       ]
     },
     {
-      "cm": -30,
+      "cm": 0,
       "rgba": [
         255,
         236,
@@ -103,7 +112,7 @@
       ]
     },
     {
-      "cm": 0,
+      "cm": 30,
       "rgba": [
         255,
         217,
@@ -112,7 +121,7 @@
       ]
     },
     {
-      "cm": 30,
+      "cm": 60,
       "rgba": [
         255,
         178,
@@ -121,7 +130,7 @@
       ]
     },
     {
-      "cm": 60,
+      "cm": 90,
       "rgba": [
         255,
         142,
@@ -130,20 +139,11 @@
       ]
     },
     {
-      "cm": 90,
-      "rgba": [
-        255,
-        181,
-        181,
-        255
-      ]
-    },
-    {
       "cm": 120,
       "rgba": [
         255,
-        157,
-        157,
+        181,
+        181,
         255
       ]
     },
@@ -151,13 +151,22 @@
       "cm": 150,
       "rgba": [
         255,
+        157,
+        157,
+        255
+      ]
+    },
+    {
+      "cm": 180,
+      "rgba": [
+        255,
         124,
         124,
         255
       ]
     },
     {
-      "cm": 180,
+      "cm": 240,
       "rgba": [
         255,
         82,
@@ -166,7 +175,7 @@
       ]
     },
     {
-      "cm": 240,
+      "cm": 300,
       "rgba": [
         230,
         57,
@@ -175,7 +184,7 @@
       ]
     },
     {
-      "cm": 300,
+      "cm": 360,
       "rgba": [
         204,
         31,
@@ -184,20 +193,11 @@
       ]
     },
     {
-      "cm": 360,
+      "cm": 420,
       "rgba": [
         128,
         0,
         0,
-        255
-      ]
-    },
-    {
-      "cm": 420,
-      "rgba": [
-        110,
-        0,
-        25,
         255
       ]
     },
@@ -211,6 +211,15 @@
       ]
     }
   ],
+  "underColor": {
+    "belowCm": -200,
+    "rgba": [
+      71,
+      96,
+      160,
+      255
+    ]
+  },
   "sampling": {
     "idwPriority": true,
     "nsbsFallback": true,
@@ -220,7 +229,7 @@
   "frames": [
     {
       "index": 0,
-      "time": "2026-10-16T16:00:00Z",
+      "time": "2026-10-16T17:00:00Z",
       "directory": "000",
       "tileTemplate": "000/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -228,7 +237,7 @@
     },
     {
       "index": 1,
-      "time": "2026-10-16T17:00:00Z",
+      "time": "2026-10-16T18:00:00Z",
       "directory": "001",
       "tileTemplate": "001/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -236,7 +245,7 @@
     },
     {
       "index": 2,
-      "time": "2026-10-16T18:00:00Z",
+      "time": "2026-10-16T19:00:00Z",
       "directory": "002",
       "tileTemplate": "002/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -244,7 +253,7 @@
     },
     {
       "index": 3,
-      "time": "2026-10-16T19:00:00Z",
+      "time": "2026-10-16T20:00:00Z",
       "directory": "003",
       "tileTemplate": "003/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -252,7 +261,7 @@
     },
     {
       "index": 4,
-      "time": "2026-10-16T20:00:00Z",
+      "time": "2026-10-16T21:00:00Z",
       "directory": "004",
       "tileTemplate": "004/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -260,7 +269,7 @@
     },
     {
       "index": 5,
-      "time": "2026-10-16T21:00:00Z",
+      "time": "2026-10-16T22:00:00Z",
       "directory": "005",
       "tileTemplate": "005/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -268,7 +277,7 @@
     },
     {
       "index": 6,
-      "time": "2026-10-16T22:00:00Z",
+      "time": "2026-10-16T23:00:00Z",
       "directory": "006",
       "tileTemplate": "006/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -276,7 +285,7 @@
     },
     {
       "index": 7,
-      "time": "2026-10-16T23:00:00Z",
+      "time": "2026-10-17T00:00:00Z",
       "directory": "007",
       "tileTemplate": "007/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -284,7 +293,7 @@
     },
     {
       "index": 8,
-      "time": "2026-10-17T00:00:00Z",
+      "time": "2026-10-17T01:00:00Z",
       "directory": "008",
       "tileTemplate": "008/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -292,7 +301,7 @@
     },
     {
       "index": 9,
-      "time": "2026-10-17T01:00:00Z",
+      "time": "2026-10-17T02:00:00Z",
       "directory": "009",
       "tileTemplate": "009/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -300,7 +309,7 @@
     },
     {
       "index": 10,
-      "time": "2026-10-17T02:00:00Z",
+      "time": "2026-10-17T03:00:00Z",
       "directory": "010",
       "tileTemplate": "010/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -308,7 +317,7 @@
     },
     {
       "index": 11,
-      "time": "2026-10-17T03:00:00Z",
+      "time": "2026-10-17T04:00:00Z",
       "directory": "011",
       "tileTemplate": "011/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -316,7 +325,7 @@
     },
     {
       "index": 12,
-      "time": "2026-10-17T04:00:00Z",
+      "time": "2026-10-17T05:00:00Z",
       "directory": "012",
       "tileTemplate": "012/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -324,7 +333,7 @@
     },
     {
       "index": 13,
-      "time": "2026-10-17T05:00:00Z",
+      "time": "2026-10-17T06:00:00Z",
       "directory": "013",
       "tileTemplate": "013/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -332,7 +341,7 @@
     },
     {
       "index": 14,
-      "time": "2026-10-17T06:00:00Z",
+      "time": "2026-10-17T07:00:00Z",
       "directory": "014",
       "tileTemplate": "014/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -340,7 +349,7 @@
     },
     {
       "index": 15,
-      "time": "2026-10-17T07:00:00Z",
+      "time": "2026-10-17T08:00:00Z",
       "directory": "015",
       "tileTemplate": "015/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -348,7 +357,7 @@
     },
     {
       "index": 16,
-      "time": "2026-10-17T08:00:00Z",
+      "time": "2026-10-17T09:00:00Z",
       "directory": "016",
       "tileTemplate": "016/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -356,7 +365,7 @@
     },
     {
       "index": 17,
-      "time": "2026-10-17T09:00:00Z",
+      "time": "2026-10-17T10:00:00Z",
       "directory": "017",
       "tileTemplate": "017/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -364,7 +373,7 @@
     },
     {
       "index": 18,
-      "time": "2026-10-17T10:00:00Z",
+      "time": "2026-10-17T11:00:00Z",
       "directory": "018",
       "tileTemplate": "018/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -372,7 +381,7 @@
     },
     {
       "index": 19,
-      "time": "2026-10-17T11:00:00Z",
+      "time": "2026-10-17T12:00:00Z",
       "directory": "019",
       "tileTemplate": "019/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -380,7 +389,7 @@
     },
     {
       "index": 20,
-      "time": "2026-10-17T12:00:00Z",
+      "time": "2026-10-17T13:00:00Z",
       "directory": "020",
       "tileTemplate": "020/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -388,7 +397,7 @@
     },
     {
       "index": 21,
-      "time": "2026-10-17T13:00:00Z",
+      "time": "2026-10-17T14:00:00Z",
       "directory": "021",
       "tileTemplate": "021/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -396,7 +405,7 @@
     },
     {
       "index": 22,
-      "time": "2026-10-17T14:00:00Z",
+      "time": "2026-10-17T15:00:00Z",
       "directory": "022",
       "tileTemplate": "022/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -404,7 +413,7 @@
     },
     {
       "index": 23,
-      "time": "2026-10-17T15:00:00Z",
+      "time": "2026-10-17T16:00:00Z",
       "directory": "023",
       "tileTemplate": "023/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -412,7 +421,7 @@
     },
     {
       "index": 24,
-      "time": "2026-10-17T16:00:00Z",
+      "time": "2026-10-17T17:00:00Z",
       "directory": "024",
       "tileTemplate": "024/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -420,7 +429,7 @@
     },
     {
       "index": 25,
-      "time": "2026-10-17T17:00:00Z",
+      "time": "2026-10-17T18:00:00Z",
       "directory": "025",
       "tileTemplate": "025/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -428,7 +437,7 @@
     },
     {
       "index": 26,
-      "time": "2026-10-17T18:00:00Z",
+      "time": "2026-10-17T19:00:00Z",
       "directory": "026",
       "tileTemplate": "026/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -436,7 +445,7 @@
     },
     {
       "index": 27,
-      "time": "2026-10-17T19:00:00Z",
+      "time": "2026-10-17T20:00:00Z",
       "directory": "027",
       "tileTemplate": "027/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -444,7 +453,7 @@
     },
     {
       "index": 28,
-      "time": "2026-10-17T20:00:00Z",
+      "time": "2026-10-17T21:00:00Z",
       "directory": "028",
       "tileTemplate": "028/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -452,7 +461,7 @@
     },
     {
       "index": 29,
-      "time": "2026-10-17T21:00:00Z",
+      "time": "2026-10-17T22:00:00Z",
       "directory": "029",
       "tileTemplate": "029/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -460,7 +469,7 @@
     },
     {
       "index": 30,
-      "time": "2026-10-17T22:00:00Z",
+      "time": "2026-10-17T23:00:00Z",
       "directory": "030",
       "tileTemplate": "030/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -468,7 +477,7 @@
     },
     {
       "index": 31,
-      "time": "2026-10-17T23:00:00Z",
+      "time": "2026-10-18T00:00:00Z",
       "directory": "031",
       "tileTemplate": "031/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -476,7 +485,7 @@
     },
     {
       "index": 32,
-      "time": "2026-10-18T00:00:00Z",
+      "time": "2026-10-18T01:00:00Z",
       "directory": "032",
       "tileTemplate": "032/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -484,7 +493,7 @@
     },
     {
       "index": 33,
-      "time": "2026-10-18T01:00:00Z",
+      "time": "2026-10-18T02:00:00Z",
       "directory": "033",
       "tileTemplate": "033/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -492,7 +501,7 @@
     },
     {
       "index": 34,
-      "time": "2026-10-18T02:00:00Z",
+      "time": "2026-10-18T03:00:00Z",
       "directory": "034",
       "tileTemplate": "034/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -500,7 +509,7 @@
     },
     {
       "index": 35,
-      "time": "2026-10-18T03:00:00Z",
+      "time": "2026-10-18T04:00:00Z",
       "directory": "035",
       "tileTemplate": "035/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -508,7 +517,7 @@
     },
     {
       "index": 36,
-      "time": "2026-10-18T04:00:00Z",
+      "time": "2026-10-18T05:00:00Z",
       "directory": "036",
       "tileTemplate": "036/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -516,7 +525,7 @@
     },
     {
       "index": 37,
-      "time": "2026-10-18T05:00:00Z",
+      "time": "2026-10-18T06:00:00Z",
       "directory": "037",
       "tileTemplate": "037/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -524,7 +533,7 @@
     },
     {
       "index": 38,
-      "time": "2026-10-18T06:00:00Z",
+      "time": "2026-10-18T07:00:00Z",
       "directory": "038",
       "tileTemplate": "038/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -532,7 +541,7 @@
     },
     {
       "index": 39,
-      "time": "2026-10-18T07:00:00Z",
+      "time": "2026-10-18T08:00:00Z",
       "directory": "039",
       "tileTemplate": "039/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -540,7 +549,7 @@
     },
     {
       "index": 40,
-      "time": "2026-10-18T08:00:00Z",
+      "time": "2026-10-18T09:00:00Z",
       "directory": "040",
       "tileTemplate": "040/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -548,7 +557,7 @@
     },
     {
       "index": 41,
-      "time": "2026-10-18T09:00:00Z",
+      "time": "2026-10-18T10:00:00Z",
       "directory": "041",
       "tileTemplate": "041/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -556,7 +565,7 @@
     },
     {
       "index": 42,
-      "time": "2026-10-18T10:00:00Z",
+      "time": "2026-10-18T11:00:00Z",
       "directory": "042",
       "tileTemplate": "042/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -564,7 +573,7 @@
     },
     {
       "index": 43,
-      "time": "2026-10-18T11:00:00Z",
+      "time": "2026-10-18T12:00:00Z",
       "directory": "043",
       "tileTemplate": "043/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -572,7 +581,7 @@
     },
     {
       "index": 44,
-      "time": "2026-10-18T12:00:00Z",
+      "time": "2026-10-18T13:00:00Z",
       "directory": "044",
       "tileTemplate": "044/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -580,7 +589,7 @@
     },
     {
       "index": 45,
-      "time": "2026-10-18T13:00:00Z",
+      "time": "2026-10-18T14:00:00Z",
       "directory": "045",
       "tileTemplate": "045/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -588,7 +597,7 @@
     },
     {
       "index": 46,
-      "time": "2026-10-18T14:00:00Z",
+      "time": "2026-10-18T15:00:00Z",
       "directory": "046",
       "tileTemplate": "046/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -596,7 +605,7 @@
     },
     {
       "index": 47,
-      "time": "2026-10-18T15:00:00Z",
+      "time": "2026-10-18T16:00:00Z",
       "directory": "047",
       "tileTemplate": "047/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -604,7 +613,7 @@
     },
     {
       "index": 48,
-      "time": "2026-10-18T16:00:00Z",
+      "time": "2026-10-18T17:00:00Z",
       "directory": "048",
       "tileTemplate": "048/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -612,7 +621,7 @@
     },
     {
       "index": 49,
-      "time": "2026-10-18T17:00:00Z",
+      "time": "2026-10-18T18:00:00Z",
       "directory": "049",
       "tileTemplate": "049/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -620,7 +629,7 @@
     },
     {
       "index": 50,
-      "time": "2026-10-18T18:00:00Z",
+      "time": "2026-10-18T19:00:00Z",
       "directory": "050",
       "tileTemplate": "050/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -628,7 +637,7 @@
     },
     {
       "index": 51,
-      "time": "2026-10-18T19:00:00Z",
+      "time": "2026-10-18T20:00:00Z",
       "directory": "051",
       "tileTemplate": "051/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -636,7 +645,7 @@
     },
     {
       "index": 52,
-      "time": "2026-10-18T20:00:00Z",
+      "time": "2026-10-18T21:00:00Z",
       "directory": "052",
       "tileTemplate": "052/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -644,7 +653,7 @@
     },
     {
       "index": 53,
-      "time": "2026-10-18T21:00:00Z",
+      "time": "2026-10-18T22:00:00Z",
       "directory": "053",
       "tileTemplate": "053/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -652,7 +661,7 @@
     },
     {
       "index": 54,
-      "time": "2026-10-18T22:00:00Z",
+      "time": "2026-10-18T23:00:00Z",
       "directory": "054",
       "tileTemplate": "054/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -660,7 +669,7 @@
     },
     {
       "index": 55,
-      "time": "2026-10-18T23:00:00Z",
+      "time": "2026-10-19T00:00:00Z",
       "directory": "055",
       "tileTemplate": "055/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -668,7 +677,7 @@
     },
     {
       "index": 56,
-      "time": "2026-10-19T00:00:00Z",
+      "time": "2026-10-19T01:00:00Z",
       "directory": "056",
       "tileTemplate": "056/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -676,7 +685,7 @@
     },
     {
       "index": 57,
-      "time": "2026-10-19T01:00:00Z",
+      "time": "2026-10-19T02:00:00Z",
       "directory": "057",
       "tileTemplate": "057/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -684,7 +693,7 @@
     },
     {
       "index": 58,
-      "time": "2026-10-19T02:00:00Z",
+      "time": "2026-10-19T03:00:00Z",
       "directory": "058",
       "tileTemplate": "058/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -692,7 +701,7 @@
     },
     {
       "index": 59,
-      "time": "2026-10-19T03:00:00Z",
+      "time": "2026-10-19T04:00:00Z",
       "directory": "059",
       "tileTemplate": "059/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -700,7 +709,7 @@
     },
     {
       "index": 60,
-      "time": "2026-10-19T04:00:00Z",
+      "time": "2026-10-19T05:00:00Z",
       "directory": "060",
       "tileTemplate": "060/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -708,7 +717,7 @@
     },
     {
       "index": 61,
-      "time": "2026-10-19T05:00:00Z",
+      "time": "2026-10-19T06:00:00Z",
       "directory": "061",
       "tileTemplate": "061/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -716,7 +725,7 @@
     },
     {
       "index": 62,
-      "time": "2026-10-19T06:00:00Z",
+      "time": "2026-10-19T07:00:00Z",
       "directory": "062",
       "tileTemplate": "062/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -724,7 +733,7 @@
     },
     {
       "index": 63,
-      "time": "2026-10-19T07:00:00Z",
+      "time": "2026-10-19T08:00:00Z",
       "directory": "063",
       "tileTemplate": "063/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -732,7 +741,7 @@
     },
     {
       "index": 64,
-      "time": "2026-10-19T08:00:00Z",
+      "time": "2026-10-19T09:00:00Z",
       "directory": "064",
       "tileTemplate": "064/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -740,7 +749,7 @@
     },
     {
       "index": 65,
-      "time": "2026-10-19T09:00:00Z",
+      "time": "2026-10-19T10:00:00Z",
       "directory": "065",
       "tileTemplate": "065/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -748,7 +757,7 @@
     },
     {
       "index": 66,
-      "time": "2026-10-19T10:00:00Z",
+      "time": "2026-10-19T11:00:00Z",
       "directory": "066",
       "tileTemplate": "066/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -756,7 +765,7 @@
     },
     {
       "index": 67,
-      "time": "2026-10-19T11:00:00Z",
+      "time": "2026-10-19T12:00:00Z",
       "directory": "067",
       "tileTemplate": "067/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -764,7 +773,7 @@
     },
     {
       "index": 68,
-      "time": "2026-10-19T12:00:00Z",
+      "time": "2026-10-19T13:00:00Z",
       "directory": "068",
       "tileTemplate": "068/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -772,7 +781,7 @@
     },
     {
       "index": 69,
-      "time": "2026-10-19T13:00:00Z",
+      "time": "2026-10-19T14:00:00Z",
       "directory": "069",
       "tileTemplate": "069/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -780,7 +789,7 @@
     },
     {
       "index": 70,
-      "time": "2026-10-19T14:00:00Z",
+      "time": "2026-10-19T15:00:00Z",
       "directory": "070",
       "tileTemplate": "070/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -788,7 +797,7 @@
     },
     {
       "index": 71,
-      "time": "2026-10-19T15:00:00Z",
+      "time": "2026-10-19T16:00:00Z",
       "directory": "071",
       "tileTemplate": "071/9/{x}/{y}.webp",
       "idwPixels": 2186069,
@@ -796,7 +805,7 @@
     },
     {
       "index": 72,
-      "time": "2026-10-19T16:00:00Z",
+      "time": "2026-10-19T17:00:00Z",
       "directory": "072",
       "tileTemplate": "072/9/{x}/{y}.webp",
       "idwPixels": 2186069,
