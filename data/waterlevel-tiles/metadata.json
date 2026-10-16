@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T18:13:11Z",
+  "generated": "2026-10-16T18:32:49Z",
   "source": "DMI DKSS combined dkss_idw + dkss_nsbs via Forecast Data STAC API",
   "collection": "dkss_combined",
   "modelRuns": {
@@ -53,6 +53,388 @@
     "peakCm": 174.7,
     "peakTime": "2026-10-17T05:00:00Z"
   },
+  "localForecasts": [
+    {
+      "id": "sortsoe_groensund",
+      "name": "Grønsund ved Sortsø Strand",
+      "lat": 54.944,
+      "lon": 11.97829,
+      "thresholdCm": 75.0,
+      "series": [
+        {
+          "time": "2026-10-16T18:00:00Z",
+          "waterLevelCm": 34.2,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-16T19:00:00Z",
+          "waterLevelCm": 32.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-16T20:00:00Z",
+          "waterLevelCm": 31.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-16T21:00:00Z",
+          "waterLevelCm": 34.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-16T22:00:00Z",
+          "waterLevelCm": 35.2,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-16T23:00:00Z",
+          "waterLevelCm": 32.2,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T00:00:00Z",
+          "waterLevelCm": 30.0,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T01:00:00Z",
+          "waterLevelCm": 29.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T02:00:00Z",
+          "waterLevelCm": 30.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T03:00:00Z",
+          "waterLevelCm": 33.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T04:00:00Z",
+          "waterLevelCm": 38.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T05:00:00Z",
+          "waterLevelCm": 44.1,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T06:00:00Z",
+          "waterLevelCm": 48.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T07:00:00Z",
+          "waterLevelCm": 50.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T08:00:00Z",
+          "waterLevelCm": 49.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T09:00:00Z",
+          "waterLevelCm": 42.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T10:00:00Z",
+          "waterLevelCm": 33.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T11:00:00Z",
+          "waterLevelCm": 28.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T12:00:00Z",
+          "waterLevelCm": 27.0,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T13:00:00Z",
+          "waterLevelCm": 26.0,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T14:00:00Z",
+          "waterLevelCm": 27.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T15:00:00Z",
+          "waterLevelCm": 33.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T16:00:00Z",
+          "waterLevelCm": 42.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T17:00:00Z",
+          "waterLevelCm": 52.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T18:00:00Z",
+          "waterLevelCm": 62.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T19:00:00Z",
+          "waterLevelCm": 69.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T20:00:00Z",
+          "waterLevelCm": 72.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T21:00:00Z",
+          "waterLevelCm": 73.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T22:00:00Z",
+          "waterLevelCm": 73.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-17T23:00:00Z",
+          "waterLevelCm": 72.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T00:00:00Z",
+          "waterLevelCm": 71.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T01:00:00Z",
+          "waterLevelCm": 71.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T02:00:00Z",
+          "waterLevelCm": 73.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T03:00:00Z",
+          "waterLevelCm": 76.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T04:00:00Z",
+          "waterLevelCm": 80.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T05:00:00Z",
+          "waterLevelCm": 83.8,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T06:00:00Z",
+          "waterLevelCm": 85.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T07:00:00Z",
+          "waterLevelCm": 86.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T08:00:00Z",
+          "waterLevelCm": 85.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T09:00:00Z",
+          "waterLevelCm": 81.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T10:00:00Z",
+          "waterLevelCm": 74.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T11:00:00Z",
+          "waterLevelCm": 66.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T12:00:00Z",
+          "waterLevelCm": 59.0,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T13:00:00Z",
+          "waterLevelCm": 50.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T14:00:00Z",
+          "waterLevelCm": 42.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T15:00:00Z",
+          "waterLevelCm": 35.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T16:00:00Z",
+          "waterLevelCm": 31.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T17:00:00Z",
+          "waterLevelCm": 29.1,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T18:00:00Z",
+          "waterLevelCm": 29.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T19:00:00Z",
+          "waterLevelCm": 30.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T20:00:00Z",
+          "waterLevelCm": 31.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T21:00:00Z",
+          "waterLevelCm": 31.2,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T22:00:00Z",
+          "waterLevelCm": 29.1,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-18T23:00:00Z",
+          "waterLevelCm": 25.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T00:00:00Z",
+          "waterLevelCm": 21.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T01:00:00Z",
+          "waterLevelCm": 17.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T02:00:00Z",
+          "waterLevelCm": 13.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T03:00:00Z",
+          "waterLevelCm": 11.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T04:00:00Z",
+          "waterLevelCm": 11.1,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T05:00:00Z",
+          "waterLevelCm": 12.7,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T06:00:00Z",
+          "waterLevelCm": 16.2,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T07:00:00Z",
+          "waterLevelCm": 20.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T08:00:00Z",
+          "waterLevelCm": 25.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T09:00:00Z",
+          "waterLevelCm": 29.8,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T10:00:00Z",
+          "waterLevelCm": 31.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T11:00:00Z",
+          "waterLevelCm": 30.4,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T12:00:00Z",
+          "waterLevelCm": 27.9,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T13:00:00Z",
+          "waterLevelCm": 24.8,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T14:00:00Z",
+          "waterLevelCm": 21.8,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T15:00:00Z",
+          "waterLevelCm": 19.5,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T16:00:00Z",
+          "waterLevelCm": 17.8,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T17:00:00Z",
+          "waterLevelCm": 18.0,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-10-19T18:00:00Z",
+          "waterLevelCm": 20.7,
+          "source": "dkss_idw"
+        }
+      ],
+      "alert": {
+        "thresholdCm": 75.0,
+        "active": true,
+        "peakCm": 86.9,
+        "peakTime": "2026-10-18T07:00:00Z"
+      }
+    }
+  ],
   "colorStops": [
     {
       "cm": -200,
