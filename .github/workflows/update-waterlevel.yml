@@ -16,7 +16,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     steps:
       - name: Hent repository
@@ -40,7 +40,7 @@ jobs:
         run: python scripts/fetch_waterlevel.py --output data/waterlevel.json --hours 24 --step 3
 
       - name: Generer animeret vandstandskort
-        run: python scripts/generate_waterlevel_map_v2.py --output-dir data/waterlevel-map --hours 48 --step 1
+        run: python scripts/generate_waterlevel_map_v2.py --output-dir data/waterlevel-map --hours 72 --step 1
 
       - name: Ret IDW georeferering fra GRIB metadata
         run: python scripts/correct_idw_georef.py --data-dir data/waterlevel-map --collection dkss_idw
@@ -49,7 +49,7 @@ jobs:
         run: python scripts/mask_waterlevel_with_osm.py --data-dir data/waterlevel-map --collection dkss_idw --zoom 9
 
       - name: Generer IDW XYZ tiles
-        run: python scripts/generate_idw_tiles.py --output-dir data/waterlevel-tiles --hours 48 --step 1 --zoom 9
+        run: python scripts/generate_idw_tiles.py --output-dir data/waterlevel-tiles --hours 72 --step 1 --zoom 9
 
       - name: Kontroller resultat
         run: |
@@ -60,7 +60,7 @@ jobs:
           test -n "$(find data/waterlevel-tiles -name '*.webp' -print -quit)"
           echo "Antal overlay frames: $(find data/waterlevel-map -name '*.webp' | wc -l)"
           echo "Antal IDW tiles: $(find data/waterlevel-tiles -name '*.webp' | wc -l)"
-          head -140 data/waterlevel-tiles/metadata.json
+          head -160 data/waterlevel-tiles/metadata.json
 
       - name: Commit nye data
         run: |
