@@ -39,37 +39,25 @@ jobs:
       - name: Hent DMI punktprognoser
         run: python scripts/fetch_waterlevel.py --output data/waterlevel.json --hours 24 --step 3
 
-      - name: Generer animeret vandstandskort
-        run: python scripts/generate_waterlevel_map_v2.py --output-dir data/waterlevel-map --hours 72 --step 1
-
-      - name: Ret IDW georeferering fra GRIB metadata
-        run: python scripts/correct_idw_georef.py --data-dir data/waterlevel-map --collection dkss_idw
-
-      - name: Klip IDW til OpenStreetMap vand
-        run: python scripts/mask_waterlevel_with_osm.py --data-dir data/waterlevel-map --collection dkss_idw --zoom 9
-
-      - name: Generer IDW XYZ tiles
-        run: python scripts/generate_idw_tiles.py --output-dir data/waterlevel-tiles --hours 72 --step 1 --zoom 9
+      - name: Generer kombinerede DKSS XYZ tiles
+        run: python scripts/generate_combined_tiles.py --output-dir data/waterlevel-tiles --hours 72 --step 1 --zoom 9
 
       - name: Kontroller resultat
         run: |
           python -m json.tool data/waterlevel.json >/dev/null
-          python -m json.tool data/waterlevel-map/metadata.json >/dev/null
           python -m json.tool data/waterlevel-tiles/metadata.json >/dev/null
-          test -n "$(find data/waterlevel-map -name '*.webp' -print -quit)"
           test -n "$(find data/waterlevel-tiles -name '*.webp' -print -quit)"
-          echo "Antal overlay frames: $(find data/waterlevel-map -name '*.webp' | wc -l)"
-          echo "Antal IDW tiles: $(find data/waterlevel-tiles -name '*.webp' | wc -l)"
-          head -160 data/waterlevel-tiles/metadata.json
+          echo "Antal DKSS tiles: $(find data/waterlevel-tiles -name '*.webp' | wc -l)"
+          head -180 data/waterlevel-tiles/metadata.json
 
       - name: Commit nye data
         run: |
-          if git diff --quiet -- data/waterlevel.json data/waterlevel-map data/waterlevel-tiles; then
+          if git diff --quiet -- data/waterlevel.json data/waterlevel-tiles; then
             echo "Ingen ændring i vandstandsdata"
             exit 0
           fi
           git config user.name "strandvejr-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/waterlevel.json data/waterlevel-map data/waterlevel-tiles
-          git commit -m "Opdater DMI vandstandsprognose og kort"
+          git add data/waterlevel.json data/waterlevel-tiles
+          git commit -m "Opdater kombineret DMI vandstandsprognose"
           git push
