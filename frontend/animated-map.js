@@ -43,17 +43,26 @@ function rgbaToCss(rgba) {
 }
 
 function updateHighWaterAlert() {
-  if (!highWaterAlert || !highWaterAlertText || !metadata || !metadata.highWaterAlert) return;
+  if (!highWaterAlert || !highWaterAlertText || !metadata) return;
 
-  const alert = metadata.highWaterAlert;
-  if (!alert.active || alert.peakCm == null || !alert.peakTime) {
+  const local = Array.isArray(metadata.localForecasts)
+    ? metadata.localForecasts.find(item => item.id === "sortsoe_groensund")
+    : null;
+
+  const alert = local && local.alert ? local.alert : metadata.highWaterAlert;
+
+  if (!alert || !alert.active || alert.peakCm == null || !alert.peakTime) {
     highWaterAlert.hidden = true;
     return;
   }
 
   const peak = Math.round(Number(alert.peakCm));
+  const placeName = local && local.name
+    ? local.name
+    : "de danske farvande";
+
   highWaterAlertText.textContent =
-    `Prognosen viser op til ${peak} cm over daglig vande. Vandstanden ventes at toppe ${formatTime(alert.peakTime)}.`;
+    `${placeName}: Prognosen viser op til ${peak} cm over daglig vande. Vandstanden ventes at toppe ${formatTime(alert.peakTime)}.`;
   highWaterAlert.hidden = false;
 }
 
