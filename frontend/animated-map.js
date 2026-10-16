@@ -94,7 +94,7 @@ function createFrameLayer(index, opacity) {
 function updateText(index) {
   const frame = metadata.frames[index];
   forecastTime.textContent =
-    `${formatTime(frame.time)} · ${index + 1} af ${metadata.frames.length} · dkss_idw XYZ`;
+    `${formatTime(frame.time)} · ${index + 1} af ${metadata.frames.length} · DMI DKSS kombineret`;
 }
 
 function clearPrepared() {
@@ -205,7 +205,7 @@ slider.addEventListener("input", async event => {
 });
 
 async function init() {
-  forecastTime.textContent = "Henter IDW XYZ prognose…";
+  forecastTime.textContent = "Henter DMI DKSS prognose…";
 
   const response = await fetch(`${METADATA_URL}?v=${Date.now()}`, {
     cache: "no-store",
@@ -239,5 +239,5 @@ async function init() {
 
 init().catch(error => {
   console.error(error);
-  forecastTime.textContent = `IDW tiledata kunne ikke indlæses: ${error.message}`;
+  forecastTime.textContent = `Vandstandsdata kunne ikke indlæses: ${error.message}`;
 });
