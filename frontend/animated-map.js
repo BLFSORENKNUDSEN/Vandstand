@@ -19,9 +19,12 @@ const forecastTime = document.getElementById("forecastTime");
 const legend = document.getElementById("legend");
 
 let metadata = null;
-let tileLayer = null;
+let currentLayer = null;
+let preparedLayer = null;
+let preparedIndex = null;
 let frameIndex = 0;
-let timer = null;
+let playTimer = null;
+let transitionToken = 0;
 
 function formatTime(value) {
   const date = new Date(value);
@@ -69,91 +72,136 @@ function frameTileUrl(frame) {
   return `${DATA_BASE}/${frame.tileTemplate}?v=${version}`;
 }
 
-function removeTileLayer() {
-  if (tileLayer) {
-    map.removeLayer(tileLayer);
-    tileLayer = null;
-  }
-}
-
-function showFrame(index) {
-  if (!metadata || !Array.isArray(metadata.frames) || metadata.frames.length === 0) {
-    return;
-  }
-
-  frameIndex = Math.max(0, Math.min(index, metadata.frames.length - 1));
-  slider.value = String(frameIndex);
-
-  const frame = metadata.frames[frameIndex];
-  removeTileLayer();
-
-  tileLayer = L.tileLayer(frameTileUrl(frame), {
+function createFrameLayer(index, opacity) {
+  const frame = metadata.frames[index];
+  return L.tileLayer(frameTileUrl(frame), {
     tileSize: metadata.tileSize || 256,
     minNativeZoom: metadata.nativeZoom,
     maxNativeZoom: metadata.nativeZoom,
     minZoom: 5,
     maxZoom: 12,
-    opacity: 0.92,
+    opacity,
     noWrap: true,
     bounds: metadata.bounds,
     attribution: "DMI DKSS",
     crossOrigin: true,
-  }).addTo(map);
-
-  forecastTime.textContent =
-    `${formatTime(frame.time)} · ${frameIndex + 1} af ${metadata.frames.length} · kun dkss_idw XYZ`;
-
-  preloadFrame(frameIndex + 1);
+    updateWhenIdle: false,
+    updateWhenZooming: false,
+    keepBuffer: 4,
+  });
 }
 
-function preloadFrame(index) {
-  if (!metadata || index < 0 || index >= metadata.frames.length) return;
-
+function updateText(index) {
   const frame = metadata.frames[index];
-  const zoom = metadata.nativeZoom;
-  const bounds = map.getBounds();
+  forecastTime.textContent =
+    `${formatTime(frame.time)} · ${index + 1} af ${metadata.frames.length} · dkss_idw XYZ`;
+}
 
-  const northWest = map.project(bounds.getNorthWest(), zoom).divideBy(metadata.tileSize || 256).floor();
-  const southEast = map.project(bounds.getSouthEast(), zoom).divideBy(metadata.tileSize || 256).floor();
-  const version = encodeURIComponent(metadata.generated || "1");
-
-  for (let x = northWest.x; x <= southEast.x; x += 1) {
-    for (let y = northWest.y; y <= southEast.y; y += 1) {
-      const image = new Image();
-      image.src = `${DATA_BASE}/${frame.directory}/${zoom}/${x}/${y}.webp?v=${version}`;
-    }
+function clearPrepared() {
+  if (preparedLayer) {
+    map.removeLayer(preparedLayer);
   }
+  preparedLayer = null;
+  preparedIndex = null;
+}
+
+function prepareFrame(index) {
+  if (!metadata || index < 0 || index >= metadata.frames.length) return;
+  if (preparedIndex === index && preparedLayer) return;
+
+  clearPrepared();
+
+  preparedIndex = index;
+  preparedLayer = createFrameLayer(index, 0);
+  preparedLayer.addTo(map);
+}
+
+function transitionTo(index, smooth = true) {
+  if (!metadata || metadata.frames.length === 0) return Promise.resolve();
+
+  index = Math.max(0, Math.min(index, metadata.frames.length - 1));
+  const token = ++transitionToken;
+
+  let incoming;
+  if (preparedLayer && preparedIndex === index) {
+    incoming = preparedLayer;
+    preparedLayer = null;
+    preparedIndex = null;
+  } else {
+    clearPrepared();
+    incoming = createFrameLayer(index, 0);
+    incoming.addTo(map);
+  }
+
+  return new Promise(resolve => {
+    let done = false;
+
+    const finish = () => {
+      if (done || token !== transitionToken) return;
+      done = true;
+
+      const outgoing = currentLayer;
+      currentLayer = incoming;
+      frameIndex = index;
+      slider.value = String(index);
+      updateText(index);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          incoming.setOpacity(0.92);
+          if (outgoing && outgoing !== incoming) outgoing.setOpacity(0);
+
+          window.setTimeout(() => {
+            if (outgoing && map.hasLayer(outgoing)) map.removeLayer(outgoing);
+            const next = frameIndex + 1 < metadata.frames.length ? frameIndex + 1 : 0;
+            prepareFrame(next);
+            resolve();
+          }, smooth ? 280 : 20);
+        });
+      });
+    };
+
+    incoming.once("load", finish);
+    window.setTimeout(finish, 1800);
+  });
 }
 
 function stopPlayback() {
-  if (timer) {
-    clearInterval(timer);
-    timer = null;
+  if (playTimer) {
+    clearTimeout(playTimer);
+    playTimer = null;
   }
   playButton.textContent = "▶";
   playButton.setAttribute("aria-label", "Afspil prognose");
 }
 
+async function playNext() {
+  if (!playTimer || !metadata) return;
+
+  const next = frameIndex + 1 >= metadata.frames.length ? 0 : frameIndex + 1;
+  await transitionTo(next, true);
+
+  if (playTimer) {
+    playTimer = window.setTimeout(playNext, 520);
+  }
+}
+
 function startPlayback() {
-  if (!metadata || timer) return;
+  if (!metadata || playTimer) return;
 
   playButton.textContent = "❚❚";
   playButton.setAttribute("aria-label", "Stop prognose");
-
-  timer = setInterval(() => {
-    const next = frameIndex + 1;
-    showFrame(next >= metadata.frames.length ? 0 : next);
-  }, 700);
+  playTimer = window.setTimeout(playNext, 120);
 }
 
 playButton.addEventListener("click", () => {
-  if (timer) stopPlayback();
+  if (playTimer) stopPlayback();
   else startPlayback();
 });
 
-slider.addEventListener("input", event => {
+slider.addEventListener("input", async event => {
   stopPlayback();
-  showFrame(Number(event.target.value));
+  await transitionTo(Number(event.target.value), true);
 });
 
 async function init() {
@@ -183,7 +231,10 @@ async function init() {
     map.fitBounds(metadata.bounds, { padding: [10, 10] });
   }
 
-  showFrame(0);
+  currentLayer = createFrameLayer(0, 0.92).addTo(map);
+  frameIndex = 0;
+  updateText(0);
+  prepareFrame(1);
 }
 
 init().catch(error => {
