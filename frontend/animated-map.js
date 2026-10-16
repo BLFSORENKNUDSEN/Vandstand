@@ -17,6 +17,8 @@ const slider = document.getElementById("frameSlider");
 const playButton = document.getElementById("playButton");
 const forecastTime = document.getElementById("forecastTime");
 const legend = document.getElementById("legend");
+const highWaterAlert = document.getElementById("highWaterAlert");
+const highWaterAlertText = document.getElementById("highWaterAlertText");
 
 let metadata = null;
 let currentLayer = null;
@@ -38,6 +40,21 @@ function formatTime(value) {
 
 function rgbaToCss(rgba) {
   return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3] / 255})`;
+}
+
+function updateHighWaterAlert() {
+  if (!highWaterAlert || !highWaterAlertText || !metadata || !metadata.highWaterAlert) return;
+
+  const alert = metadata.highWaterAlert;
+  if (!alert.active || alert.peakCm == null || !alert.peakTime) {
+    highWaterAlert.hidden = true;
+    return;
+  }
+
+  const peak = Math.round(Number(alert.peakCm));
+  highWaterAlertText.textContent =
+    `Prognosen viser op til ${peak} cm over daglig vande. Vandstanden ventes at toppe ${formatTime(alert.peakTime)}.`;
+  highWaterAlert.hidden = false;
 }
 
 function buildLegend(stops) {
@@ -220,6 +237,7 @@ async function init() {
   slider.value = "0";
 
   buildLegend(metadata.colorStops || []);
+  updateHighWaterAlert();
 
   if (Array.isArray(metadata.bounds) && metadata.bounds.length === 2) {
     map.fitBounds(metadata.bounds, { padding: [10, 10] });
