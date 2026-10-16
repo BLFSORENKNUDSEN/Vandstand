@@ -43,6 +43,16 @@ MIN_GAP_NEIGHBORS = 5
 MIN_BILINEAR_WEIGHT = 0.45
 HIGH_WATER_THRESHOLD_CM = 75.0
 
+LOCAL_FORECAST_POINTS = [
+    {
+        "id": "sortsoe_groensund",
+        "name": "Grønsund ved Sortsø Strand",
+        "lat": 54.94400,
+        "lon": 11.97829,
+        "thresholdCm": 75.0,
+    },
+]
+
 # DMI vandstandsskala aflæst fra DMI kortet. Værdier i cm, farver som RGBA.
 DMI_COLOR_STOPS = [
     (-200, (0, 143, 233, 255)),
@@ -358,6 +368,17 @@ def main() -> int:
     nsbs_geom = None
     bounds = None
     grid_info = {}
+    local_series = {
+        point["id"]: {
+            "id": point["id"],
+            "name": point["name"],
+            "lat": point["lat"],
+            "lon": point["lon"],
+            "thresholdCm": point["thresholdCm"],
+            "series": [],
+        }
+        for point in LOCAL_FORECAST_POINTS
+    }
 
     try:
         with tempfile.TemporaryDirectory(prefix="strandvejr-combined-tiles-") as tmpdir:
@@ -408,6 +429,44 @@ def main() -> int:
                         if n % 25 == 0 or n == len(tiles):
                             print(f"DKSS COMBINED: geometri {n}/{len(tiles)} tiles")
 
+                # Stedsspecifikke prognoser beregnes direkte fra modelgrids.
+                for point in LOCAL_FORECAST_POINTS:
+                    target_lats = np.array([[point["lat"]]], dtype=np.float64)
+                    target_lons = np.array([[point["lon"]]], dtype=np.float64)
+
+                    idw_point_sampler = build_sampler_for_tile(
+                        idw_geom, target_lats, target_lons
+                    )
+                    nsbs_point_sampler = build_sampler_for_tile(
+                        nsbs_geom, target_lats, target_lons
+                    )
+
+                    idw_point = sample_model(
+                        idw_values, idw_geom, idw_point_sampler
+                    )[0, 0]
+                    nsbs_point = sample_model(
+                        nsbs_values, nsbs_geom, nsbs_point_sampler
+                    )[0, 0]
+
+                    if np.isfinite(idw_point):
+                        point_value_m = float(idw_point)
+                        point_source = COLLECTION_IDW
+                    elif np.isfinite(nsbs_point):
+                        point_value_m = float(nsbs_point)
+                        point_source = COLLECTION_NSBS
+                    else:
+                        point_value_m = None
+                        point_source = None
+
+                    local_series[point["id"]]["series"].append({
+                        "time": base.iso_z(idw_time),
+                        "waterLevelCm": (
+                            round(point_value_m * 100.0, 1)
+                            if point_value_m is not None else None
+                        ),
+                        "source": point_source,
+                    })
+
                 frame_dir = f"{frame_index:03d}"
                 frame_root = staging_dir / frame_dir / str(args.zoom)
                 idw_pixel_count = 0
@@ -456,6 +515,29 @@ def main() -> int:
                     ),
                 })
 
+        local_forecasts = []
+        for point in LOCAL_FORECAST_POINTS:
+            local = local_series[point["id"]]
+            valid_entries = [
+                entry for entry in local["series"]
+                if entry.get("waterLevelCm") is not None
+            ]
+            local_peak = max(
+                valid_entries,
+                key=lambda entry: entry["waterLevelCm"],
+            ) if valid_entries else None
+
+            peak_cm = local_peak["waterLevelCm"] if local_peak else None
+            local["alert"] = {
+                "thresholdCm": point["thresholdCm"],
+                "active": bool(
+                    peak_cm is not None and peak_cm > point["thresholdCm"]
+                ),
+                "peakCm": peak_cm,
+                "peakTime": local_peak["time"] if local_peak else None,
+            }
+            local_forecasts.append(local)
+
         peak_frames = [
             frame for frame in frames
             if frame.get("maxWaterLevelCm") is not None
@@ -495,6 +577,7 @@ def main() -> int:
             "horizonHours": args.hours,
             "stepHours": args.step,
             "highWaterAlert": high_water_alert,
+            "localForecasts": local_forecasts,
             "colorStops": [
                 {"cm": value, "rgba": list(color)} for value, color in DMI_COLOR_STOPS
             ],
