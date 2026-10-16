@@ -41,27 +41,21 @@ function rgbaToCss(rgba) {
 }
 
 function buildLegend(stops) {
-  if (!Array.isArray(stops) || stops.length < 2) return;
+  if (!Array.isArray(stops) || stops.length === 0) return;
 
   const ordered = [...stops].sort((a, b) => b.cm - a.cm);
-  const min = Math.min(...ordered.map(stop => stop.cm));
-  const max = Math.max(...ordered.map(stop => stop.cm));
+  const under = metadata && metadata.underColor
+    ? metadata.underColor.rgba
+    : [71, 96, 160, 255];
 
-  const gradient = ordered.map(stop => {
-    const pct = ((max - stop.cm) / (max - min)) * 100;
-    return `${rgbaToCss(stop.rgba)} ${pct}%`;
-  }).join(", ");
-
-  const labelStops = ordered.filter(
-    (stop, index) => index % 2 === 0 || index === ordered.length - 1
-  );
+  const rows = ordered.map(stop => {
+    return `<div style="width:30px;height:20px;display:flex;align-items:center;justify-content:center;background:${rgbaToCss(stop.rgba)};color:#fff;font-size:11px;font-weight:700;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.75)">${stop.cm}</div>`;
+  }).join("");
 
   legend.innerHTML = `
-    <div class="legend-scale">
-      <div class="legend-bar" style="background: linear-gradient(to bottom, ${gradient})"></div>
-      <div class="legend-labels">
-        ${labelStops.map(stop => `<span>${stop.cm}</span>`).join("")}
-      </div>
+    <div style="width:30px">
+      ${rows}
+      <div style="width:30px;height:20px;background:${rgbaToCss(under)}"></div>
     </div>
     <div class="legend-unit">cm</div>
   `;
