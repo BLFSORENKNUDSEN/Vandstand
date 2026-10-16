@@ -41,6 +41,7 @@ USER_AGENT = "strandvejr.dk-waterlevel-combined-tiles/1.0"
 REQUEST_TIMEOUT = 60
 MIN_GAP_NEIGHBORS = 5
 MIN_BILINEAR_WEIGHT = 0.45
+HIGH_WATER_THRESHOLD_CM = 75.0
 
 # DMI vandstandsskala aflæst fra DMI kortet. Værdier i cm, farver som RGBA.
 DMI_COLOR_STOPS = [
@@ -411,6 +412,7 @@ def main() -> int:
                 frame_root = staging_dir / frame_dir / str(args.zoom)
                 idw_pixel_count = 0
                 nsbs_pixel_count = 0
+                frame_peak_cm = None
 
                 for tile in tiles:
                     geom = tile_geometry[(tile.z, tile.x, tile.y)]
@@ -424,6 +426,12 @@ def main() -> int:
                     water = geom["water"]
                     idw_pixel_count += int(np.count_nonzero(idw_valid & water))
                     nsbs_pixel_count += int(np.count_nonzero(~idw_valid & np.isfinite(nsbs_sample) & water))
+
+                    peak_mask = water & np.isfinite(combined)
+                    if np.any(peak_mask):
+                        tile_peak_cm = float(np.nanmax(combined[peak_mask]) * 100.0)
+                        if frame_peak_cm is None or tile_peak_cm > frame_peak_cm:
+                            frame_peak_cm = tile_peak_cm
 
                     image = colorize(combined, water)
                     target_dir = frame_root / str(tile.x)
@@ -443,7 +451,29 @@ def main() -> int:
                     "tileTemplate": f"{frame_dir}/{args.zoom}/{{x}}/{{y}}.webp",
                     "idwPixels": idw_pixel_count,
                     "nsbsFallbackPixels": nsbs_pixel_count,
+                    "maxWaterLevelCm": (
+                        round(frame_peak_cm, 1) if frame_peak_cm is not None else None
+                    ),
                 })
+
+        peak_frames = [
+            frame for frame in frames
+            if frame.get("maxWaterLevelCm") is not None
+        ]
+        peak_frame = max(
+            peak_frames,
+            key=lambda frame: frame["maxWaterLevelCm"],
+        ) if peak_frames else None
+
+        peak_cm = peak_frame["maxWaterLevelCm"] if peak_frame else None
+        high_water_alert = {
+            "thresholdCm": HIGH_WATER_THRESHOLD_CM,
+            "active": bool(
+                peak_cm is not None and peak_cm > HIGH_WATER_THRESHOLD_CM
+            ),
+            "peakCm": peak_cm,
+            "peakTime": peak_frame["time"] if peak_frame else None,
+        }
 
         metadata = {
             "generated": base.iso_z(datetime.now(timezone.utc)),
@@ -464,6 +494,7 @@ def main() -> int:
             },
             "horizonHours": args.hours,
             "stepHours": args.step,
+            "highWaterAlert": high_water_alert,
             "colorStops": [
                 {"cm": value, "rgba": list(color)} for value, color in DMI_COLOR_STOPS
             ],
