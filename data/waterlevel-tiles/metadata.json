@@ -1,38 +1,43 @@
 {
-  "generated": "2026-10-16T14:13:32Z",
-  "source": "DMI DKSS dkss_idw via Forecast Data STAC API",
-  "collection": "dkss_idw",
-  "modelRun": "2026-10-16T06:00:00Z",
+  "generated": "2026-10-16T15:01:28Z",
+  "source": "DMI DKSS combined dkss_idw + dkss_nsbs via Forecast Data STAC API",
+  "collection": "dkss_combined",
+  "modelRuns": {
+    "dkss_idw": "2026-10-16T06:00:00Z",
+    "dkss_nsbs": "2026-10-16T06:00:00Z"
+  },
+  "priority": [
+    "dkss_idw",
+    "dkss_nsbs"
+  ],
   "projection": "EPSG:3857 XYZ",
   "tileSize": 256,
   "nativeZoom": 9,
-  "sampling": {
-    "method": "bilinear with valid-neighbour renormalization",
-    "minimumValidNeighbours": 2,
-    "minimumValidWeight": 0.45,
-    "isolatedGapFillMinimumNeighbours": 5,
-    "osmWaterMask": true
-  },
   "bounds": [
     [
-      53.58283264033264,
-      9.333055696202532
+      53.587,
+      9.34
     ],
     [
-      57.60016735966735,
-      14.832944303797468
+      57.596,
+      14.826
     ]
   ],
   "grid": {
-    "gridType": "regular_ll",
-    "Ni": 396,
-    "Nj": 482,
-    "firstLat": 53.587,
-    "firstLon": 9.34,
-    "lastLat": 57.596,
-    "lastLon": 14.826,
-    "bitmapPresent": true,
-    "bitmapMaskedCells": 109888
+    "idw": {
+      "gridType": "regular_ll",
+      "Ni": 396,
+      "Nj": 482,
+      "bitmapPresent": true,
+      "bitmapMaskedCells": 109888
+    },
+    "nsbs": {
+      "gridType": "regular_ll",
+      "Ni": 414,
+      "Nj": 348,
+      "bitmapPresent": true,
+      "bitmapMaskedCells": 110035
+    }
   },
   "parameter": {
     "id": 82,
@@ -46,614 +51,756 @@
     {
       "cm": -200,
       "rgba": [
-        36,
-        124,
-        201,
-        220
+        71,
+        96,
+        160,
+        255
+      ]
+    },
+    {
+      "cm": -180,
+      "rgba": [
+        0,
+        143,
+        233,
+        255
       ]
     },
     {
       "cm": -120,
       "rgba": [
-        65,
-        182,
-        196,
-        220
+        22,
+        225,
+        204,
+        255
+      ]
+    },
+    {
+      "cm": -90,
+      "rgba": [
+        125,
+        238,
+        226,
+        255
       ]
     },
     {
       "cm": -60,
       "rgba": [
-        88,
-        210,
-        192,
-        220
+        158,
+        242,
+        233,
+        255
       ]
     },
     {
       "cm": -30,
       "rgba": [
-        144,
-        226,
-        218,
-        220
+        255,
+        236,
+        127,
+        255
       ]
     },
     {
       "cm": 0,
       "rgba": [
         255,
-        245,
-        184,
-        210
+        217,
+        0,
+        255
       ]
     },
     {
       "cm": 30,
       "rgba": [
         255,
-        224,
-        72,
-        220
+        178,
+        0,
+        255
       ]
     },
     {
       "cm": 60,
       "rgba": [
         255,
-        194,
-        38,
-        225
+        142,
+        82,
+        255
+      ]
+    },
+    {
+      "cm": 90,
+      "rgba": [
+        255,
+        181,
+        181,
+        255
       ]
     },
     {
       "cm": 120,
       "rgba": [
         255,
-        128,
-        54,
-        230
+        157,
+        157,
+        255
+      ]
+    },
+    {
+      "cm": 150,
+      "rgba": [
+        255,
+        124,
+        124,
+        255
       ]
     },
     {
       "cm": 180,
       "rgba": [
-        244,
-        75,
-        75,
-        235
+        255,
+        82,
+        82,
+        255
+      ]
+    },
+    {
+      "cm": 240,
+      "rgba": [
+        230,
+        57,
+        57,
+        255
       ]
     },
     {
       "cm": 300,
       "rgba": [
-        196,
-        44,
-        87,
-        240
+        204,
+        31,
+        31,
+        255
+      ]
+    },
+    {
+      "cm": 360,
+      "rgba": [
+        128,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "cm": 420,
+      "rgba": [
+        110,
+        0,
+        25,
+        255
       ]
     },
     {
       "cm": 480,
       "rgba": [
-        83,
-        24,
-        91,
-        245
+        92,
+        0,
+        51,
+        255
       ]
     }
   ],
+  "sampling": {
+    "idwPriority": true,
+    "nsbsFallback": true,
+    "method": "bilinear on regular_ll, nearest fallback on irregular grids",
+    "osmWaterMask": true
+  },
   "frames": [
     {
       "index": 0,
-      "time": "2026-10-16T14:00:00Z",
+      "time": "2026-10-16T15:00:00Z",
       "directory": "000",
       "tileTemplate": "000/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 1,
-      "time": "2026-10-16T15:00:00Z",
+      "time": "2026-10-16T16:00:00Z",
       "directory": "001",
       "tileTemplate": "001/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 2,
-      "time": "2026-10-16T16:00:00Z",
+      "time": "2026-10-16T17:00:00Z",
       "directory": "002",
       "tileTemplate": "002/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 3,
-      "time": "2026-10-16T17:00:00Z",
+      "time": "2026-10-16T18:00:00Z",
       "directory": "003",
       "tileTemplate": "003/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 4,
-      "time": "2026-10-16T18:00:00Z",
+      "time": "2026-10-16T19:00:00Z",
       "directory": "004",
       "tileTemplate": "004/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 5,
-      "time": "2026-10-16T19:00:00Z",
+      "time": "2026-10-16T20:00:00Z",
       "directory": "005",
       "tileTemplate": "005/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 6,
-      "time": "2026-10-16T20:00:00Z",
+      "time": "2026-10-16T21:00:00Z",
       "directory": "006",
       "tileTemplate": "006/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 7,
-      "time": "2026-10-16T21:00:00Z",
+      "time": "2026-10-16T22:00:00Z",
       "directory": "007",
       "tileTemplate": "007/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 8,
-      "time": "2026-10-16T22:00:00Z",
+      "time": "2026-10-16T23:00:00Z",
       "directory": "008",
       "tileTemplate": "008/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 9,
-      "time": "2026-10-16T23:00:00Z",
+      "time": "2026-10-17T00:00:00Z",
       "directory": "009",
       "tileTemplate": "009/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 10,
-      "time": "2026-10-17T00:00:00Z",
+      "time": "2026-10-17T01:00:00Z",
       "directory": "010",
       "tileTemplate": "010/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 11,
-      "time": "2026-10-17T01:00:00Z",
+      "time": "2026-10-17T02:00:00Z",
       "directory": "011",
       "tileTemplate": "011/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 12,
-      "time": "2026-10-17T02:00:00Z",
+      "time": "2026-10-17T03:00:00Z",
       "directory": "012",
       "tileTemplate": "012/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 13,
-      "time": "2026-10-17T03:00:00Z",
+      "time": "2026-10-17T04:00:00Z",
       "directory": "013",
       "tileTemplate": "013/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 14,
-      "time": "2026-10-17T04:00:00Z",
+      "time": "2026-10-17T05:00:00Z",
       "directory": "014",
       "tileTemplate": "014/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 15,
-      "time": "2026-10-17T05:00:00Z",
+      "time": "2026-10-17T06:00:00Z",
       "directory": "015",
       "tileTemplate": "015/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 16,
-      "time": "2026-10-17T06:00:00Z",
+      "time": "2026-10-17T07:00:00Z",
       "directory": "016",
       "tileTemplate": "016/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 17,
-      "time": "2026-10-17T07:00:00Z",
+      "time": "2026-10-17T08:00:00Z",
       "directory": "017",
       "tileTemplate": "017/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 18,
-      "time": "2026-10-17T08:00:00Z",
+      "time": "2026-10-17T09:00:00Z",
       "directory": "018",
       "tileTemplate": "018/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 19,
-      "time": "2026-10-17T09:00:00Z",
+      "time": "2026-10-17T10:00:00Z",
       "directory": "019",
       "tileTemplate": "019/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 20,
-      "time": "2026-10-17T10:00:00Z",
+      "time": "2026-10-17T11:00:00Z",
       "directory": "020",
       "tileTemplate": "020/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 21,
-      "time": "2026-10-17T11:00:00Z",
+      "time": "2026-10-17T12:00:00Z",
       "directory": "021",
       "tileTemplate": "021/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 22,
-      "time": "2026-10-17T12:00:00Z",
+      "time": "2026-10-17T13:00:00Z",
       "directory": "022",
       "tileTemplate": "022/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 23,
-      "time": "2026-10-17T13:00:00Z",
+      "time": "2026-10-17T14:00:00Z",
       "directory": "023",
       "tileTemplate": "023/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 24,
-      "time": "2026-10-17T14:00:00Z",
+      "time": "2026-10-17T15:00:00Z",
       "directory": "024",
       "tileTemplate": "024/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 25,
-      "time": "2026-10-17T15:00:00Z",
+      "time": "2026-10-17T16:00:00Z",
       "directory": "025",
       "tileTemplate": "025/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 26,
-      "time": "2026-10-17T16:00:00Z",
+      "time": "2026-10-17T17:00:00Z",
       "directory": "026",
       "tileTemplate": "026/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 27,
-      "time": "2026-10-17T17:00:00Z",
+      "time": "2026-10-17T18:00:00Z",
       "directory": "027",
       "tileTemplate": "027/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 28,
-      "time": "2026-10-17T18:00:00Z",
+      "time": "2026-10-17T19:00:00Z",
       "directory": "028",
       "tileTemplate": "028/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 29,
-      "time": "2026-10-17T19:00:00Z",
+      "time": "2026-10-17T20:00:00Z",
       "directory": "029",
       "tileTemplate": "029/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 30,
-      "time": "2026-10-17T20:00:00Z",
+      "time": "2026-10-17T21:00:00Z",
       "directory": "030",
       "tileTemplate": "030/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 31,
-      "time": "2026-10-17T21:00:00Z",
+      "time": "2026-10-17T22:00:00Z",
       "directory": "031",
       "tileTemplate": "031/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 32,
-      "time": "2026-10-17T22:00:00Z",
+      "time": "2026-10-17T23:00:00Z",
       "directory": "032",
       "tileTemplate": "032/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 33,
-      "time": "2026-10-17T23:00:00Z",
+      "time": "2026-10-18T00:00:00Z",
       "directory": "033",
       "tileTemplate": "033/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 34,
-      "time": "2026-10-18T00:00:00Z",
+      "time": "2026-10-18T01:00:00Z",
       "directory": "034",
       "tileTemplate": "034/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 35,
-      "time": "2026-10-18T01:00:00Z",
+      "time": "2026-10-18T02:00:00Z",
       "directory": "035",
       "tileTemplate": "035/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 36,
-      "time": "2026-10-18T02:00:00Z",
+      "time": "2026-10-18T03:00:00Z",
       "directory": "036",
       "tileTemplate": "036/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 37,
-      "time": "2026-10-18T03:00:00Z",
+      "time": "2026-10-18T04:00:00Z",
       "directory": "037",
       "tileTemplate": "037/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 38,
-      "time": "2026-10-18T04:00:00Z",
+      "time": "2026-10-18T05:00:00Z",
       "directory": "038",
       "tileTemplate": "038/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 39,
-      "time": "2026-10-18T05:00:00Z",
+      "time": "2026-10-18T06:00:00Z",
       "directory": "039",
       "tileTemplate": "039/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 40,
-      "time": "2026-10-18T06:00:00Z",
+      "time": "2026-10-18T07:00:00Z",
       "directory": "040",
       "tileTemplate": "040/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 41,
-      "time": "2026-10-18T07:00:00Z",
+      "time": "2026-10-18T08:00:00Z",
       "directory": "041",
       "tileTemplate": "041/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 42,
-      "time": "2026-10-18T08:00:00Z",
+      "time": "2026-10-18T09:00:00Z",
       "directory": "042",
       "tileTemplate": "042/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 43,
-      "time": "2026-10-18T09:00:00Z",
+      "time": "2026-10-18T10:00:00Z",
       "directory": "043",
       "tileTemplate": "043/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 44,
-      "time": "2026-10-18T10:00:00Z",
+      "time": "2026-10-18T11:00:00Z",
       "directory": "044",
       "tileTemplate": "044/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 45,
-      "time": "2026-10-18T11:00:00Z",
+      "time": "2026-10-18T12:00:00Z",
       "directory": "045",
       "tileTemplate": "045/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 46,
-      "time": "2026-10-18T12:00:00Z",
+      "time": "2026-10-18T13:00:00Z",
       "directory": "046",
       "tileTemplate": "046/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 47,
-      "time": "2026-10-18T13:00:00Z",
+      "time": "2026-10-18T14:00:00Z",
       "directory": "047",
       "tileTemplate": "047/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 48,
-      "time": "2026-10-18T14:00:00Z",
+      "time": "2026-10-18T15:00:00Z",
       "directory": "048",
       "tileTemplate": "048/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 49,
-      "time": "2026-10-18T15:00:00Z",
+      "time": "2026-10-18T16:00:00Z",
       "directory": "049",
       "tileTemplate": "049/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 50,
-      "time": "2026-10-18T16:00:00Z",
+      "time": "2026-10-18T17:00:00Z",
       "directory": "050",
       "tileTemplate": "050/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 51,
-      "time": "2026-10-18T17:00:00Z",
+      "time": "2026-10-18T18:00:00Z",
       "directory": "051",
       "tileTemplate": "051/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 52,
-      "time": "2026-10-18T18:00:00Z",
+      "time": "2026-10-18T19:00:00Z",
       "directory": "052",
       "tileTemplate": "052/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 53,
-      "time": "2026-10-18T19:00:00Z",
+      "time": "2026-10-18T20:00:00Z",
       "directory": "053",
       "tileTemplate": "053/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 54,
-      "time": "2026-10-18T20:00:00Z",
+      "time": "2026-10-18T21:00:00Z",
       "directory": "054",
       "tileTemplate": "054/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 55,
-      "time": "2026-10-18T21:00:00Z",
+      "time": "2026-10-18T22:00:00Z",
       "directory": "055",
       "tileTemplate": "055/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 56,
-      "time": "2026-10-18T22:00:00Z",
+      "time": "2026-10-18T23:00:00Z",
       "directory": "056",
       "tileTemplate": "056/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 57,
-      "time": "2026-10-18T23:00:00Z",
+      "time": "2026-10-19T00:00:00Z",
       "directory": "057",
       "tileTemplate": "057/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 58,
-      "time": "2026-10-19T00:00:00Z",
+      "time": "2026-10-19T01:00:00Z",
       "directory": "058",
       "tileTemplate": "058/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 59,
-      "time": "2026-10-19T01:00:00Z",
+      "time": "2026-10-19T02:00:00Z",
       "directory": "059",
       "tileTemplate": "059/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 60,
-      "time": "2026-10-19T02:00:00Z",
+      "time": "2026-10-19T03:00:00Z",
       "directory": "060",
       "tileTemplate": "060/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 61,
-      "time": "2026-10-19T03:00:00Z",
+      "time": "2026-10-19T04:00:00Z",
       "directory": "061",
       "tileTemplate": "061/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 62,
-      "time": "2026-10-19T04:00:00Z",
+      "time": "2026-10-19T05:00:00Z",
       "directory": "062",
       "tileTemplate": "062/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 63,
-      "time": "2026-10-19T05:00:00Z",
+      "time": "2026-10-19T06:00:00Z",
       "directory": "063",
       "tileTemplate": "063/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 64,
-      "time": "2026-10-19T06:00:00Z",
+      "time": "2026-10-19T07:00:00Z",
       "directory": "064",
       "tileTemplate": "064/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 65,
-      "time": "2026-10-19T07:00:00Z",
+      "time": "2026-10-19T08:00:00Z",
       "directory": "065",
       "tileTemplate": "065/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 66,
-      "time": "2026-10-19T08:00:00Z",
+      "time": "2026-10-19T09:00:00Z",
       "directory": "066",
       "tileTemplate": "066/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 67,
-      "time": "2026-10-19T09:00:00Z",
+      "time": "2026-10-19T10:00:00Z",
       "directory": "067",
       "tileTemplate": "067/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 68,
-      "time": "2026-10-19T10:00:00Z",
+      "time": "2026-10-19T11:00:00Z",
       "directory": "068",
       "tileTemplate": "068/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 69,
-      "time": "2026-10-19T11:00:00Z",
+      "time": "2026-10-19T12:00:00Z",
       "directory": "069",
       "tileTemplate": "069/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 70,
-      "time": "2026-10-19T12:00:00Z",
+      "time": "2026-10-19T13:00:00Z",
       "directory": "070",
       "tileTemplate": "070/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 71,
-      "time": "2026-10-19T13:00:00Z",
+      "time": "2026-10-19T14:00:00Z",
       "directory": "071",
       "tileTemplate": "071/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     },
     {
       "index": 72,
-      "time": "2026-10-19T14:00:00Z",
+      "time": "2026-10-19T15:00:00Z",
       "directory": "072",
       "tileTemplate": "072/9/{x}/{y}.webp",
-      "isolatedGapCellsFilled": 746
+      "idwPixels": 2186069,
+      "nsbsFallbackPixels": 432446
     }
   ]
 }
