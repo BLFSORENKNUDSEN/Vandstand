@@ -17,8 +17,17 @@ const slider = document.getElementById("frameSlider");
 const playButton = document.getElementById("playButton");
 const forecastTime = document.getElementById("forecastTime");
 const legend = document.getElementById("legend");
-const highWaterAlert = document.getElementById("highWaterAlert");
-const highWaterAlertText = document.getElementById("highWaterAlertText");
+// Also works in an existing Strandvejr template without the new summary markup.
+let summary = document.getElementById("forecastSummary");
+if (!summary) {
+  summary = document.createElement("section");
+  summary.id = "forecastSummary";
+  summary.className = "forecast-summary";
+  document.querySelector(".map-wrap").before(summary);
+}
+const legacyAlert = document.getElementById("highWaterAlert");
+if (legacyAlert) legacyAlert.hidden = true;
+let peakMarker = null;
 
 let metadata = null;
 let currentLayer = null;
@@ -29,41 +38,108 @@ let playTimer = null;
 let transitionToken = 0;
 
 function formatTime(value) {
-  const date = new Date(value);
+  if (!value || !Number.isFinite(Date.parse(value))) return "Tidspunkt ukendt";
   return new Intl.DateTimeFormat("da-DK", {
-    weekday: "long",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Copenhagen",
-  }).format(date);
+    day: "2-digit", month: "2-digit", year: "numeric",
+    hour: "2-digit", minute: "2-digit", timeZone: "Europe/Copenhagen",
+  }).format(new Date(value)) + " dansk tid";
+}
+
+function formatCm(value) {
+  return typeof value === "number" && Number.isFinite(value)
+    ? value.toLocaleString("da-DK", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " cm"
+    : "Ingen data";
 }
 
 function rgbaToCss(rgba) {
   return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3] / 255})`;
 }
 
-function updateHighWaterAlert() {
-  if (!highWaterAlert || !highWaterAlertText || !metadata) return;
+function addText(parent, tag, text, className) {
+  const element = document.createElement(tag);
+  element.textContent = text;
+  if (className) element.className = className;
+  parent.append(element);
+  return element;
+}
 
-  const local = Array.isArray(metadata.localForecasts)
-    ? metadata.localForecasts.find(item => item.id === "sortsoe_groensund")
-    : null;
+function getLocalForecast() {
+  return metadata.localForecasts?.find(item => item.id === "sortsoe_groensund");
+}
 
-  const alert = local && local.alert ? local.alert : metadata.highWaterAlert;
-
-  if (!alert || !alert.active || alert.peakCm == null || !alert.peakTime) {
-    highWaterAlert.hidden = true;
-    return;
+function addForecastCard(title, indicator) {
+  const card = document.createElement("article");
+  card.className = "forecast-card";
+  addText(card, "h2", title);
+  const valid = typeof indicator?.peakCm === "number" && Number.isFinite(indicator.peakCm);
+  addText(card, "p", valid
+    ? `Maksimum i prognoseperioden: ${formatCm(indicator.peakCm)} i forhold til middelvandstand.`
+    : "Prognose mangler for dette område.", "forecast-peak");
+  if (valid) addText(card, "p", `Prognosetidspunkt for maksimum: ${formatTime(indicator.peakTime)}`);
+  if (valid && typeof indicator.thresholdCm === "number" && Number.isFinite(indicator.thresholdCm)) {
+    const exceeded = indicator.peakCm > indicator.thresholdCm;
+    addText(card, "p", `Sidens modelgrænse på ${formatCm(indicator.thresholdCm)} er ${exceeded ? "overskredet" : "ikke overskredet"}.`,
+      exceeded ? "model-threshold exceeded" : "model-threshold");
   }
+  summary.append(card);
+  return card;
+}
 
-  const peak = Math.round(Number(alert.peakCm));
-  const placeName = local && local.name
-    ? local.name
-    : "de danske farvande";
-
-  highWaterAlertText.textContent =
-    `${placeName}: Prognosen viser op til ${peak} cm over daglig vande. Vandstanden ventes at toppe ${formatTime(alert.peakTime)}.`;
-  highWaterAlert.hidden = false;
+function updateHighWaterAlert() {
+  if (!metadata) return;
+  summary.replaceChildren();
+  const model = metadata.highWaterAlert;
+  const local = getLocalForecast();
+  const modelCard = addForecastCard("Samlet kortområde", model);
+  addText(modelCard, "p", "Omfatter også udenlandske farvande. Maksimum er ikke en prognose for alle danske kyster. Lokal kystpåvirkning er ikke vurderet.");
+  // Legacy data contain no coordinates. Never infer a coastal warning from them.
+  const location = model?.peakLocation;
+  if (location && Number.isFinite(location.lat) && Number.isFinite(location.lon)) {
+    addText(modelCard, "p", `Position: ${location.lat.toFixed(4)}° N, ${location.lon.toFixed(4)}° Ø · ${location.source || "DMI DKSS"}`);
+    const button = addText(modelCard, "button", "Vis maksimum på kortet");
+    button.type = "button";
+    button.addEventListener("click", async () => {
+      stopPlayback();
+      const index = metadata.frames.findIndex(frame => frame.time === model.peakTime);
+      if (index >= 0) await transitionTo(index, false);
+      map.setView([location.lat, location.lon], 9);
+      peakMarker?.openPopup();
+    });
+    if (peakMarker) map.removeLayer(peakMarker);
+    const popup = document.createElement("div");
+    popup.textContent = `Samlet modelmaksimum: ${formatCm(model.peakCm)} · ${formatTime(model.peakTime)}. Ikke et myndighedsvarsel.`;
+    peakMarker = L.circleMarker([location.lat, location.lon], { radius: 8, color: "#7d304b", fillOpacity: 0.8 })
+      .addTo(map).bindPopup(popup);
+  } else {
+    addText(modelCard, "p", "Position for maksimum findes ikke i dette datasæt. Kystområde kan derfor ikke fastslås ud fra metadata.");
+  }
+  const localCard = addForecastCard("Grønsund ved Sortsø Strand", local?.alert);
+  addText(localCard, "p", "Lokal modelprognose for punktet ved Sortsø Strand. Kan afvige fra forholdene helt inde ved kysten.");
+  if (local && Number.isFinite(local.lat) && Number.isFinite(local.lon)) {
+    const popup = document.createElement("div");
+    popup.textContent = `Grønsund ved Sortsø Strand · lokalt modelmaksimum ${formatCm(local.alert?.peakCm)} · ${formatTime(local.alert?.peakTime)}`;
+    L.circleMarker([local.lat, local.lon], { radius: 6, color: "#006c99", fillOpacity: 0.8 }).addTo(map).bindPopup(popup);
+  }
+  const notes = document.createElement("div");
+  notes.className = "forecast-notes";
+  addText(notes, "p", `Datastempel: ${formatTime(metadata.generated)}`);
+  for (const [name, time] of Object.entries(metadata.modelRuns || {})) {
+    addText(notes, "p", `Modelkørsel ${name}: ${formatTime(time)}`);
+  }
+  const first = metadata.frames[0];
+  const last = metadata.frames[metadata.frames.length - 1];
+  addText(notes, "p", `Prognoseperiode: ${formatTime(first.time)} til ${formatTime(last.time)}.`);
+  const generated = Date.parse(metadata.generated);
+  if (!Number.isFinite(generated) || Date.now() - generated > 12 * 3600000) {
+    addText(notes, "p", "Datastemplet er ukendt eller mere end 12 timer gammelt. Prognosen kan være forældet.", "data-age");
+  }
+  if (Date.parse(last.time) < Date.now()) {
+    addText(notes, "p", "Hele prognoseperioden er udløbet.", "data-age");
+  }
+  addText(notes, "p", "Kilde: DMI DKSS modeldata. Automatisk modelberegning, ikke et officielt myndighedsvarsel. Grænsen på siden er ikke en officiel varslingsgrænse.");
+  const link = addText(notes, "a", "Se officielle varsler hos DMI");
+  link.href = "https://www.dmi.dk/varsler";
+  summary.append(notes);
 }
 
 function buildLegend(stops) {
@@ -114,7 +190,10 @@ function createFrameLayer(index, opacity) {
 function updateText(index) {
   const frame = metadata.frames[index];
   forecastTime.textContent =
-    `${formatTime(frame.time)} · ${index + 1} af ${metadata.frames.length} · DMI DKSS kombineret`;
+    `Kortets prognosetidspunkt: ${formatTime(frame.time)} · ${index + 1} af ${metadata.frames.length}`;
+  const localValue = getLocalForecast()?.series?.find(item => item.time === frame.time)?.waterLevelCm;
+  const current = document.getElementById("currentValues");
+  if (current) current.textContent = `På valgt tidspunkt: samlet kortmaksimum ${formatCm(frame.maxWaterLevelCm)} · Sortsø Strand ${formatCm(localValue)} i forhold til middelvandstand.`;
 }
 
 function clearPrepared() {
@@ -245,6 +324,13 @@ async function init() {
   slider.max = String(metadata.frames.length - 1);
   slider.value = "0";
 
+  const labels = document.querySelectorAll(".timeline-labels span");
+  if (labels.length === 3) {
+    const middle = Math.floor((metadata.frames.length - 1) / 2);
+    [0, middle, metadata.frames.length - 1].forEach((index, i) => {
+      labels[i].textContent = formatTime(metadata.frames[index].time);
+    });
+  }
   buildLegend(metadata.colorStops || []);
   updateHighWaterAlert();
 
