@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-02T01:02:08Z",
+  "generated": "2026-11-02T11:40:50Z",
   "source": "DMI DKSS combined dkss_idw + dkss_nsbs via Forecast Data STAC API",
   "collection": "dkss_combined",
   "modelRuns": {
-    "dkss_idw": "2026-11-01T18:00:00Z",
-    "dkss_nsbs": "2026-11-01T18:00:00Z"
+    "dkss_idw": "2026-11-02T06:00:00Z",
+    "dkss_nsbs": "2026-11-02T06:00:00Z"
   },
   "priority": [
     "dkss_idw",
@@ -36,7 +36,7 @@
       "Ni": 414,
       "Nj": 348,
       "bitmapPresent": true,
-      "bitmapMaskedCells": 110038
+      "bitmapMaskedCells": 110039
     }
   },
   "parameter": {
@@ -50,8 +50,8 @@
   "highWaterAlert": {
     "thresholdCm": 75.0,
     "active": true,
-    "peakCm": 163.0,
-    "peakTime": "2026-11-02T06:00:00Z"
+    "peakCm": 115.4,
+    "peakTime": "2026-11-05T10:00:00Z"
   },
   "localForecasts": [
     {
@@ -62,278 +62,223 @@
       "thresholdCm": 75.0,
       "series": [
         {
-          "time": "2026-11-02T01:00:00Z",
-          "waterLevelCm": -9.0,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T02:00:00Z",
-          "waterLevelCm": -8.2,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T03:00:00Z",
-          "waterLevelCm": -4.6,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T04:00:00Z",
-          "waterLevelCm": 2.2,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T05:00:00Z",
-          "waterLevelCm": 13.7,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T06:00:00Z",
-          "waterLevelCm": 25.4,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T07:00:00Z",
-          "waterLevelCm": 30.8,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T08:00:00Z",
-          "waterLevelCm": 33.2,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T09:00:00Z",
-          "waterLevelCm": 30.4,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T10:00:00Z",
-          "waterLevelCm": 22.7,
-          "source": "dkss_idw"
-        },
-        {
-          "time": "2026-11-02T11:00:00Z",
-          "waterLevelCm": 13.9,
-          "source": "dkss_idw"
-        },
-        {
           "time": "2026-11-02T12:00:00Z",
-          "waterLevelCm": 9.6,
+          "waterLevelCm": 8.7,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T13:00:00Z",
-          "waterLevelCm": 8.2,
+          "waterLevelCm": 6.1,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T14:00:00Z",
-          "waterLevelCm": 10.5,
+          "waterLevelCm": 7.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T15:00:00Z",
-          "waterLevelCm": 20.0,
+          "waterLevelCm": 16.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T16:00:00Z",
-          "waterLevelCm": 33.2,
+          "waterLevelCm": 30.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T17:00:00Z",
-          "waterLevelCm": 41.0,
+          "waterLevelCm": 40.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T18:00:00Z",
-          "waterLevelCm": 44.8,
+          "waterLevelCm": 45.4,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T19:00:00Z",
-          "waterLevelCm": 46.1,
+          "waterLevelCm": 48.8,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T20:00:00Z",
-          "waterLevelCm": 42.6,
+          "waterLevelCm": 45.6,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T21:00:00Z",
-          "waterLevelCm": 36.5,
+          "waterLevelCm": 38.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T22:00:00Z",
-          "waterLevelCm": 28.8,
+          "waterLevelCm": 28.4,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-02T23:00:00Z",
-          "waterLevelCm": 20.6,
+          "waterLevelCm": 17.7,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T00:00:00Z",
-          "waterLevelCm": 15.6,
+          "waterLevelCm": 12.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T01:00:00Z",
-          "waterLevelCm": 12.6,
+          "waterLevelCm": 8.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T02:00:00Z",
-          "waterLevelCm": 10.4,
+          "waterLevelCm": 5.6,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T03:00:00Z",
-          "waterLevelCm": 10.9,
+          "waterLevelCm": 6.4,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T04:00:00Z",
-          "waterLevelCm": 14.3,
+          "waterLevelCm": 10.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T05:00:00Z",
-          "waterLevelCm": 19.8,
+          "waterLevelCm": 15.7,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T06:00:00Z",
-          "waterLevelCm": 26.3,
+          "waterLevelCm": 22.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T07:00:00Z",
-          "waterLevelCm": 30.7,
+          "waterLevelCm": 27.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T08:00:00Z",
-          "waterLevelCm": 31.9,
+          "waterLevelCm": 30.6,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T09:00:00Z",
-          "waterLevelCm": 30.7,
+          "waterLevelCm": 31.6,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T10:00:00Z",
-          "waterLevelCm": 26.7,
+          "waterLevelCm": 28.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T11:00:00Z",
-          "waterLevelCm": 21.6,
+          "waterLevelCm": 22.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T12:00:00Z",
-          "waterLevelCm": 16.3,
+          "waterLevelCm": 15.5,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T13:00:00Z",
-          "waterLevelCm": 11.9,
+          "waterLevelCm": 10.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T14:00:00Z",
-          "waterLevelCm": 9.1,
+          "waterLevelCm": 7.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T15:00:00Z",
-          "waterLevelCm": 8.1,
+          "waterLevelCm": 7.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T16:00:00Z",
-          "waterLevelCm": 9.2,
+          "waterLevelCm": 9.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T17:00:00Z",
-          "waterLevelCm": 12.8,
+          "waterLevelCm": 12.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T18:00:00Z",
-          "waterLevelCm": 18.4,
+          "waterLevelCm": 16.9,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T19:00:00Z",
-          "waterLevelCm": 25.6,
+          "waterLevelCm": 24.1,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T20:00:00Z",
-          "waterLevelCm": 31.2,
+          "waterLevelCm": 29.4,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T21:00:00Z",
-          "waterLevelCm": 32.4,
+          "waterLevelCm": 31.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T22:00:00Z",
-          "waterLevelCm": 30.3,
+          "waterLevelCm": 29.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-03T23:00:00Z",
-          "waterLevelCm": 23.9,
+          "waterLevelCm": 21.7,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T00:00:00Z",
-          "waterLevelCm": 18.0,
+          "waterLevelCm": 15.1,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T01:00:00Z",
-          "waterLevelCm": 12.8,
+          "waterLevelCm": 11.5,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T02:00:00Z",
-          "waterLevelCm": 8.1,
+          "waterLevelCm": 6.4,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T03:00:00Z",
-          "waterLevelCm": 5.4,
+          "waterLevelCm": 3.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T04:00:00Z",
-          "waterLevelCm": 5.7,
+          "waterLevelCm": 3.1,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T05:00:00Z",
-          "waterLevelCm": 7.8,
+          "waterLevelCm": 5.4,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T06:00:00Z",
-          "waterLevelCm": 11.8,
+          "waterLevelCm": 9.4,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T07:00:00Z",
-          "waterLevelCm": 18.2,
+          "waterLevelCm": 16.5,
           "source": "dkss_idw"
         },
         {
@@ -343,94 +288,149 @@
         },
         {
           "time": "2026-11-04T09:00:00Z",
-          "waterLevelCm": 34.6,
+          "waterLevelCm": 35.7,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T10:00:00Z",
-          "waterLevelCm": 36.6,
+          "waterLevelCm": 37.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T11:00:00Z",
-          "waterLevelCm": 33.6,
+          "waterLevelCm": 34.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T12:00:00Z",
-          "waterLevelCm": 25.9,
+          "waterLevelCm": 26.1,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T13:00:00Z",
-          "waterLevelCm": 14.4,
+          "waterLevelCm": 14.6,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T14:00:00Z",
-          "waterLevelCm": 4.4,
+          "waterLevelCm": 6.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T15:00:00Z",
-          "waterLevelCm": 0.4,
+          "waterLevelCm": 3.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T16:00:00Z",
-          "waterLevelCm": -3.2,
+          "waterLevelCm": -0.1,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T17:00:00Z",
-          "waterLevelCm": -5.7,
+          "waterLevelCm": -2.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T18:00:00Z",
-          "waterLevelCm": -4.1,
+          "waterLevelCm": 0.2,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T19:00:00Z",
-          "waterLevelCm": 2.2,
+          "waterLevelCm": 6.3,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T20:00:00Z",
-          "waterLevelCm": 11.3,
+          "waterLevelCm": 14.9,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T21:00:00Z",
-          "waterLevelCm": 18.2,
+          "waterLevelCm": 20.0,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T22:00:00Z",
-          "waterLevelCm": 18.7,
+          "waterLevelCm": 20.5,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-04T23:00:00Z",
-          "waterLevelCm": 16.1,
+          "waterLevelCm": 17.8,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-05T00:00:00Z",
-          "waterLevelCm": 8.3,
+          "waterLevelCm": 9.7,
           "source": "dkss_idw"
         },
         {
           "time": "2026-11-05T01:00:00Z",
-          "waterLevelCm": -2.7,
+          "waterLevelCm": -1.2,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T02:00:00Z",
+          "waterLevelCm": -8.8,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T03:00:00Z",
+          "waterLevelCm": -13.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T04:00:00Z",
+          "waterLevelCm": -17.3,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T05:00:00Z",
+          "waterLevelCm": -18.1,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T06:00:00Z",
+          "waterLevelCm": -15.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T07:00:00Z",
+          "waterLevelCm": -9.8,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T08:00:00Z",
+          "waterLevelCm": 0.0,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T09:00:00Z",
+          "waterLevelCm": 12.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T10:00:00Z",
+          "waterLevelCm": 23.2,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T11:00:00Z",
+          "waterLevelCm": 25.6,
+          "source": "dkss_idw"
+        },
+        {
+          "time": "2026-11-05T12:00:00Z",
+          "waterLevelCm": 23.2,
           "source": "dkss_idw"
         }
       ],
       "alert": {
         "thresholdCm": 75.0,
         "active": false,
-        "peakCm": 46.1,
+        "peakCm": 48.8,
         "peakTime": "2026-11-02T19:00:00Z"
       }
     }
@@ -617,660 +617,660 @@
   "frames": [
     {
       "index": 0,
-      "time": "2026-11-02T01:00:00Z",
+      "time": "2026-11-02T12:00:00Z",
       "directory": "000",
       "tileTemplate": "000/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 27.7
+      "maxWaterLevelCm": 38.5
     },
     {
       "index": 1,
-      "time": "2026-11-02T02:00:00Z",
+      "time": "2026-11-02T13:00:00Z",
       "directory": "001",
       "tileTemplate": "001/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 30.1
+      "maxWaterLevelCm": 44.6
     },
     {
       "index": 2,
-      "time": "2026-11-02T03:00:00Z",
+      "time": "2026-11-02T14:00:00Z",
       "directory": "002",
       "tileTemplate": "002/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 40.0
+      "maxWaterLevelCm": 45.0
     },
     {
       "index": 3,
-      "time": "2026-11-02T04:00:00Z",
+      "time": "2026-11-02T15:00:00Z",
       "directory": "003",
       "tileTemplate": "003/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 101.9
+      "maxWaterLevelCm": 48.6
     },
     {
       "index": 4,
-      "time": "2026-11-02T05:00:00Z",
+      "time": "2026-11-02T16:00:00Z",
       "directory": "004",
       "tileTemplate": "004/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 149.3
+      "maxWaterLevelCm": 51.6
     },
     {
       "index": 5,
-      "time": "2026-11-02T06:00:00Z",
+      "time": "2026-11-02T17:00:00Z",
       "directory": "005",
       "tileTemplate": "005/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 163.0
+      "maxWaterLevelCm": 62.5
     },
     {
       "index": 6,
-      "time": "2026-11-02T07:00:00Z",
+      "time": "2026-11-02T18:00:00Z",
       "directory": "006",
       "tileTemplate": "006/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 137.3
+      "maxWaterLevelCm": 95.9
     },
     {
       "index": 7,
-      "time": "2026-11-02T08:00:00Z",
+      "time": "2026-11-02T19:00:00Z",
       "directory": "007",
       "tileTemplate": "007/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 116.4
+      "maxWaterLevelCm": 105.2
     },
     {
       "index": 8,
-      "time": "2026-11-02T09:00:00Z",
+      "time": "2026-11-02T20:00:00Z",
       "directory": "008",
       "tileTemplate": "008/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 77.9
+      "maxWaterLevelCm": 89.1
     },
     {
       "index": 9,
-      "time": "2026-11-02T10:00:00Z",
+      "time": "2026-11-02T21:00:00Z",
       "directory": "009",
       "tileTemplate": "009/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 48.2
+      "maxWaterLevelCm": 71.7
     },
     {
       "index": 10,
-      "time": "2026-11-02T11:00:00Z",
+      "time": "2026-11-02T22:00:00Z",
       "directory": "010",
       "tileTemplate": "010/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 32.2
-    },
-    {
-      "index": 11,
-      "time": "2026-11-02T12:00:00Z",
-      "directory": "011",
-      "tileTemplate": "011/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 40.9
-    },
-    {
-      "index": 12,
-      "time": "2026-11-02T13:00:00Z",
-      "directory": "012",
-      "tileTemplate": "012/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 47.9
-    },
-    {
-      "index": 13,
-      "time": "2026-11-02T14:00:00Z",
-      "directory": "013",
-      "tileTemplate": "013/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 47.6
-    },
-    {
-      "index": 14,
-      "time": "2026-11-02T15:00:00Z",
-      "directory": "014",
-      "tileTemplate": "014/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 53.6
-    },
-    {
-      "index": 15,
-      "time": "2026-11-02T16:00:00Z",
-      "directory": "015",
-      "tileTemplate": "015/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 54.7
-    },
-    {
-      "index": 16,
-      "time": "2026-11-02T17:00:00Z",
-      "directory": "016",
-      "tileTemplate": "016/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 63.3
-    },
-    {
-      "index": 17,
-      "time": "2026-11-02T18:00:00Z",
-      "directory": "017",
-      "tileTemplate": "017/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 95.2
-    },
-    {
-      "index": 18,
-      "time": "2026-11-02T19:00:00Z",
-      "directory": "018",
-      "tileTemplate": "018/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 104.0
-    },
-    {
-      "index": 19,
-      "time": "2026-11-02T20:00:00Z",
-      "directory": "019",
-      "tileTemplate": "019/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 88.4
-    },
-    {
-      "index": 20,
-      "time": "2026-11-02T21:00:00Z",
-      "directory": "020",
-      "tileTemplate": "020/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 72.5
-    },
-    {
-      "index": 21,
-      "time": "2026-11-02T22:00:00Z",
-      "directory": "021",
-      "tileTemplate": "021/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 42.7
-    },
-    {
-      "index": 22,
-      "time": "2026-11-02T23:00:00Z",
-      "directory": "022",
-      "tileTemplate": "022/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 41.0
-    },
-    {
-      "index": 23,
-      "time": "2026-11-03T00:00:00Z",
-      "directory": "023",
-      "tileTemplate": "023/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 40.8
-    },
-    {
-      "index": 24,
-      "time": "2026-11-03T01:00:00Z",
-      "directory": "024",
-      "tileTemplate": "024/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 41.3
-    },
-    {
-      "index": 25,
-      "time": "2026-11-03T02:00:00Z",
-      "directory": "025",
-      "tileTemplate": "025/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 42.2
-    },
-    {
-      "index": 26,
-      "time": "2026-11-03T03:00:00Z",
-      "directory": "026",
-      "tileTemplate": "026/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 43.5
-    },
-    {
-      "index": 27,
-      "time": "2026-11-03T04:00:00Z",
-      "directory": "027",
-      "tileTemplate": "027/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 43.6
-    },
-    {
-      "index": 28,
-      "time": "2026-11-03T05:00:00Z",
-      "directory": "028",
-      "tileTemplate": "028/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 44.8
-    },
-    {
-      "index": 29,
-      "time": "2026-11-03T06:00:00Z",
-      "directory": "029",
-      "tileTemplate": "029/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 77.9
-    },
-    {
-      "index": 30,
-      "time": "2026-11-03T07:00:00Z",
-      "directory": "030",
-      "tileTemplate": "030/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 102.6
-    },
-    {
-      "index": 31,
-      "time": "2026-11-03T08:00:00Z",
-      "directory": "031",
-      "tileTemplate": "031/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 97.1
-    },
-    {
-      "index": 32,
-      "time": "2026-11-03T09:00:00Z",
-      "directory": "032",
-      "tileTemplate": "032/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 79.4
-    },
-    {
-      "index": 33,
-      "time": "2026-11-03T10:00:00Z",
-      "directory": "033",
-      "tileTemplate": "033/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 50.3
-    },
-    {
-      "index": 34,
-      "time": "2026-11-03T11:00:00Z",
-      "directory": "034",
-      "tileTemplate": "034/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 45.7
-    },
-    {
-      "index": 35,
-      "time": "2026-11-03T12:00:00Z",
-      "directory": "035",
-      "tileTemplate": "035/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 47.0
-    },
-    {
-      "index": 36,
-      "time": "2026-11-03T13:00:00Z",
-      "directory": "036",
-      "tileTemplate": "036/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 46.6
-    },
-    {
-      "index": 37,
-      "time": "2026-11-03T14:00:00Z",
-      "directory": "037",
-      "tileTemplate": "037/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 44.5
-    },
-    {
-      "index": 38,
-      "time": "2026-11-03T15:00:00Z",
-      "directory": "038",
-      "tileTemplate": "038/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
       "maxWaterLevelCm": 42.3
     },
     {
-      "index": 39,
-      "time": "2026-11-03T16:00:00Z",
-      "directory": "039",
-      "tileTemplate": "039/9/{x}/{y}.webp",
+      "index": 11,
+      "time": "2026-11-02T23:00:00Z",
+      "directory": "011",
+      "tileTemplate": "011/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 40.6
+      "maxWaterLevelCm": 40.7
     },
     {
-      "index": 40,
-      "time": "2026-11-03T17:00:00Z",
-      "directory": "040",
-      "tileTemplate": "040/9/{x}/{y}.webp",
+      "index": 12,
+      "time": "2026-11-03T00:00:00Z",
+      "directory": "012",
+      "tileTemplate": "012/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 38.9
+      "maxWaterLevelCm": 40.5
     },
     {
-      "index": 41,
-      "time": "2026-11-03T18:00:00Z",
-      "directory": "041",
-      "tileTemplate": "041/9/{x}/{y}.webp",
+      "index": 13,
+      "time": "2026-11-03T01:00:00Z",
+      "directory": "013",
+      "tileTemplate": "013/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 38.3
+      "maxWaterLevelCm": 41.7
     },
     {
-      "index": 42,
-      "time": "2026-11-03T19:00:00Z",
-      "directory": "042",
-      "tileTemplate": "042/9/{x}/{y}.webp",
+      "index": 14,
+      "time": "2026-11-03T02:00:00Z",
+      "directory": "014",
+      "tileTemplate": "014/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 46.5
+      "maxWaterLevelCm": 42.1
     },
     {
-      "index": 43,
-      "time": "2026-11-03T20:00:00Z",
-      "directory": "043",
-      "tileTemplate": "043/9/{x}/{y}.webp",
+      "index": 15,
+      "time": "2026-11-03T03:00:00Z",
+      "directory": "015",
+      "tileTemplate": "015/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 67.1
+      "maxWaterLevelCm": 44.2
     },
     {
-      "index": 44,
-      "time": "2026-11-03T21:00:00Z",
-      "directory": "044",
-      "tileTemplate": "044/9/{x}/{y}.webp",
+      "index": 16,
+      "time": "2026-11-03T04:00:00Z",
+      "directory": "016",
+      "tileTemplate": "016/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 62.2
+      "maxWaterLevelCm": 43.3
     },
     {
-      "index": 45,
-      "time": "2026-11-03T22:00:00Z",
-      "directory": "045",
-      "tileTemplate": "045/9/{x}/{y}.webp",
+      "index": 17,
+      "time": "2026-11-03T05:00:00Z",
+      "directory": "017",
+      "tileTemplate": "017/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 50.7
+      "maxWaterLevelCm": 44.0
     },
     {
-      "index": 46,
-      "time": "2026-11-03T23:00:00Z",
-      "directory": "046",
-      "tileTemplate": "046/9/{x}/{y}.webp",
+      "index": 18,
+      "time": "2026-11-03T06:00:00Z",
+      "directory": "018",
+      "tileTemplate": "018/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 41.3
+      "maxWaterLevelCm": 85.8
     },
     {
-      "index": 47,
-      "time": "2026-11-04T00:00:00Z",
-      "directory": "047",
-      "tileTemplate": "047/9/{x}/{y}.webp",
+      "index": 19,
+      "time": "2026-11-03T07:00:00Z",
+      "directory": "019",
+      "tileTemplate": "019/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 44.3
+      "maxWaterLevelCm": 109.9
     },
     {
-      "index": 48,
-      "time": "2026-11-04T01:00:00Z",
-      "directory": "048",
-      "tileTemplate": "048/9/{x}/{y}.webp",
+      "index": 20,
+      "time": "2026-11-03T08:00:00Z",
+      "directory": "020",
+      "tileTemplate": "020/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 44.1
+      "maxWaterLevelCm": 100.0
     },
     {
-      "index": 49,
-      "time": "2026-11-04T02:00:00Z",
-      "directory": "049",
-      "tileTemplate": "049/9/{x}/{y}.webp",
+      "index": 21,
+      "time": "2026-11-03T09:00:00Z",
+      "directory": "021",
+      "tileTemplate": "021/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 44.3
+      "maxWaterLevelCm": 82.4
     },
     {
-      "index": 50,
-      "time": "2026-11-04T03:00:00Z",
-      "directory": "050",
-      "tileTemplate": "050/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 44.5
-    },
-    {
-      "index": 51,
-      "time": "2026-11-04T04:00:00Z",
-      "directory": "051",
-      "tileTemplate": "051/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 42.7
-    },
-    {
-      "index": 52,
-      "time": "2026-11-04T05:00:00Z",
-      "directory": "052",
-      "tileTemplate": "052/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 40.3
-    },
-    {
-      "index": 53,
-      "time": "2026-11-04T06:00:00Z",
-      "directory": "053",
-      "tileTemplate": "053/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 41.6
-    },
-    {
-      "index": 54,
-      "time": "2026-11-04T07:00:00Z",
-      "directory": "054",
-      "tileTemplate": "054/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 65.4
-    },
-    {
-      "index": 55,
-      "time": "2026-11-04T08:00:00Z",
-      "directory": "055",
-      "tileTemplate": "055/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 100.8
-    },
-    {
-      "index": 56,
-      "time": "2026-11-04T09:00:00Z",
-      "directory": "056",
-      "tileTemplate": "056/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 104.8
-    },
-    {
-      "index": 57,
-      "time": "2026-11-04T10:00:00Z",
-      "directory": "057",
-      "tileTemplate": "057/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 79.6
-    },
-    {
-      "index": 58,
-      "time": "2026-11-04T11:00:00Z",
-      "directory": "058",
-      "tileTemplate": "058/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 58.9
-    },
-    {
-      "index": 59,
-      "time": "2026-11-04T12:00:00Z",
-      "directory": "059",
-      "tileTemplate": "059/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 34.3
-    },
-    {
-      "index": 60,
-      "time": "2026-11-04T13:00:00Z",
-      "directory": "060",
-      "tileTemplate": "060/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 32.9
-    },
-    {
-      "index": 61,
-      "time": "2026-11-04T14:00:00Z",
-      "directory": "061",
-      "tileTemplate": "061/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 31.3
-    },
-    {
-      "index": 62,
-      "time": "2026-11-04T15:00:00Z",
-      "directory": "062",
-      "tileTemplate": "062/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 30.5
-    },
-    {
-      "index": 63,
-      "time": "2026-11-04T16:00:00Z",
-      "directory": "063",
-      "tileTemplate": "063/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 28.5
-    },
-    {
-      "index": 64,
-      "time": "2026-11-04T17:00:00Z",
-      "directory": "064",
-      "tileTemplate": "064/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 26.7
-    },
-    {
-      "index": 65,
-      "time": "2026-11-04T18:00:00Z",
-      "directory": "065",
-      "tileTemplate": "065/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 25.6
-    },
-    {
-      "index": 66,
-      "time": "2026-11-04T19:00:00Z",
-      "directory": "066",
-      "tileTemplate": "066/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 24.1
-    },
-    {
-      "index": 67,
-      "time": "2026-11-04T20:00:00Z",
-      "directory": "067",
-      "tileTemplate": "067/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 33.9
-    },
-    {
-      "index": 68,
-      "time": "2026-11-04T21:00:00Z",
-      "directory": "068",
-      "tileTemplate": "068/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 61.8
-    },
-    {
-      "index": 69,
-      "time": "2026-11-04T22:00:00Z",
-      "directory": "069",
-      "tileTemplate": "069/9/{x}/{y}.webp",
-      "idwPixels": 2186064,
-      "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 64.3
-    },
-    {
-      "index": 70,
-      "time": "2026-11-04T23:00:00Z",
-      "directory": "070",
-      "tileTemplate": "070/9/{x}/{y}.webp",
+      "index": 22,
+      "time": "2026-11-03T10:00:00Z",
+      "directory": "022",
+      "tileTemplate": "022/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
       "maxWaterLevelCm": 49.3
     },
     {
-      "index": 71,
+      "index": 23,
+      "time": "2026-11-03T11:00:00Z",
+      "directory": "023",
+      "tileTemplate": "023/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 46.5
+    },
+    {
+      "index": 24,
+      "time": "2026-11-03T12:00:00Z",
+      "directory": "024",
+      "tileTemplate": "024/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 46.8
+    },
+    {
+      "index": 25,
+      "time": "2026-11-03T13:00:00Z",
+      "directory": "025",
+      "tileTemplate": "025/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 44.9
+    },
+    {
+      "index": 26,
+      "time": "2026-11-03T14:00:00Z",
+      "directory": "026",
+      "tileTemplate": "026/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 45.3
+    },
+    {
+      "index": 27,
+      "time": "2026-11-03T15:00:00Z",
+      "directory": "027",
+      "tileTemplate": "027/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 42.3
+    },
+    {
+      "index": 28,
+      "time": "2026-11-03T16:00:00Z",
+      "directory": "028",
+      "tileTemplate": "028/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 41.5
+    },
+    {
+      "index": 29,
+      "time": "2026-11-03T17:00:00Z",
+      "directory": "029",
+      "tileTemplate": "029/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 39.2
+    },
+    {
+      "index": 30,
+      "time": "2026-11-03T18:00:00Z",
+      "directory": "030",
+      "tileTemplate": "030/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 38.1
+    },
+    {
+      "index": 31,
+      "time": "2026-11-03T19:00:00Z",
+      "directory": "031",
+      "tileTemplate": "031/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 43.0
+    },
+    {
+      "index": 32,
+      "time": "2026-11-03T20:00:00Z",
+      "directory": "032",
+      "tileTemplate": "032/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 63.7
+    },
+    {
+      "index": 33,
+      "time": "2026-11-03T21:00:00Z",
+      "directory": "033",
+      "tileTemplate": "033/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 58.3
+    },
+    {
+      "index": 34,
+      "time": "2026-11-03T22:00:00Z",
+      "directory": "034",
+      "tileTemplate": "034/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 47.7
+    },
+    {
+      "index": 35,
+      "time": "2026-11-03T23:00:00Z",
+      "directory": "035",
+      "tileTemplate": "035/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 38.0
+    },
+    {
+      "index": 36,
+      "time": "2026-11-04T00:00:00Z",
+      "directory": "036",
+      "tileTemplate": "036/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 38.6
+    },
+    {
+      "index": 37,
+      "time": "2026-11-04T01:00:00Z",
+      "directory": "037",
+      "tileTemplate": "037/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 40.0
+    },
+    {
+      "index": 38,
+      "time": "2026-11-04T02:00:00Z",
+      "directory": "038",
+      "tileTemplate": "038/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 41.7
+    },
+    {
+      "index": 39,
+      "time": "2026-11-04T03:00:00Z",
+      "directory": "039",
+      "tileTemplate": "039/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 41.0
+    },
+    {
+      "index": 40,
+      "time": "2026-11-04T04:00:00Z",
+      "directory": "040",
+      "tileTemplate": "040/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 39.8
+    },
+    {
+      "index": 41,
+      "time": "2026-11-04T05:00:00Z",
+      "directory": "041",
+      "tileTemplate": "041/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 36.8
+    },
+    {
+      "index": 42,
+      "time": "2026-11-04T06:00:00Z",
+      "directory": "042",
+      "tileTemplate": "042/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 35.6
+    },
+    {
+      "index": 43,
+      "time": "2026-11-04T07:00:00Z",
+      "directory": "043",
+      "tileTemplate": "043/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 71.4
+    },
+    {
+      "index": 44,
+      "time": "2026-11-04T08:00:00Z",
+      "directory": "044",
+      "tileTemplate": "044/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 105.7
+    },
+    {
+      "index": 45,
+      "time": "2026-11-04T09:00:00Z",
+      "directory": "045",
+      "tileTemplate": "045/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 109.0
+    },
+    {
+      "index": 46,
+      "time": "2026-11-04T10:00:00Z",
+      "directory": "046",
+      "tileTemplate": "046/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 83.0
+    },
+    {
+      "index": 47,
+      "time": "2026-11-04T11:00:00Z",
+      "directory": "047",
+      "tileTemplate": "047/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 62.6
+    },
+    {
+      "index": 48,
+      "time": "2026-11-04T12:00:00Z",
+      "directory": "048",
+      "tileTemplate": "048/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 32.8
+    },
+    {
+      "index": 49,
+      "time": "2026-11-04T13:00:00Z",
+      "directory": "049",
+      "tileTemplate": "049/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 31.4
+    },
+    {
+      "index": 50,
+      "time": "2026-11-04T14:00:00Z",
+      "directory": "050",
+      "tileTemplate": "050/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 29.7
+    },
+    {
+      "index": 51,
+      "time": "2026-11-04T15:00:00Z",
+      "directory": "051",
+      "tileTemplate": "051/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 29.2
+    },
+    {
+      "index": 52,
+      "time": "2026-11-04T16:00:00Z",
+      "directory": "052",
+      "tileTemplate": "052/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 28.4
+    },
+    {
+      "index": 53,
+      "time": "2026-11-04T17:00:00Z",
+      "directory": "053",
+      "tileTemplate": "053/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 27.0
+    },
+    {
+      "index": 54,
+      "time": "2026-11-04T18:00:00Z",
+      "directory": "054",
+      "tileTemplate": "054/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 25.2
+    },
+    {
+      "index": 55,
+      "time": "2026-11-04T19:00:00Z",
+      "directory": "055",
+      "tileTemplate": "055/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 24.0
+    },
+    {
+      "index": 56,
+      "time": "2026-11-04T20:00:00Z",
+      "directory": "056",
+      "tileTemplate": "056/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 29.9
+    },
+    {
+      "index": 57,
+      "time": "2026-11-04T21:00:00Z",
+      "directory": "057",
+      "tileTemplate": "057/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 58.8
+    },
+    {
+      "index": 58,
+      "time": "2026-11-04T22:00:00Z",
+      "directory": "058",
+      "tileTemplate": "058/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 62.2
+    },
+    {
+      "index": 59,
+      "time": "2026-11-04T23:00:00Z",
+      "directory": "059",
+      "tileTemplate": "059/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 48.2
+    },
+    {
+      "index": 60,
       "time": "2026-11-05T00:00:00Z",
+      "directory": "060",
+      "tileTemplate": "060/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 29.7
+    },
+    {
+      "index": 61,
+      "time": "2026-11-05T01:00:00Z",
+      "directory": "061",
+      "tileTemplate": "061/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 20.7
+    },
+    {
+      "index": 62,
+      "time": "2026-11-05T02:00:00Z",
+      "directory": "062",
+      "tileTemplate": "062/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 21.3
+    },
+    {
+      "index": 63,
+      "time": "2026-11-05T03:00:00Z",
+      "directory": "063",
+      "tileTemplate": "063/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 21.9
+    },
+    {
+      "index": 64,
+      "time": "2026-11-05T04:00:00Z",
+      "directory": "064",
+      "tileTemplate": "064/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 22.9
+    },
+    {
+      "index": 65,
+      "time": "2026-11-05T05:00:00Z",
+      "directory": "065",
+      "tileTemplate": "065/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 23.9
+    },
+    {
+      "index": 66,
+      "time": "2026-11-05T06:00:00Z",
+      "directory": "066",
+      "tileTemplate": "066/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 25.0
+    },
+    {
+      "index": 67,
+      "time": "2026-11-05T07:00:00Z",
+      "directory": "067",
+      "tileTemplate": "067/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 26.0
+    },
+    {
+      "index": 68,
+      "time": "2026-11-05T08:00:00Z",
+      "directory": "068",
+      "tileTemplate": "068/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 55.7
+    },
+    {
+      "index": 69,
+      "time": "2026-11-05T09:00:00Z",
+      "directory": "069",
+      "tileTemplate": "069/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 101.2
+    },
+    {
+      "index": 70,
+      "time": "2026-11-05T10:00:00Z",
+      "directory": "070",
+      "tileTemplate": "070/9/{x}/{y}.webp",
+      "idwPixels": 2186064,
+      "nsbsFallbackPixels": 432445,
+      "maxWaterLevelCm": 115.4
+    },
+    {
+      "index": 71,
+      "time": "2026-11-05T11:00:00Z",
       "directory": "071",
       "tileTemplate": "071/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 29.6
+      "maxWaterLevelCm": 91.9
     },
     {
       "index": 72,
-      "time": "2026-11-05T01:00:00Z",
+      "time": "2026-11-05T12:00:00Z",
       "directory": "072",
       "tileTemplate": "072/9/{x}/{y}.webp",
       "idwPixels": 2186064,
       "nsbsFallbackPixels": 432445,
-      "maxWaterLevelCm": 21.5
+      "maxWaterLevelCm": 72.2
     }
   ]
 }
