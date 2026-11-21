@@ -42,6 +42,9 @@ REQUEST_TIMEOUT = 60
 MIN_GAP_NEIGHBORS = 5
 MIN_BILINEAR_WEIGHT = 0.45
 HIGH_WATER_THRESHOLD_CM = 75.0
+# Denmark including the west coast and Bornholm, plus adjoining foreign waters.
+# Keep the previous southern edge so existing Elbe coverage remains comparable.
+MAP_BOUNDS = [[53.587, 7.5], [57.9, 15.3]]
 
 LOCAL_FORECAST_POINTS = [
     {
@@ -332,6 +335,25 @@ def colorize(values_m: np.ndarray, water_mask: np.ndarray) -> Image.Image:
     return Image.fromarray(rgba)
 
 
+def within_bounds(lats, lons, bounds):
+    (south, west), (north, east) = bounds
+    return (lats >= south) & (lats <= north) & (lons >= west) & (lons <= east)
+
+
+def tile_peak(values, water, lats, lons, idw_valid):
+    """Locate the unrounded maximum of the same water pixels that are rendered."""
+    valid = water & np.isfinite(values)
+    if not np.any(valid):
+        return None
+    j, i = np.unravel_index(np.argmax(np.where(valid, values, -np.inf)), values.shape)
+    return {
+        "valueCm": float(values[j, i] * 100.0),
+        "lat": round(float(lats[j, i]), 6),
+        "lon": round(float(lons[j, i]), 6),
+        "source": COLLECTION_IDW if idw_valid[j, i] else COLLECTION_NSBS,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generer kombinerede DKSS XYZ tiles")
     parser.add_argument("--output-dir", default="data/waterlevel-tiles")
@@ -408,7 +430,7 @@ def main() -> int:
                 if idw_geom is None:
                     idw_geom = prepare_model_geometry(idw_lat, idw_lon)
                     nsbs_geom = prepare_model_geometry(nsbs_lat, nsbs_lon)
-                    bounds = grid_bounds(idw_lat, idw_lon)
+                    bounds = MAP_BOUNDS
                     grid_info = {"idw": idw_info, "nsbs": nsbs_info}
 
                     south, west = bounds[0]
@@ -424,7 +446,10 @@ def main() -> int:
                         tile_geometry[(tile.z, tile.x, tile.y)] = {
                             "idw": build_sampler_for_tile(idw_geom, target_lats, target_lons),
                             "nsbs": build_sampler_for_tile(nsbs_geom, target_lats, target_lons),
-                            "water": fetch_water_mask(session, tile) > 0,
+                            "lat": target_lats,
+                            "lon": target_lons,
+                            "water": (fetch_water_mask(session, tile) > 0)
+                            & within_bounds(target_lats, target_lons, bounds),
                         }
                         if n % 25 == 0 or n == len(tiles):
                             print(f"DKSS COMBINED: geometri {n}/{len(tiles)} tiles")
@@ -472,6 +497,7 @@ def main() -> int:
                 idw_pixel_count = 0
                 nsbs_pixel_count = 0
                 frame_peak_cm = None
+                frame_peak_location = None
 
                 for tile in tiles:
                     geom = tile_geometry[(tile.z, tile.x, tile.y)]
@@ -486,11 +512,10 @@ def main() -> int:
                     idw_pixel_count += int(np.count_nonzero(idw_valid & water))
                     nsbs_pixel_count += int(np.count_nonzero(~idw_valid & np.isfinite(nsbs_sample) & water))
 
-                    peak_mask = water & np.isfinite(combined)
-                    if np.any(peak_mask):
-                        tile_peak_cm = float(np.nanmax(combined[peak_mask]) * 100.0)
-                        if frame_peak_cm is None or tile_peak_cm > frame_peak_cm:
-                            frame_peak_cm = tile_peak_cm
+                    peak = tile_peak(combined, water, geom["lat"], geom["lon"], idw_valid)
+                    if peak and (frame_peak_cm is None or peak["valueCm"] > frame_peak_cm):
+                        frame_peak_cm = peak["valueCm"]
+                        frame_peak_location = {k: v for k, v in peak.items() if k != "valueCm"}
 
                     image = colorize(combined, water)
                     target_dir = frame_root / str(tile.x)
@@ -513,6 +538,7 @@ def main() -> int:
                     "maxWaterLevelCm": (
                         round(frame_peak_cm, 1) if frame_peak_cm is not None else None
                     ),
+                    "maxWaterLevelLocation": frame_peak_location,
                 })
 
         local_forecasts = []
@@ -555,6 +581,9 @@ def main() -> int:
             ),
             "peakCm": peak_cm,
             "peakTime": peak_frame["time"] if peak_frame else None,
+            "peakLocation": peak_frame["maxWaterLevelLocation"] if peak_frame else None,
+            "scope": "map_bounds_water_pixels",
+            "officialWarning": False,
         }
 
         metadata = {
@@ -567,6 +596,10 @@ def main() -> int:
             "tileSize": TILE_SIZE,
             "nativeZoom": args.zoom,
             "bounds": bounds,
+            "coverage": {
+                "description": "Danmark og tilstødende udenlandske farvande",
+                "coastalImpactAssessed": False,
+            },
             "grid": grid_info,
             "parameter": {
                 "id": base.PARAMETER_ID,

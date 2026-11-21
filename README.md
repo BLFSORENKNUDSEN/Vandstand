@@ -82,3 +82,12 @@ Hvis DMI returnerer 429, prøver scriptet op til fire gange med stigende pause. 
 ## Næste trin
 
 Når proof of concept virker, kan workflowet enten deploye `waterlevel.json` til strandvejr.dk via SSH/SFTP eller hele sitet kan hente filen gennem en deployment pipeline.
+
+## Samlet og lokal modelprognose
+
+Det animerede kort viser samlet modelmaksimum og prognosen ved Sortsø Strand i
+to særskilte felter. Områdemaksimum omfatter også udenlandske farvande og er
+ikke et officielt højvandsvarsel.
+
+Se [kontrollen af modelmaksimum 21. oktober 2026](docs/modelmaksimum-20261021.md)
+for geografiske fund, metadataformat, validering og begrænsninger.
