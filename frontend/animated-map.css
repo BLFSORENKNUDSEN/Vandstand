@@ -14,3 +14,19 @@ html, body { margin: 0; min-height: 100%; font-family: Arial, sans-serif; backgr
 .frame-slider { width: 100%; accent-color: #009ee3; }
 .timeline-labels { display: flex; justify-content: space-between; font-size: 13px; color: #444; }
 @media (max-width: 700px) { #waterlevelMap { height: 500px; } .legend { top: 90px; left: 10px; transform: scale(.85); transform-origin: top left; } }
+
+.forecast-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.forecast-card { background: #fff; border: 1px solid #cbd5dc; border-radius: 8px; padding: 16px; }
+.forecast-card h2 { margin: 0 0 12px; font-size: 18px; }
+.forecast-card p, .forecast-notes p { font-size: 14px; line-height: 1.5; margin: 6px 0; }
+.forecast-peak { font-weight: bold; }
+.model-threshold { padding: 8px; background: #edf2f5; border-radius: 4px; }
+.model-threshold.exceeded { background: #fff0d5; color: #693d00; }
+.forecast-card button { padding: 9px 12px; border: 1px solid #006c99; background: #fff; color: #006c99; border-radius: 4px; cursor: pointer; }
+.forecast-notes { grid-column: 1 / -1; color: #444; }
+.forecast-notes a { color: #005b86; }
+.data-age { color: #8a3d00; font-weight: bold; }
+.current-values { font-size: 14px; line-height: 1.5; }
+.timeline-labels span { max-width: 32%; }
+.timeline-labels span:last-child { text-align: right; }
+@media (max-width: 700px) { .forecast-summary { grid-template-columns: 1fr; } .timeline-labels { font-size: 10px; } }
